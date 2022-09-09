@@ -34,12 +34,12 @@ const Home: NextPage = () => {
           ></ServiceCard>
           <ServiceCard
             title="ユーザ登録"
-            src="/images/monitor.svg"
+            src="/images/user.svg"
             description="aaaa"
           ></ServiceCard>
           <ServiceCard
             title="マスタ管理"
-            src="/images/monitor.svg"
+            src="/images/master.svg"
             description="aaaa"
           ></ServiceCard>
           <ServiceCard
@@ -50,7 +50,7 @@ const Home: NextPage = () => {
         </div>
       </main>
 
-      <footer className={styles.footer}>
+      {/* <footer className={styles.footer}>
         <a
           href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
           target="_blank"
@@ -61,7 +61,7 @@ const Home: NextPage = () => {
             <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
           </span>
         </a>
-      </footer>
+      </footer> */}
     </div>
   );
 };
