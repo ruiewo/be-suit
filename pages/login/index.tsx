@@ -10,7 +10,7 @@ const LoginPage: NextPage = () => {
       <Head>
         <title>Login</title>
         <meta name="description" content="login page" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <main className={styles.main}>
         <Login></Login>
