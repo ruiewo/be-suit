@@ -43,3 +43,86 @@ npx prisma migrate dev --name init
 
 // gui で見る
 npx prisma studio
+
+# Docker
+
+wsl の有効化
+仮想化の有効化
+
+[WSL のインストール \| Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/install)
+<https://learn.microsoft.com/ja-jp/windows/wsl/install>
+
+WSL コマンドのインストール
+wsl --install
+
+元から wsl コマンドが入ってる場合、
+ディストリビューションを一覧表示し、
+wsl -l -o
+
+wsl --install -d Ubuntu-20.04
+で Ubuntu をインストール
+
+ユーザ名とパスワードの設定
+・twada
+・twada
+
+Ubuntu のアップデート
+sudo apt update && sudo apt upgrade
+
+win10 系で仕事してるなら windows terminal を入れると楽
+[Microsoft Apps](https://apps.microsoft.com/store/detail/windows-terminal/9N0DX20HK701?hl=ja-jp&gl=jp)
+
+Ubuntu 上に Docker-engine をインストール
+[Docker Desktop に依存しない、Windows での Docker 環境 - Qiita](https://qiita.com/ohtsuka1317/items/617a865b8a9d4fb67989)
+[Install Docker Engine on Ubuntu \| Docker Documentation](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
+
+sudo apt-get update
+
+sudo apt-get install \
+ ca-certificates \
+ curl \
+ gnupg \
+ lsb-release
+
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+echo \
+ "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+ $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+sudo usermod -aG docker $USER
+sudo /etc/init.d/docker start
+
+// wsl のバージョン関係
+wsl -l -v
+
+wsl --set-default-version 2
+
+wsl --set-version Ubuntu-20.04 2
+
+docker images
+docker inspect hello-world:latest
+docker ps -a
+
+// コンテナ削除
+docker rm <CONTAINER_ID>
+
+docker-compose-plugin
+v2 系なら
+sudo apt install docker-compose-plugin
+で終了。
+docker compose up sample.app
+
+docker container prune
+docker image prune
+docker build . -t twada/web-app
+
+docker run -d -p 49160:8080 twada/web-app -rm
+
+docker logs bb8bd6fa3aa5
+
+docker kill <container id>
