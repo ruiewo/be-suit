@@ -63,8 +63,6 @@ wsl --install -d Ubuntu-20.04
 で Ubuntu をインストール
 
 ユーザ名とパスワードの設定
-・twada
-・twada
 
 Ubuntu のアップデート
 sudo apt update && sudo apt upgrade
