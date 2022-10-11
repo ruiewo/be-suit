@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -39,7 +39,7 @@ model Equipment {
   user          User?     @relation(fields: [userId], references: [id]) // 使用者
   userId        Int? // 使用者
   place         String // 使用・保管場所
-  details       String // JSON
+  details       Json // JSON
   note          String // 備考
   deleteDate    DateTime? // 削除日
   createdAt     DateTime // 登録日
