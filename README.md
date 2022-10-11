@@ -124,3 +124,28 @@ docker run -d -p 49160:8080 twada/web-app -rm
 docker logs bb8bd6fa3aa5
 
 docker kill <container id>
+
+## failed to execute shell script
+
+$'\r': command not found
+
+cat -e postCreateCommand.sh
+
+apt-get install dos2unix
+dos2unix postCreateCommand.sh
+
+### BAD
+
+#!/bin/bash^M$
+^M$
+npm install^M$
+
+### GOOD
+
+#!/bin/bash$
+$
+npm install$
+
+###
+
+https://learn.microsoft.com/ja-jp/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
