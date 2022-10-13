@@ -1,14 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
 import ServiceCard from '../components/card';
 import MenuAppBar from '../components/header';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
-  const router = useRouter();
-
   const cards = [
     { title: 'Monitor', src: '/images/monitor.svg', description: 'aaa', path: '/qrcode' },
     { title: '貸出', src: '/images/rental.svg', description: 'aaa', path: '' },
@@ -17,6 +13,7 @@ const Home: NextPage = () => {
     { title: 'マスタ管理', src: '/images/master.svg', description: 'aaa', path: '' },
     { title: 'メンテナンス', src: '/images/maintenance.svg', description: 'aaa', path: '' },
   ];
+
   return (
     <div className={styles.container}>
       <Head>
