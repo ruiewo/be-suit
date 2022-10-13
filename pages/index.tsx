@@ -1,11 +1,22 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import ServiceCard from '../components/card';
 import MenuAppBar from '../components/header';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
+  const router = useRouter();
+
+  const cards = [
+    { title: 'Monitor', src: '/images/monitor.svg', description: 'aaa', path: '/qrcode' },
+    { title: '貸出', src: '/images/rental.svg', description: 'aaa', path: '' },
+    { title: '機器管理', src: '/images/computer.svg', description: 'aaa', path: '' },
+    { title: 'ユーザ登録', src: '/images/user.svg', description: 'aaa', path: '' },
+    { title: 'マスタ管理', src: '/images/master.svg', description: 'aaa', path: '' },
+    { title: 'メンテナンス', src: '/images/maintenance.svg', description: 'aaa', path: '' },
+  ];
   return (
     <div className={styles.container}>
       <Head>
@@ -17,12 +28,9 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
         <div className={styles.grid}>
-          <ServiceCard title="Monitor" src="/images/monitor.svg" description="aaaa"></ServiceCard>
-          <ServiceCard title="貸出" src="/images/rental.svg" description="bbbb"></ServiceCard>
-          <ServiceCard title="機器管理" src="/images/computer.svg" description="aaaa"></ServiceCard>
-          <ServiceCard title="ユーザ登録" src="/images/user.svg" description="aaaa"></ServiceCard>
-          <ServiceCard title="マスタ管理" src="/images/master.svg" description="aaaa"></ServiceCard>
-          <ServiceCard title="メンテナンス" src="/images/maintenance.svg" description="aaaa"></ServiceCard>
+          {cards.map(x => (
+            <ServiceCard {...x} />
+          ))}
         </div>
       </main>
 

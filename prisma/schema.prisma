@@ -14,6 +14,7 @@ model User {
   id        Int         @id @default(autoincrement())
   email     String      @unique
   name      String?
+  role      Role        @default(user)
   posts     Post[]
   Equipment Equipment[]
 }
@@ -32,21 +33,27 @@ model Post {
 // PC名、メーカー、型番、製品名、付属品、
 
 model Equipment {
-  id            Int       @id @default(autoincrement())
-  deviceCode    String // 管理番号
-  equipmentType String
-  group         String // 管理者
-  user          User?     @relation(fields: [userId], references: [id]) // 使用者
-  userId        Int? // 使用者
-  place         String // 使用・保管場所
-  details       Json // JSON
-  note          String // 備考
-  deleteDate    DateTime? // 削除日
-  createdAt     DateTime // 登録日
-  updatedAt     DateTime // 更新日
+  id               Int           @id @default(autoincrement())
+  deviceCode       String // 管理番号
+  equipmentType    EquipmentType
+  group            String // 管理者
+  user             User?         @relation(fields: [userId], references: [id]) // 使用者
+  userId           Int? // 使用者
+  place            String // 使用・保管場所
+  details          Json // JSON
+  note             String // 備考
+  deletedDate      DateTime? // 削除日
+  registrationDate DateTime? // 登録日 
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt // 更新日
 }
 
-// enum EquipmentType {
-//   USER
-//   ADMIN
-// }
+enum EquipmentType {
+  pc
+  monitor
+}
+
+enum Role {
+  user
+  admin
+}

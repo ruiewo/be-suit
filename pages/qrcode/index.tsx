@@ -1,42 +1,23 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import Image from 'next/image';
-// import QRCodeStyling from 'qr-code-styling';
-import Login from '../../components/login';
 import styles from '../../styles/Home.module.css';
-import React, { useEffect, useRef, useState } from 'react';
+import NormalTag from '../../components/normalTag';
+import PcTag from '../../components/pcTag';
+import { Box, Grid } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import Paper from '@mui/material/Paper';
+import PcTag2 from '../../components/pcTag2';
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
 const LoginPage: NextPage = () => {
-  const ref = useRef(null);
-  // if (typeof window !== 'undefined') {
-  //   const QRCodeStyling = require('qr-code-styling');
-  //   const qrCode = new QRCodeStyling({
-  //     width: 300,
-  //     height: 300,
-  //     type: 'svg',
-  //     data: 'https://www.facebook.com/',
-  //     image: 'https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg',
-  //     dotsOptions: {
-  //       color: '#4267b2',
-  //       type: 'rounded',
-  //     },
-  //     backgroundOptions: {
-  //       color: '#e9ebee',
-  //     },
-  //     imageOptions: {
-  //       crossOrigin: 'anonymous',
-  //       margin: 20,
-  //     },
-  //   });
-
-  //   // qrCode.append(document.getElementById('canvas')!);
-  //   // qrCode.download({ name: 'qr', extension: 'svg' });
-
-  //   useEffect(() => {
-  //     qrCode.append(ref.current);
-  //   }, []);
-  // }
-
+  const json = JSON.stringify({ code: 'PC-D-00128', pcName: 'Sandra' });
   return (
     <div className={styles.container}>
       <Head>
@@ -45,8 +26,14 @@ const LoginPage: NextPage = () => {
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        aaaa
-        <div ref={ref} />
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container gap={10}>
+            <NormalTag value="https://www.google.com" />
+            <PcTag value="PC-D-00128" pcName="Sandra" />
+            <PcTag value={json} pcName="Sandra" />
+            <PcTag2 value="PC-D-00128" pcName="Sandra" />
+          </Grid>
+        </Box>
       </main>
     </div>
   );
