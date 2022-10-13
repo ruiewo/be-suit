@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     .catch(async e => {
       console.error(e);
       await prisma.$disconnect();
-      process.exit(1);
+      // process.exit(1);
     });
 
   res.status(200).json({ name: 'John Doe' });
