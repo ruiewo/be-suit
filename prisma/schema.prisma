@@ -33,24 +33,27 @@ model Post {
 // PC名、メーカー、型番、製品名、付属品、
 
 model Equipment {
-  id               Int           @id @default(autoincrement())
-  deviceCode       String // 管理番号
-  equipmentType    EquipmentType
-  group            String // 管理者
-  user             User?         @relation(fields: [userId], references: [id]) // 使用者
-  userId           Int? // 使用者
-  place            String // 使用・保管場所
-  details          Json // JSON
-  note             String // 備考
+  id           Int    @id @default(autoincrement())
+  // 管理番号
+  category     String // PC-Dの部分 {mainCategory}-{subCategory}
+  serialNumber Int // 種別ごとの連番（PC-D以後の連番部分）
+
+  details Json // JSON
+  note    String // 備考
+
+  // 貸与関係
+  group          String // 管理者
+  place          String // 使用・保管場所
+  checkOutDate   DateTime? // 貸出日
+  checkOutUser   User?     @relation(fields: [checkOutUserId], references: [id]) // 使用者
+  checkOutUserId Int? // 使用者
+  returnDate     DateTime? // 返却日
+
+  // 登録・削除
   deletedDate      DateTime? // 削除日
   registrationDate DateTime? // 登録日 
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt // 更新日
-}
-
-enum EquipmentType {
-  pc
-  monitor
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt // 更新日
 }
 
 enum Role {
