@@ -1,10 +1,10 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../../styles/Home.module.css';
-import NormalTag from '../../components/normalTag';
-import PcTag from '../../components/pcTag';
 import { Box, Grid } from '@mui/material';
 import PcTag2 from '../../components/pcTag2';
+import { useEquipments } from '../../hooks/useEquipments';
+import { getEquipmentCode } from '../../models/equipment';
 
 const QrCodePage: NextPage = () => {
   const data = [
@@ -17,6 +17,12 @@ const QrCodePage: NextPage = () => {
     { code: 'PC-D-00004', pcName: 'Lmnop' },
   ];
 
+  const { equipments, isLoading, isError } = useEquipments();
+
+  if (isError) return <div>Failed to load</div>;
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className={styles.container}>
       <Head>
@@ -27,8 +33,8 @@ const QrCodePage: NextPage = () => {
       <main className={styles.main}>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container gap={5}>
-            {data.map(x => (
-              <PcTag2 value={x.code} pcName={x.pcName} />
+            {equipments.map(x => (
+              <PcTag2 key={x.id} value={getEquipmentCode(x)} pcName={x.note} />
             ))}
           </Grid>
         </Box>

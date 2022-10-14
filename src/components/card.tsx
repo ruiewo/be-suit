@@ -13,18 +13,18 @@ type Props = {
   path: string;
 };
 
-export default function ServiceCard(props: Props) {
+export default function ServiceCard({ src, title, description, path }: Props) {
   const router = useRouter();
   return (
-    <Card sx={{ maxWidth: 345 }} onClick={() => router.push(props.path)}>
-      <CardActionArea>
-        <CardMedia component="img" height="140" image={props.src} alt="monitor" sx={{ objectFit: 'contain' }} />
+    <Card sx={{ width: 345, height: 280 }} onClick={() => router.push(path)}>
+      <CardActionArea sx={{ height: '100%' }}>
+        <CardMedia component="img" height="140" image={src} alt="monitor" sx={{ objectFit: 'contain' }} />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
-            {props.title}
+            {title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
+            {description}
           </Typography>
         </CardContent>
       </CardActionArea>

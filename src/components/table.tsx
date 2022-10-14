@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Equipment } from '@prisma/client';
-import { EquipmentWithUser } from '../models/equipment';
+import { EquipmentWithUser, getEquipmentCode } from '../models/equipment';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -30,15 +30,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name: string, calories: number, fat: number, carbs: number, protein: number) {
-  return { name, calories, fat, carbs, protein };
-}
-
 export default function CustomizedTables({ equipments }: { equipments: EquipmentWithUser[] }) {
-  function getEquipmentCode(e: Equipment) {
-    return e.category + '-' + e.serialNumber;
-  }
-
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
