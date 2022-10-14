@@ -10,9 +10,9 @@ type Props = {
 
 export default function PcTag({ value, pcName }: Props) {
   return (
-    <Box sx={{ width: 256, display: 'inline-flex', flexDirection: 'row' }}>
+    <Box sx={{ width: 158, display: 'inline-flex', flexDirection: 'column', border: '5px solid black', padding: '10px 10px 0' }}>
       <NormalTag value={value}></NormalTag>
-      <Box sx={{ width: 128, padding: '5px' }}>
+      <Box sx={{ width: 128, padding: '5px 0' }}>
         <Typography>{value}</Typography>
         <Typography>{pcName}</Typography>
       </Box>

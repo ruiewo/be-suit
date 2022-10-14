@@ -13,7 +13,7 @@ type Props = {
   path: string;
 };
 
-export default function ServiceCard({ src, title, description, path }: Props) {
+export default function MainMenuCard({ src, title, description, path }: Props) {
   const router = useRouter();
   return (
     <Card sx={{ width: 345, height: 280 }} onClick={() => router.push(path)}>

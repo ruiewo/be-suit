@@ -1,4 +1,3 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { EquipmentWithUser } from '../../models/equipment';
 import { prisma } from '../../modules/db';

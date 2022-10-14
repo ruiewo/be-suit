@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../../styles/Home.module.css';
 import { Box, Grid } from '@mui/material';
-import PcTag2 from '../../components/pcTag2';
+import PcTag from '../../components/pcTag';
 import { useEquipments } from '../../hooks/useEquipments';
 import { getEquipmentCode } from '../../models/equipment';
 
@@ -34,7 +34,7 @@ const QrCodePage: NextPage = () => {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container gap={5}>
             {equipments.map(x => (
-              <PcTag2 key={x.id} value={getEquipmentCode(x)} pcName={x.note} />
+              <PcTag key={x.id} value={getEquipmentCode(x)} pcName={x.note} />
             ))}
           </Grid>
         </Box>

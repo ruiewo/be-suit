@@ -14,7 +14,6 @@ export default function NormalTag({ value }: Props) {
         sx={{
           width: 48,
           height: 48,
-          // backgroundImage: 'url("/logo.png")',
           backgroundImage: 'url("/qrlogo.svg")',
           backgroundSize: 'contain',
           position: 'absolute',

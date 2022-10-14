@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import ServiceCard from '../components/card';
+import MainMenuCard from '../components/mainMenuCard';
 import Header from '../components/header';
 import styles from '../styles/Home.module.css';
 
@@ -31,7 +31,7 @@ const Home: NextPage = () => {
       <main className={styles.main}>
         <div className={styles.grid}>
           {cards.map(x => (
-            <ServiceCard key={x.title} {...x} />
+            <MainMenuCard key={x.title} {...x} />
           ))}
         </div>
       </main>
