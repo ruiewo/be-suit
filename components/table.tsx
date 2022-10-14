@@ -7,6 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { Equipment } from '@prisma/client';
+import { EquipmentWithUser } from '../models/equipment';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -32,37 +34,35 @@ function createData(name: string, calories: number, fat: number, carbs: number, 
   return { name, calories, fat, carbs, protein };
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+export default function CustomizedTables({ equipments }: { equipments: EquipmentWithUser[] }) {
+  function getEquipmentCode(e: Equipment) {
+    return e.category + '-' + e.serialNumber;
+  }
 
-export default function CustomizedTables() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="center">管理番号</StyledTableCell>
+            <StyledTableCell align="center">管理者&nbsp;</StyledTableCell>
+            <StyledTableCell align="center">使用者&nbsp;</StyledTableCell>
+            <StyledTableCell align="center">使用・保管場所&nbsp;</StyledTableCell>
+            <StyledTableCell align="center">貸出日&nbsp;</StyledTableCell>
+            <StyledTableCell align="center">返却日&nbsp;</StyledTableCell>
+            <StyledTableCell align="center">備考&nbsp;</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+          {equipments.map(row => (
+            <StyledTableRow key={getEquipmentCode(row)}>
+              <StyledTableCell align="center">{getEquipmentCode(row)}</StyledTableCell>
+              <StyledTableCell align="center">{row.group}</StyledTableCell>
+              <StyledTableCell align="center">USER</StyledTableCell>
+              <StyledTableCell align="center">{row.place}</StyledTableCell>
+              <StyledTableCell align="center">{row.checkOutDate?.toLocaleDateString()}</StyledTableCell>
+              <StyledTableCell align="center">{row.returnDate?.toLocaleDateString()}</StyledTableCell>
+              <StyledTableCell align="center">{row.note}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

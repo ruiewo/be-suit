@@ -3,8 +3,15 @@ import Head from 'next/head';
 import MenuAppBar from '../../components/header';
 import CustomizedTables from '../../components/table';
 import styles from '../../styles/Home.module.css';
+import { useEquipments } from '../../hooks/useEquipments';
 
 const Equipment: NextPage = () => {
+  const { equipments, isLoading, isError } = useEquipments();
+
+  if (isError) return <div>Failed to load</div>;
+
+  if (isLoading) return <div>Loading...</div>;
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,7 +22,7 @@ const Equipment: NextPage = () => {
       <MenuAppBar></MenuAppBar>
 
       <main className={styles.main}>
-        <CustomizedTables />
+        <CustomizedTables equipments={equipments} />
       </main>
     </div>
   );

@@ -7,8 +7,8 @@ import styles from '../styles/Home.module.css';
 const Home: NextPage = () => {
   const cards = [
     { title: 'Monitor', src: '/images/monitor.svg', description: 'aaa', path: '/qrcode' },
-    { title: '貸出', src: '/images/rental.svg', description: 'aaa', path: '/equipment' },
-    { title: '機器管理', src: '/images/computer.svg', description: 'aaa', path: '' },
+    { title: '貸出', src: '/images/rental.svg', description: 'aaa', path: '' },
+    { title: '機器管理', src: '/images/computer.svg', description: 'aaa', path: '/equipment' },
     { title: 'ユーザ登録', src: '/images/user.svg', description: 'aaa', path: '' },
     { title: 'マスタ管理', src: '/images/master.svg', description: 'aaa', path: '' },
     { title: 'メンテナンス', src: '/images/maintenance.svg', description: 'aaa', path: '' },
