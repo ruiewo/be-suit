@@ -1,12 +1,12 @@
-import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../../styles/Home.module.css';
 import { Box, Grid } from '@mui/material';
 import PcTag from '../../components/pcTag';
 import { useEquipments } from '../../hooks/useEquipments';
 import { getEquipmentCode } from '../../models/equipment';
+import { NextPageWithLayout } from '../_app';
 
-const QrCodePage: NextPage = () => {
+const QrCodePage: NextPageWithLayout = () => {
   const data = [
     { code: 'PC-D-00127', pcName: 'Sandra' },
     { code: 'PC-D-00128', pcName: 'Sandrb' },
@@ -42,5 +42,7 @@ const QrCodePage: NextPage = () => {
     </div>
   );
 };
+
+QrCodePage.getLayout = page => page;
 
 export default QrCodePage;

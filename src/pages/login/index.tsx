@@ -1,9 +1,9 @@
-import type { NextPage } from 'next';
 import Head from 'next/head';
 import Login from '../../components/login';
 import styles from '../../styles/Home.module.css';
+import { NextPageWithLayout } from '../_app';
 
-const LoginPage: NextPage = () => {
+const LoginPage: NextPageWithLayout = () => {
   return (
     <div className={styles.container}>
       <Head>
@@ -17,5 +17,7 @@ const LoginPage: NextPage = () => {
     </div>
   );
 };
+
+LoginPage.getLayout = page => page;
 
 export default LoginPage;
