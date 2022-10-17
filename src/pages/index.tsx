@@ -7,7 +7,7 @@ import { isClientSide } from '../modules/util';
 
 const Home: NextPageWithLayout = () => {
   const cards = [
-    { title: 'Monitor', src: '/images/monitor.svg', description: 'モニタ一覧を表示します。', path: '/qrcode' },
+    { title: 'Monitor', src: '/images/monitor.svg', description: 'モニタ一覧を表示します。', path: '' },
     { title: '貸出', src: '/images/rental.svg', description: '', path: '' },
     { title: '機器管理', src: '/images/computer.svg', description: 'PC一覧を表示します', path: '/equipment' },
     { title: 'ユーザ登録', src: '/images/user.svg', description: '', path: '' },
@@ -18,6 +18,10 @@ const Home: NextPageWithLayout = () => {
       description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
       path: '',
     },
+    { title: 'qrcode', src: '/images/dev.svg', description: '', path: '/qrcode' },
+    { title: 'equipment', src: '/images/dev.svg', description: '', path: '/equipment' },
+    { title: 'signIn', src: '/images/dev.svg', description: '', path: '/signIn' },
+    { title: 'login', src: '/images/dev.svg', description: '', path: '/login' },
   ];
 
   const { data: session, status } = useSession();
