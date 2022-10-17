@@ -1,6 +1,8 @@
 import MainMenuCard from '../components/mainMenuCard';
 import styles from '../styles/Home.module.css';
 import { NextPageWithLayout } from './_app';
+import { useSession, signIn, signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 const Home: NextPageWithLayout = () => {
   const cards = [
@@ -16,6 +18,14 @@ const Home: NextPageWithLayout = () => {
       path: '',
     },
   ];
+
+  const { data: session } = useSession();
+  const router = useRouter();
+  if (!session) {
+    router.push('/login');
+    // return;
+    return <></>;
+  }
 
   return (
     <div className={styles.grid}>
