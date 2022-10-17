@@ -8,11 +8,15 @@ datasource db {
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  email     String      @unique
-  name      String
-  role      Role        @default(user)
-  Equipment Equipment[]
+  id            String      @id @default(cuid())
+  name          String?
+  email         String?     @unique
+  role          Role        @default(user)
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  Equipment     Equipment[]
 }
 
 //管理番号、Type、使用者、管理者、使用・保管場所、社外かどうか、登録日、更新日、削除日、備考 
@@ -33,7 +37,7 @@ model Equipment {
   place          String // 使用・保管場所
   checkOutDate   DateTime? // 貸出日
   checkOutUser   User?     @relation(fields: [checkOutUserId], references: [id]) // 使用者
-  checkOutUserId Int? // 使用者
+  checkOutUserId String? // 使用者
   returnDate     DateTime? // 返却日
 
   // 登録・削除
@@ -46,4 +50,41 @@ model Equipment {
 enum Role {
   user
   admin
+}
+
+// ↓↓ for authentications
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }

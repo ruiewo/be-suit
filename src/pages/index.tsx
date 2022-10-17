@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css';
 import { NextPageWithLayout } from './_app';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { isClientSide } from '../modules/util';
 
 const Home: NextPageWithLayout = () => {
   const cards = [
@@ -19,12 +20,13 @@ const Home: NextPageWithLayout = () => {
     },
   ];
 
-  const { data: session } = useSession();
-  const router = useRouter();
-  if (!session) {
-    router.push('/login');
-    // return;
-    return <></>;
+  if (isClientSide()) {
+    const { data: session } = useSession();
+    const router = useRouter();
+    if (!session) {
+      router.push('/login');
+      // return <></>;
+    }
   }
 
   return (
