@@ -20,13 +20,16 @@ const Home: NextPageWithLayout = () => {
     },
   ];
 
-  if (isClientSide()) {
-    const { data: session } = useSession();
-    const router = useRouter();
-    if (!session) {
+  const { data: session, status } = useSession();
+  if (status === 'unauthenticated') {
+    if (isClientSide()) {
+      const router = useRouter();
       router.push('/login');
-      // return <></>;
     }
+  }
+
+  if (status === 'loading') {
+    return <div>Loading...</div>;
   }
 
   return (

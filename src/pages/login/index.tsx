@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import Login from '../../components/login';
+import LoginButton from '../../components/loginButton';
 import styles from '../../styles/Home.module.css';
 import { NextPageWithLayout } from '../_app';
 
@@ -13,6 +14,7 @@ const LoginPage: NextPageWithLayout = () => {
       </Head>
       <main className={styles.main}>
         <Login></Login>
+        <LoginButton></LoginButton>
       </main>
     </div>
   );
