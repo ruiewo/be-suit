@@ -20,10 +20,13 @@ async function seedEquipments() {
       os: `windows${faker.random.numeric()}`,
       cpu: `intel i${cpuNum.charAt(0)} ${cpuNum}`,
       ram: `${faker.random.numeric()}GB`,
+      pcName: faker.internet.userName(),
     };
     data.push({
       category: getCategory(),
       serialNumber: i,
+      maker: faker.company.name(),
+      modelNumber: faker.phone.imei(),
       group: '',
       place: '',
       registrationDate: faker.date.between('2010-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),

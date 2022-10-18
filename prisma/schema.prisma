@@ -29,16 +29,19 @@ model Equipment {
   category     String // PC-Dの部分 {mainCategory}-{subCategory}
   serialNumber Int // 種別ごとの連番（PC-D以後の連番部分）
 
-  details Json // JSON
-  note    String // 備考
+  maker       String // メーカー
+  modelNumber String // 型番
+  details     Json // JSON
+  note        String // 備考
 
   // 貸与関係
-  group          String // 管理者
-  place          String // 使用・保管場所
-  checkOutDate   DateTime? // 貸出日
-  checkOutUser   User?     @relation(fields: [checkOutUserId], references: [id]) // 使用者
-  checkOutUserId String? // 使用者
-  returnDate     DateTime? // 返却日
+  group           String // 管理者
+  place           String // 使用・保管場所
+  checkOutDate    DateTime? // 貸出日
+  checkOutUserStr String? // 手入力時の名前 通常checkOutUserを入れるが、「共有」などの個人に所属しない or アカウントのない個人（協力会社）等の場合にのみ利用する。
+  checkOutUser    User?     @relation(fields: [checkOutUserId], references: [id]) // 使用者
+  checkOutUserId  String? // 使用者
+  returnDate      DateTime? // 返却日
 
   // 登録・削除
   deletedDate      DateTime? // 削除日

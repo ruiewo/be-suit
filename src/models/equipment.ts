@@ -13,7 +13,10 @@ export type columnDefinition<T> = {
 export const equipmentBaseColumn: columnDefinition<Equipment>[] = [
   { key: 'id', label: 'ID', convert: getValue },
   { key: 'category', label: '管理番号', convert: getEquipmentCode },
+  { key: 'maker', label: 'メーカー', convert: getValue },
+  { key: 'modelNumber', label: '型番', convert: getValue },
   { key: 'group', label: '管理者', convert: getValue },
+  { key: 'checkOutUserStr', label: '使用者', convert: getValue },
   { key: 'place', label: '使用・保管場所', convert: getValue },
   { key: 'checkOutDate', label: '貸出日', convert: getValue },
   { key: 'returnDate', label: '返却日', convert: getValue },
