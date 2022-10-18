@@ -19,10 +19,10 @@ const Home: NextPageWithLayout = () => {
       description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
       path: '',
     },
-    { title: 'qrcode', src: '/images/dev.svg', description: '', path: page.qrcode },
-    { title: 'equipment', src: '/images/dev.svg', description: '', path: page.equipment },
-    { title: 'signIn', src: '/images/dev.svg', description: '', path: page.signIn },
-    { title: 'login', src: '/images/dev.svg', description: '', path: page.login },
+    { title: 'qrcode', src: '/images/dev.svg', description: '開発用', path: page.qrcode },
+    { title: 'equipment', src: '/images/dev.svg', description: '開発用', path: page.equipment },
+    { title: 'signIn', src: '/images/dev.svg', description: '開発用', path: page.signIn },
+    { title: 'login', src: '/images/dev.svg', description: '開発用', path: page.login },
   ];
 
   const { data: session, status } = useSession();

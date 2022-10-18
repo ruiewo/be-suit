@@ -32,7 +32,7 @@ export default function SignInButton() {
       <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 5 }}>
         Not signed in
       </Typography>
-      <Button type="button" variant="contained" onClick={() => signIn('github', { callbackUrl: 'http://localhost:3000/' })}>
+      <Button type="button" variant="contained" onClick={() => signIn('github', { callbackUrl: page.home })}>
         Sign in
       </Button>
     </>

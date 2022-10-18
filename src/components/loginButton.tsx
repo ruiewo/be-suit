@@ -1,4 +1,5 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { page } from '../models/path';
 
 export default function LoginButton() {
   const { data: session } = useSession();
@@ -16,7 +17,7 @@ export default function LoginButton() {
     <>
       Not signed in <br />
       <button onClick={() => signIn()}>Sign in</button>
-      <button onClick={() => signIn('github', { callbackUrl: 'http://localhost:3000/' })}>Sign in</button>
+      <button onClick={() => signIn('github', { callbackUrl: page.home })}>Sign in</button>
     </>
   );
 }
