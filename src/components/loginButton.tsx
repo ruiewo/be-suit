@@ -4,9 +4,6 @@ export default function LoginButton() {
   const { data: session } = useSession();
   console.dir(session);
 
-  // export default () => <button
-  // onClick = {() => signIn('google', { callbackUrl: 'http://localhost:3000/bar' })
-  // }> Sign in</button >;
   if (session) {
     return (
       <>
