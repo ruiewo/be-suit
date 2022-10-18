@@ -1,5 +1,5 @@
 import type { NextPage } from 'next';
-import CustomizedTables from '../../components/table';
+import EquipmentsTable from '../../components/table';
 import { useEquipments } from '../../hooks/useEquipments';
 
 const Equipment: NextPage = () => {
@@ -9,7 +9,7 @@ const Equipment: NextPage = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
-  return <CustomizedTables equipments={equipments} />;
+  return <EquipmentsTable equipments={equipments} />;
 };
 
 export default Equipment;

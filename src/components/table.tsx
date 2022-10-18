@@ -10,6 +10,10 @@ import Paper from '@mui/material/Paper';
 import { equipmentBaseColumn, EquipmentWithUser, getEquipmentCode } from '../models/equipment';
 import { pcColumn } from '../models/equipmentDetails/pc';
 
+import MenuItem from '@mui/material/MenuItem';
+import Menu from '@mui/material/Menu';
+import { useState } from 'react';
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -30,12 +34,30 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function CustomizedTables({ equipments }: { equipments: EquipmentWithUser[] }) {
+export default function EquipmentsTable({ equipments }: { equipments: EquipmentWithUser[] }) {
   // todo merge detail definitions.
   const definitions = [...equipmentBaseColumn, ...pcColumn];
 
+  const [contextMenu, setContextMenu] = useState<{ mouseX: number; mouseY: number } | null>(null);
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const tr = (e.target as HTMLElement).closest('.equipmentItem');
+    console.log(tr);
+
+    if (tr == null) {
+      setContextMenu(null);
+      return;
+    }
+
+    setContextMenu(contextMenu === null ? { mouseX: e.clientX + 2, mouseY: e.clientY - 6 } : null);
+  };
+
+  const handleClose = () => {
+    setContextMenu(null);
+  };
+
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} onContextMenu={handleContextMenu}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
@@ -48,7 +70,7 @@ export default function CustomizedTables({ equipments }: { equipments: Equipment
         </TableHead>
         <TableBody>
           {equipments.map(equipment => (
-            <StyledTableRow key={getEquipmentCode(equipment)}>
+            <StyledTableRow key={getEquipmentCode(equipment)} className="equipmentItem">
               {definitions.map(def => (
                 <StyledTableCell align="center" key={`${equipment.id}_${def.key}`}>
                   {def.convert(equipment, def.key)}
@@ -58,6 +80,17 @@ export default function CustomizedTables({ equipments }: { equipments: Equipment
           ))}
         </TableBody>
       </Table>
+      <Menu
+        open={contextMenu !== null}
+        onClose={handleClose}
+        anchorReference="anchorPosition"
+        anchorPosition={contextMenu !== null ? { top: contextMenu.mouseY, left: contextMenu.mouseX } : undefined}
+      >
+        <MenuItem onClick={handleClose}>EDIT</MenuItem>
+        <MenuItem onClick={handleClose}>DELETE</MenuItem>
+        <MenuItem onClick={handleClose}>RENTAL</MenuItem>
+        <MenuItem onClick={handleClose}>RETURN</MenuItem>
+      </Menu>
     </TableContainer>
   );
 }
