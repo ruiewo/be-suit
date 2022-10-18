@@ -41,5 +41,6 @@ const SignInPage: NextPageWithLayout = () => {
 };
 
 SignInPage.getLayout = page => page;
+SignInPage.auth = false;
 
 export default SignInPage;

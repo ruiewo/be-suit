@@ -1,15 +1,16 @@
 import MainMenuCard from '../components/mainMenuCard';
 import styles from '../styles/Home.module.css';
 import { NextPageWithLayout } from './_app';
-import { useSession, signIn, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { isClientSide } from '../modules/util';
+import { page } from '../models/path';
 
 const Home: NextPageWithLayout = () => {
   const cards = [
     { title: 'Monitor', src: '/images/monitor.svg', description: 'モニタ一覧を表示します。', path: '' },
     { title: '貸出', src: '/images/rental.svg', description: '', path: '' },
-    { title: '機器管理', src: '/images/computer.svg', description: 'PC一覧を表示します', path: '/equipment' },
+    { title: '機器管理', src: '/images/computer.svg', description: 'PC一覧を表示します', path: page.equipment },
     { title: 'ユーザ登録', src: '/images/user.svg', description: '', path: '' },
     { title: 'マスタ管理', src: '/images/master.svg', description: '', path: '' },
     {
@@ -18,17 +19,17 @@ const Home: NextPageWithLayout = () => {
       description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
       path: '',
     },
-    { title: 'qrcode', src: '/images/dev.svg', description: '', path: '/qrcode' },
-    { title: 'equipment', src: '/images/dev.svg', description: '', path: '/equipment' },
-    { title: 'signIn', src: '/images/dev.svg', description: '', path: '/signIn' },
-    { title: 'login', src: '/images/dev.svg', description: '', path: '/login' },
+    { title: 'qrcode', src: '/images/dev.svg', description: '', path: page.qrcode },
+    { title: 'equipment', src: '/images/dev.svg', description: '', path: page.equipment },
+    { title: 'signIn', src: '/images/dev.svg', description: '', path: page.signIn },
+    { title: 'login', src: '/images/dev.svg', description: '', path: page.login },
   ];
 
   const { data: session, status } = useSession();
   if (status === 'unauthenticated') {
     if (isClientSide()) {
       const router = useRouter();
-      router.push('/login');
+      router.push(page.signIn);
     }
   }
 

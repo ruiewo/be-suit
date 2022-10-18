@@ -48,8 +48,10 @@ model Equipment {
 }
 
 enum Role {
+  guest
   user
   admin
+  superAdmin
 }
 
 // ↓↓ for authentications

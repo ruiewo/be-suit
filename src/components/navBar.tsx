@@ -16,6 +16,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useRouter } from 'next/router';
+import { page } from '../models/path';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -165,7 +166,7 @@ export default function NavBar() {
             noWrap
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' }, cursor: 'pointer' }}
-            onClick={() => router.push('/')}
+            onClick={() => router.push(page.home)}
           >
             Be Suit
           </Typography>
