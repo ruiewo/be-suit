@@ -1,6 +1,7 @@
-import { PrismaClient } from '@prisma/client';
+import { Equipment, PrismaClient } from '@prisma/client';
 import { Category } from '../src/models/category';
 import { faker } from '@faker-js/faker';
+import { PcDetail } from '../src/models/equipmentDetails/pc';
 
 const prisma = new PrismaClient();
 
@@ -14,12 +15,19 @@ async function seedEquipments() {
 
   const data = [];
   for (let i = 0; i < 100; i++) {
+    const cpuNum = `${faker.random.numeric(2)}00`;
+    const details: PcDetail = {
+      os: `windows${faker.random.numeric()}`,
+      cpu: `intel i${cpuNum.charAt(0)} ${cpuNum}`,
+      ram: `${faker.random.numeric()}GB`,
+    };
     data.push({
       category: getCategory(),
       serialNumber: i,
       group: '',
       place: '',
-      details: '',
+      registrationDate: faker.date.between('2010-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
+      details: JSON.stringify(details),
       note: faker.music.genre(),
     });
   }

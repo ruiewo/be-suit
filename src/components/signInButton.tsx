@@ -1,10 +1,15 @@
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import HomeIcon from '@mui/icons-material/Home';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import { page } from '../models/path';
 
 export default function SignInButton() {
   const { data: session } = useSession();
   console.dir(session);
+
+  const router = useRouter();
 
   if (session) {
     return (
@@ -14,6 +19,10 @@ export default function SignInButton() {
         </Typography>
         <Button variant="contained" onClick={() => signOut()}>
           Sign out
+        </Button>
+
+        <Button variant="contained" onClick={() => router.push(page.home)} sx={{ mt: 5, mb: 5 }}>
+          <HomeIcon />
         </Button>
       </>
     );

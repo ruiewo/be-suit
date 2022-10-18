@@ -5,8 +5,6 @@ import type { AppProps } from 'next/app';
 import { SessionProvider, useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import Layout from '../components/layout';
-import { useRouter } from 'next/router';
-import { page } from '../models/path';
 
 type GetLayout = (page: ReactElement) => ReactNode;
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {

@@ -7,8 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Equipment } from '@prisma/client';
-import { EquipmentWithUser, getEquipmentCode } from '../models/equipment';
+import { equipmentBaseColumn, EquipmentWithUser, getEquipmentCode } from '../models/equipment';
+import { pcColumn } from '../models/equipmentDetails/pc';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,30 +31,29 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function CustomizedTables({ equipments }: { equipments: EquipmentWithUser[] }) {
+  // todo merge detail definitions.
+  const definitions = [...equipmentBaseColumn, ...pcColumn];
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell align="center">管理番号</StyledTableCell>
-            <StyledTableCell align="center">管理者&nbsp;</StyledTableCell>
-            <StyledTableCell align="center">使用者&nbsp;</StyledTableCell>
-            <StyledTableCell align="center">使用・保管場所&nbsp;</StyledTableCell>
-            <StyledTableCell align="center">貸出日&nbsp;</StyledTableCell>
-            <StyledTableCell align="center">返却日&nbsp;</StyledTableCell>
-            <StyledTableCell align="center">備考&nbsp;</StyledTableCell>
+            {definitions.map(def => (
+              <StyledTableCell align="center" key={def.key}>
+                {def.label}
+              </StyledTableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {equipments.map(row => (
-            <StyledTableRow key={getEquipmentCode(row)}>
-              <StyledTableCell align="center">{getEquipmentCode(row)}</StyledTableCell>
-              <StyledTableCell align="center">{row.group}</StyledTableCell>
-              <StyledTableCell align="center">USER</StyledTableCell>
-              <StyledTableCell align="center">{row.place}</StyledTableCell>
-              <StyledTableCell align="center">{row.checkOutDate?.toLocaleDateString()}</StyledTableCell>
-              <StyledTableCell align="center">{row.returnDate?.toLocaleDateString()}</StyledTableCell>
-              <StyledTableCell align="center">{row.note}</StyledTableCell>
+          {equipments.map(equipment => (
+            <StyledTableRow key={getEquipmentCode(equipment)}>
+              {definitions.map(def => (
+                <StyledTableCell align="center" key={`${equipment.id}_${def.key}`}>
+                  {def.convert(equipment, def.key)}
+                </StyledTableCell>
+              ))}
             </StyledTableRow>
           ))}
         </TableBody>

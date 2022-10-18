@@ -21,5 +21,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     },
   });
 
+  equipments.forEach(x => {
+    if (x.details != null) {
+      x.details = JSON.parse(x.details as string);
+    }
+  });
   res.status(200).json({ equipments });
 }
