@@ -12,7 +12,8 @@ import { pcColumn } from '../models/equipmentDetails/pc';
 
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import EquipmentDialog from './equipmentDialog';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -48,12 +49,21 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
       setContextMenu(null);
       return;
     }
+    setOpen(true);
 
     setContextMenu(contextMenu === null ? { mouseX: e.clientX + 2, mouseY: e.clientY - 6 } : null);
   };
 
   const handleClose = () => {
     setContextMenu(null);
+  };
+
+  // for dialog
+  const [open, setOpen] = useState(false);
+  const [result, setResult] = useState(''); // 結果確認用
+
+  const handleDialogClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -91,6 +101,7 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
         <MenuItem onClick={handleClose}>RENTAL</MenuItem>
         <MenuItem onClick={handleClose}>RETURN</MenuItem>
       </Menu>
+      <EquipmentDialog open={open} onClose={handleDialogClose} />
     </TableContainer>
   );
 }
