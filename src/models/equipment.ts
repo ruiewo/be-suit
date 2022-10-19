@@ -16,17 +16,18 @@ export type columnDefinition<T> = {
 
 export const equipmentBaseColumn: columnDefinition<Equipment>[] = [
   { key: 'id', type: 'number', label: 'ID', width: 40 },
-  { key: 'category', type: 'string', label: '管理番号', width: 120 },
-  { key: 'serialNumber', type: 'number', label: '管理番号', width: 120 },
+  { key: 'category', type: 'string', label: '管理番号', width: 100 },
+  { key: 'serialNumber', type: 'number', label: '管理番号', width: 100 },
   { key: 'maker', type: 'string', label: 'メーカー', width: 120 },
   { key: 'modelNumber', type: 'string', label: '型番', width: 120 },
   { key: 'group', type: 'string', label: '管理者', width: 120 },
   { key: 'checkOutUserStr', type: 'string', label: '使用者', width: 120 },
-  { key: 'place', type: 'string', label: '使用・保管場所', width: 120 },
+  { key: 'place', type: 'string', label: '使用・保管場所', width: 180 },
   { key: 'checkOutDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },
   { key: 'deletedDate', type: 'date', label: '削除日', width: 120 },
   { key: 'registrationDate', type: 'date', label: '登録日', width: 120 },
+  { key: 'inventoryDate', type: 'date', label: '棚卸日', width: 120 },
   { key: 'note', type: 'string', label: '備考', width: 400 },
 ];
 
@@ -82,6 +83,6 @@ function getDetailValue<T>(equipment: Equipment, key: keyof T) {
   return details == null ? '' : details[key]?.toString() ?? '';
 }
 
-function getEquipmentCode(e: Equipment) {
+export function getEquipmentCode(e: Equipment) {
   return e.category + '-' + e.serialNumber.toString().padStart(5, '0');
 }

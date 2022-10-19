@@ -5,6 +5,7 @@ import PcTag from '../../components/pcTag';
 import { useEquipments } from '../../hooks/useEquipments';
 import { getEquipmentCode } from '../../models/equipment';
 import { NextPageWithLayout } from '../_app';
+import { PcDetail } from '../../models/equipmentDetails/pc';
 
 const QrCodePage: NextPageWithLayout = () => {
   const data = [
@@ -34,7 +35,7 @@ const QrCodePage: NextPageWithLayout = () => {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container gap={5}>
             {equipments.map(x => (
-              <PcTag key={x.id} value={getEquipmentCode(x)} pcName={x.note} />
+              <PcTag key={x.id} value={getEquipmentCode(x)} pcName={(x.details as PcDetail).pcName} />
             ))}
           </Grid>
         </Box>
