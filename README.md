@@ -151,4 +151,6 @@ npm install$
 https://learn.microsoft.com/ja-jp/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
 
 //
-npx prisma migrate reset
+npx prisma migrate reset --skip-seed
+npx prisma migrate dev --name init
+npx prisma db push 

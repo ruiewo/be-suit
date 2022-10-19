@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const equipments = await prisma.equipment.findMany({
     include: {
-      checkOutUser: true,
+      rentalUser: true,
     },
     orderBy: [
       {

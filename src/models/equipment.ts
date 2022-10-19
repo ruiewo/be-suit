@@ -2,7 +2,7 @@ import { Equipment, User } from '@prisma/client';
 import { DateEx, isDate } from '../modules/util';
 
 export type EquipmentWithUser = Equipment & {
-  checkOutUser: User | null;
+  rentalUser: User | null;
 };
 
 type ValueType = 'string' | 'number' | 'date' | 'details';
@@ -21,9 +21,9 @@ export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'maker', type: 'string', label: 'メーカー', width: 120 },
   { key: 'modelNumber', type: 'string', label: '型番', width: 120 },
   { key: 'group', type: 'string', label: '管理者', width: 120 },
-  { key: 'checkOutUserStr', type: 'string', label: '使用者', width: 120 },
+  { key: 'rentalUserStr', type: 'string', label: '使用者', width: 120 },
   { key: 'place', type: 'string', label: '使用・保管場所', width: 180 },
-  { key: 'checkOutDate', type: 'date', label: '貸出日', width: 120 },
+  { key: 'rentalDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },
   { key: 'deletedDate', type: 'date', label: '削除日', width: 120 },
   { key: 'registrationDate', type: 'date', label: '登録日', width: 120 },

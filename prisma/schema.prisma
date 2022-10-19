@@ -19,6 +19,13 @@ model User {
   Equipment     Equipment[]
 }
 
+enum Role {
+  guest
+  user
+  admin
+  superAdmin
+}
+
 //管理番号、Type、使用者、管理者、使用・保管場所、社外かどうか、登録日、更新日、削除日、備考 
 // spec
 // PC名、メーカー、型番、製品名、付属品、
@@ -35,13 +42,13 @@ model Equipment {
   note        String // 備考
 
   // 貸与関係
-  group           String // 管理者
-  place           String // 使用・保管場所
-  checkOutDate    DateTime? // 貸出日
-  checkOutUserStr String? // 手入力時の名前 通常checkOutUserを入れるが、「共有」などの個人に所属しない or アカウントのない個人（協力会社）等の場合にのみ利用する。
-  checkOutUser    User?     @relation(fields: [checkOutUserId], references: [id]) // 使用者
-  checkOutUserId  String? // 使用者
-  returnDate      DateTime? // 返却日
+  group         String // 管理者
+  place         String // 使用・保管場所
+  rentalDate    DateTime? // 貸出日
+  rentalUserStr String? // 手入力時の名前 通常rentalUserを入れるが、「共有」などの個人に所属しない or アカウントのない個人（協力会社）等の場合にのみ利用する。
+  rentalUser    User?     @relation(fields: [rentalUserId], references: [id]) // 使用者
+  rentalUserId  String? // 使用者
+  returnDate    DateTime? // 返却日
 
   // 登録・削除
   deletedDate      DateTime? // 削除日
@@ -51,11 +58,12 @@ model Equipment {
   updatedAt        DateTime  @updatedAt // 更新日
 }
 
-enum Role {
-  guest
-  user
-  admin
-  superAdmin
+model Category {
+  key           String  @id
+  label         String
+  enable        Boolean @default(true)
+  subCategories Json    @default("[]")
+  columns       Json    @default("[]")
 }
 
 // ↓↓ for authentications

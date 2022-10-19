@@ -101,7 +101,17 @@ export default function EquipmentDialog({ open, onClose, equipment, optionColumn
               // if you set value property, input will be readonly.
               // value={convertToDisplay(equipment, def.key, def.type)}
 
+              // for text area
               multiline={col.key === 'note'}
+              // for input type="date".
+              type={col.type === 'date' ? 'date' : ''}
+              InputLabelProps={
+                col.type === 'date'
+                  ? {
+                      shrink: true,
+                    }
+                  : {}
+              }
             />
           ))}
           <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>

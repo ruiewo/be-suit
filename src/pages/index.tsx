@@ -11,7 +11,7 @@ const Home: NextPageWithLayout = () => {
     { title: 'Monitor', src: '/images/monitor.svg', description: 'モニタ一覧を表示します。', path: '' },
     { title: '貸出', src: '/images/rental.svg', description: 'not implemented yet.', path: '' },
     { title: '機器管理', src: '/images/computer.svg', description: 'PC一覧を表示します', path: page.equipment },
-    { title: 'ユーザ登録', src: '/images/user.svg', description: 'not implemented yet.', path: '' },
+    { title: 'ユーザ管理', src: '/images/user.svg', description: 'not implemented yet.', path: '' },
     { title: 'マスタ管理', src: '/images/master.svg', description: 'not implemented yet.', path: '' },
     {
       title: 'メンテナンス',
