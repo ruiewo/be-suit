@@ -25,8 +25,8 @@ export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'place', type: 'string', label: '使用・保管場所', width: 180 },
   { key: 'rentalDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },
-  { key: 'deletedDate', type: 'date', label: '削除日', width: 120 },
   { key: 'registrationDate', type: 'date', label: '登録日', width: 120 },
+  { key: 'deletedDate', type: 'date', label: '削除日', width: 120 },
   { key: 'inventoryDate', type: 'date', label: '棚卸日', width: 120 },
   { key: 'note', type: 'string', label: '備考', width: 400 },
 ];
