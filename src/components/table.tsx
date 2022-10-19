@@ -42,14 +42,13 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
   const [contextMenu, setContextMenu] = useState<{ mouseX: number; mouseY: number } | null>(null);
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
-    const tr = (e.target as HTMLElement).closest('.equipmentItem');
+    const tr = (e.target as HTMLElement).closest<HTMLElement>('.equipmentItem');
     console.log(tr);
 
     if (tr == null) {
       setContextMenu(null);
       return;
     }
-    setOpen(true);
 
     setContextMenu(contextMenu === null ? { mouseX: e.clientX + 2, mouseY: e.clientY - 6 } : null);
   };
@@ -60,19 +59,34 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
 
   // for dialog
   const [open, setOpen] = useState(false);
-  const [result, setResult] = useState(''); // 結果確認用
+  const [equipment, setEquipment] = useState<EquipmentWithUser | null | undefined>(null);
+  const handleDialogOpen = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const tr = (e.target as HTMLElement).closest<HTMLElement>('.equipmentItem');
+
+    if (tr == null) {
+      setContextMenu(null);
+      return;
+    }
+    const targetId = parseInt(tr.dataset.id!);
+    const equipment = equipments.find(x => x.id === targetId);
+
+    setOpen(true);
+    setEquipment(equipment);
+  };
 
   const handleDialogClose = () => {
     setOpen(false);
+    // setEquipment(null);
   };
 
   return (
-    <TableContainer component={Paper} onContextMenu={handleContextMenu}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+    <TableContainer component={Paper} onContextMenu={handleContextMenu} sx={{ maxHeight: 800 }} onDoubleClick={handleDialogOpen}>
+      <Table sx={{ minWidth: 700, maxHeight: '100vh' }} aria-label="customized table">
         <TableHead>
           <TableRow>
             {definitions.map(def => (
-              <StyledTableCell align="center" key={def.key}>
+              <StyledTableCell align="center" key={def.key} sx={{ minWidth: def.width }}>
                 {def.label}
               </StyledTableCell>
             ))}
@@ -80,9 +94,9 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
         </TableHead>
         <TableBody>
           {equipments.map(equipment => (
-            <StyledTableRow key={getEquipmentCode(equipment)} className="equipmentItem">
+            <StyledTableRow key={equipment.id} className="equipmentItem" data-id={equipment.id}>
               {definitions.map(def => (
-                <StyledTableCell align="center" key={`${equipment.id}_${def.key}`}>
+                <StyledTableCell align="left" key={`${equipment.id}_${def.key}`}>
                   {def.convert(equipment, def.key)}
                 </StyledTableCell>
               ))}
@@ -101,7 +115,7 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
         <MenuItem onClick={handleClose}>RENTAL</MenuItem>
         <MenuItem onClick={handleClose}>RETURN</MenuItem>
       </Menu>
-      <EquipmentDialog open={open} onClose={handleDialogClose} />
+      <EquipmentDialog open={open} onClose={handleDialogClose} equipment={equipment} />
     </TableContainer>
   );
 }
