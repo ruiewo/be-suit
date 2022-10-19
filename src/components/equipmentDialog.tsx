@@ -1,38 +1,35 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
-import { convertToDisplay, convertToValue, equipmentBaseColumn, EquipmentWithUser } from '../models/equipment';
-import { pcColumn, PcDetail } from '../models/equipmentDetails/pc';
-import { Equipment } from '@prisma/client';
+import { ColumnDefinition, convertToDisplay, convertToValue, equipmentBaseColumn, EquipmentWithUser } from '../models/equipment';
+import { Equipment, Prisma } from '@prisma/client';
 
 type Props = {
   open: boolean;
   onClose: () => void;
   equipment: EquipmentWithUser | null | undefined;
+  optionColumn: ColumnDefinition<any>[];
 };
 
-export default function EquipmentDialog({ open, onClose, equipment }: Props) {
-  const definitions = [...equipmentBaseColumn, ...pcColumn];
+export default function EquipmentDialog({ open, onClose, equipment, optionColumn }: Props) {
+  const baseColumn = [...equipmentBaseColumn];
 
   const handleSubmit = async () => {
-    const form = document.getElementById('equipmentEditDialog') as HTMLFormElement;
-    const data = new FormData(form);
+    const data = new FormData(document.getElementById('equipmentEditDialog') as HTMLFormElement);
 
-    console.log(data);
-    let equipmentData = {} as Equipment;
+    const equipmentData = {} as Equipment;
 
-    equipmentBaseColumn.forEach(x => {
+    baseColumn.forEach(x => {
       // @ts-ignore
       equipmentData[x.key] = convertToValue(data.get(x.key), x.type);
-      console.log(`${x.key}: ${data.get(x.key)}`);
     });
 
-    const details = {} as { [key: string]: string };
-    pcColumn.forEach(x => {
-      details[x.key] = convertToValue(data.get(x.key), x.type) as string;
+    const details = {} as { [key: string]: string | number | Date | null };
+    optionColumn.forEach(col => {
+      // col.key is always string
+      details[col.key as string] = convertToValue(data.get(col.key as string), col.type);
     });
-    equipmentData.details = details;
+    equipmentData.details = details as Prisma.JsonValue; // todo refactor as cast.
 
     console.dir(equipmentData);
 
@@ -89,18 +86,30 @@ export default function EquipmentDialog({ open, onClose, equipment }: Props) {
 
       <DialogContent>
         <Box id="equipmentEditDialog" component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-          {definitions.map(def => (
+          {baseColumn.map(col => (
             <TextField
               margin="normal"
               // required
               fullWidth
-              key={def.key}
-              id={def.key}
-              label={def.label}
-              name={def.key}
-              defaultValue={convertToDisplay(equipment, def.key, def.type)}
+              key={col.key}
+              id={col.key}
+              label={col.label}
+              name={col.key}
+              defaultValue={convertToDisplay(equipment, col.key, col.type)}
               // if you set value property, input will be readonly.
               // value={convertToDisplay(equipment, def.key, def.type)}
+            />
+          ))}
+          {optionColumn.map(col => (
+            <TextField
+              margin="normal"
+              // required
+              fullWidth
+              key={col.key as string}
+              id={col.key as string}
+              label={col.label}
+              name={col.key as string}
+              defaultValue={convertToDisplay(equipment.details, col.key as string, col.type)}
             />
           ))}
         </Box>

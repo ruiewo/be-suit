@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,12 +8,10 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { equipmentBaseColumn, EquipmentWithUser, convertToDisplay } from '../models/equipment';
-import { pcColumn } from '../models/equipmentDetails/pc';
-
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { useCallback, useState } from 'react';
+import { equipmentBaseColumn, EquipmentWithUser, convertToDisplay } from '../models/equipment';
+import { pcColumn } from '../models/equipmentDetails/pc';
 import EquipmentDialog from './equipmentDialog';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -36,8 +35,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function EquipmentsTable({ equipments }: { equipments: EquipmentWithUser[] }) {
-  // todo merge detail definitions.
-  const definitions = [...equipmentBaseColumn, ...pcColumn];
+  const baseColumn = [...equipmentBaseColumn];
+  const optionColumn = [...pcColumn];
 
   const [contextMenu, setContextMenu] = useState<{ mouseX: number; mouseY: number } | null>(null);
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -81,13 +80,13 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
   };
 
   return (
-    <TableContainer component={Paper} onContextMenu={handleContextMenu} sx={{ maxHeight: 800 }} onDoubleClick={handleDialogOpen}>
+    <TableContainer component={Paper} onContextMenu={handleContextMenu} sx={{ minHeight: 600 }} onDoubleClick={handleDialogOpen}>
       <Table sx={{ minWidth: 700, maxHeight: '100vh' }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            {definitions.map(def => (
-              <StyledTableCell align="center" key={def.key} sx={{ minWidth: def.width }}>
-                {def.label}
+            {[...baseColumn, ...optionColumn].map(col => (
+              <StyledTableCell align="center" key={col.key} sx={{ minWidth: col.width }}>
+                {col.label}
               </StyledTableCell>
             ))}
           </TableRow>
@@ -95,9 +94,14 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
         <TableBody>
           {equipments.map(equipment => (
             <StyledTableRow key={equipment.id} className="equipmentItem" data-id={equipment.id}>
-              {definitions.map(def => (
-                <StyledTableCell align="left" key={`${equipment.id}_${def.key}`}>
-                  {convertToDisplay(equipment, def.key, def.type)}
+              {baseColumn.map(col => (
+                <StyledTableCell align="left" key={`${equipment.id}_${col.key}`}>
+                  {convertToDisplay(equipment, col.key, col.type)}
+                </StyledTableCell>
+              ))}
+              {optionColumn.map(col => (
+                <StyledTableCell align="left" key={`${equipment.id}_${col.key}`}>
+                  {convertToDisplay(equipment.details, col.key, col.type)}
                 </StyledTableCell>
               ))}
             </StyledTableRow>
@@ -115,7 +119,7 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
         <MenuItem onClick={handleClose}>RENTAL</MenuItem>
         <MenuItem onClick={handleClose}>RETURN</MenuItem>
       </Menu>
-      <EquipmentDialog open={open} onClose={handleDialogClose} equipment={equipment} />
+      <EquipmentDialog open={open} onClose={handleDialogClose} equipment={equipment} optionColumn={optionColumn} />
     </TableContainer>
   );
 }

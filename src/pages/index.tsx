@@ -9,17 +9,17 @@ import { page } from '../models/path';
 const Home: NextPageWithLayout = () => {
   const cards = [
     { title: 'Monitor', src: '/images/monitor.svg', description: 'モニタ一覧を表示します。', path: '' },
-    { title: '貸出', src: '/images/rental.svg', description: '', path: '' },
+    { title: '貸出', src: '/images/rental.svg', description: 'not implemented yet.', path: '' },
     { title: '機器管理', src: '/images/computer.svg', description: 'PC一覧を表示します', path: page.equipment },
-    { title: 'ユーザ登録', src: '/images/user.svg', description: '', path: '' },
-    { title: 'マスタ管理', src: '/images/master.svg', description: '', path: '' },
+    { title: 'ユーザ登録', src: '/images/user.svg', description: 'not implemented yet.', path: '' },
+    { title: 'マスタ管理', src: '/images/master.svg', description: 'not implemented yet.', path: '' },
     {
       title: 'メンテナンス',
       src: '/images/maintenance.svg',
       description: 'Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica',
       path: '',
     },
-    { title: 'qrcode', src: '/images/dev.svg', description: '開発用', path: page.qrcode },
+    { title: 'QR Code', src: '/images/dev.svg', description: '開発用', path: page.qrCode },
     { title: 'equipment', src: '/images/dev.svg', description: '開発用', path: page.equipment },
     { title: 'signIn', src: '/images/dev.svg', description: '開発用', path: page.signIn },
     { title: 'login', src: '/images/dev.svg', description: '開発用', path: page.login },

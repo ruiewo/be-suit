@@ -7,14 +7,14 @@ export type EquipmentWithUser = Equipment & {
 
 type ValueType = 'string' | 'number' | 'date' | 'details';
 
-export type columnDefinition<T> = {
+export type ColumnDefinition<T> = {
   key: keyof T;
   type: ValueType;
   label: string;
   width: number;
 };
 
-export const equipmentBaseColumn: columnDefinition<Equipment>[] = [
+export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'id', type: 'number', label: 'ID', width: 40 },
   { key: 'category', type: 'string', label: '管理番号', width: 100 },
   { key: 'serialNumber', type: 'number', label: '管理番号', width: 100 },
@@ -31,22 +31,20 @@ export const equipmentBaseColumn: columnDefinition<Equipment>[] = [
   { key: 'note', type: 'string', label: '備考', width: 400 },
 ];
 
-export function convertToDisplay<T>(equipment: Equipment, key: keyof Equipment | keyof T, type: ValueType) {
+export function convertToDisplay(obj: any, key: string, type: ValueType) {
   switch (type) {
     case 'string':
-      return getValue(equipment, key as keyof Equipment);
     case 'number':
-      return getValue(equipment, key as keyof Equipment);
+      return obj[key]?.toString() ?? '';
     case 'date':
-      return getDateValue(equipment, key as keyof Equipment);
-    case 'details':
-      return getDetailValue<T>(equipment, key as keyof T);
+      const dateStr = obj[key]?.toString() ?? '';
+      return isDate(dateStr) ? new DateEx(dateStr).toDateString() : '';
     default:
-      return getValue(equipment, key as keyof Equipment);
+      return obj[key]?.toString() ?? '';
   }
 }
 
-export function convertToValue<T>(value: FormDataEntryValue | null, type: ValueType) {
+export function convertToValue(value: FormDataEntryValue | null, type: ValueType) {
   switch (type) {
     case 'string':
       return value == null ? '' : value.toString();
@@ -58,29 +56,12 @@ export function convertToValue<T>(value: FormDataEntryValue | null, type: ValueT
       return Number.isNaN(valueNum) ? null : valueNum;
     case 'date':
       const dateStr = value?.toString() ?? '';
-      // return isDate(dateStr) ? new DateEx(dateStr).toDateString() + 'T00:00:00+9:00' : null;
       return isDate(dateStr) ? new Date(new DateEx(dateStr).toDateString() + 'T00:00:00+09:00') : null;
     case 'details':
       return value == null ? '' : value.toString();
     default:
       return value == null ? '' : value.toString();
   }
-}
-
-function getValue(equipment: Equipment, key: keyof Equipment) {
-  return equipment[key]?.toString() ?? '';
-}
-
-function getDateValue(equipment: Equipment, key: keyof Equipment) {
-  const dateStr = equipment[key]?.toString() ?? '';
-
-  return isDate(dateStr) ? new DateEx(dateStr).toDateString() : '';
-}
-
-function getDetailValue<T>(equipment: Equipment, key: keyof T) {
-  const details = equipment.details as T;
-
-  return details == null ? '' : details[key]?.toString() ?? '';
 }
 
 export function getEquipmentCode(e: Equipment) {

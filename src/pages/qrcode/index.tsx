@@ -8,16 +8,6 @@ import { NextPageWithLayout } from '../_app';
 import { PcDetail } from '../../models/equipmentDetails/pc';
 
 const QrCodePage: NextPageWithLayout = () => {
-  const data = [
-    { code: 'PC-D-00127', pcName: 'Sandra' },
-    { code: 'PC-D-00128', pcName: 'Sandrb' },
-    { code: 'PC-D-00129', pcName: 'Sandrc' },
-    { code: 'PC-D-00130', pcName: 'Sandrd' },
-    { code: 'PC-D-99999', pcName: 'Abcdef' },
-    { code: 'PC-D-00001', pcName: 'Ghijk' },
-    { code: 'PC-D-00004', pcName: 'Lmnop' },
-  ];
-
   const { equipments, isLoading, isError } = useEquipments();
 
   if (isError) return <div>Failed to load</div>;

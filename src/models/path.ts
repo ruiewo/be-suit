@@ -1,7 +1,7 @@
 export const page = {
   home: '/',
   signIn: '/signIn',
-  qrcode: '/qrcode',
+  qrCode: '/qrCode',
   login: '/login',
   equipment: '/equipment',
 } as const;

@@ -1,4 +1,4 @@
-import { columnDefinition, getDetailValue } from '../equipment';
+import { ColumnDefinition } from '../equipment';
 
 export type PcDetail = {
   os: string;
@@ -7,7 +7,7 @@ export type PcDetail = {
   pcName: string;
 };
 
-export const pcColumn: columnDefinition<PcDetail>[] = [
+export const pcColumn: ColumnDefinition<PcDetail>[] = [
   { key: 'os', type: 'details', label: 'OS', width: 120 },
   { key: 'cpu', type: 'details', label: 'CPU', width: 120 },
   { key: 'ram', type: 'details', label: 'RAM', width: 120 },
