@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { equipmentBaseColumn, EquipmentWithUser, getEquipmentCode } from '../models/equipment';
+import { equipmentBaseColumn, EquipmentWithUser, convertToDisplay } from '../models/equipment';
 import { pcColumn } from '../models/equipmentDetails/pc';
 
 import MenuItem from '@mui/material/MenuItem';
@@ -97,7 +97,7 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
             <StyledTableRow key={equipment.id} className="equipmentItem" data-id={equipment.id}>
               {definitions.map(def => (
                 <StyledTableCell align="left" key={`${equipment.id}_${def.key}`}>
-                  {def.convert(equipment, def.key)}
+                  {convertToDisplay(equipment, def.key, def.type)}
                 </StyledTableCell>
               ))}
             </StyledTableRow>

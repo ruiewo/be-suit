@@ -33,9 +33,9 @@ async function seed() {
         inventoryDate: toDate(row[10]),
         deletedDate: toDate(row[11]),
         note: row[12] as string,
-        details: JSON.stringify({
+        details: {
           pcName: row[1],
-        }),
+        },
       };
 
       console.log(equipment);

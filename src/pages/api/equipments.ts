@@ -19,12 +19,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     include: {
       checkOutUser: true,
     },
+    orderBy: [
+      {
+        id: 'asc',
+      },
+    ],
   });
 
-  equipments.forEach(x => {
-    if (x.details != null) {
-      x.details = JSON.parse(x.details as string);
-    }
-  });
   res.status(200).json({ equipments });
 }

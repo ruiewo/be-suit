@@ -31,7 +31,7 @@ model Equipment {
 
   maker       String // メーカー
   modelNumber String // 型番
-  details     Json // JSON
+  details     Json? // JSON
   note        String // 備考
 
   // 貸与関係
