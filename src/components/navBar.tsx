@@ -17,6 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useRouter } from 'next/router';
 import { page } from '../models/path';
+import Icon from '@mui/material/Icon';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -154,13 +155,21 @@ export default function NavBar() {
     </Menu>
   );
 
+  const AppIconButton = styled(IconButton)({
+    '&:hover': {
+      filter: 'brightness(1.5)',
+    },
+  });
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }}>
-            <MenuIcon />
-          </IconButton>
+          <AppIconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }} onClick={() => router.push(page.home)}>
+            <Icon>
+              <img src="/images/logo.svg" style={{ width: 'inherit', height: 'inherit' }} />
+            </Icon>
+          </AppIconButton>
           <Typography
             variant="h6"
             noWrap

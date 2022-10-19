@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { ColumnDefinition, convertToDisplay, convertToValue, equipmentBaseColumn, EquipmentWithUser } from '../models/equipment';
@@ -81,8 +82,8 @@ export default function EquipmentDialog({ open, onClose, equipment, optionColumn
   }
 
   return (
-    <Dialog open={open}>
-      <DialogTitle>EQUIPMENT 詳細/編集 todo 機能分割</DialogTitle>
+    <Dialog open={open} maxWidth="md">
+      <DialogTitle textAlign="center">EQUIPMENT 詳細/編集</DialogTitle>
 
       <DialogContent>
         <Box id="equipmentEditDialog" component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
@@ -90,7 +91,8 @@ export default function EquipmentDialog({ open, onClose, equipment, optionColumn
             <TextField
               margin="normal"
               // required
-              fullWidth
+              // fullWidth
+              sx={{ width: '46%', ml: '2%', mr: '2%' }}
               key={col.key}
               id={col.key}
               label={col.label}
@@ -98,13 +100,17 @@ export default function EquipmentDialog({ open, onClose, equipment, optionColumn
               defaultValue={convertToDisplay(equipment, col.key, col.type)}
               // if you set value property, input will be readonly.
               // value={convertToDisplay(equipment, def.key, def.type)}
+
+              multiline={col.key === 'note'}
             />
           ))}
+          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
+            OPTIONAL
+          </Typography>
           {optionColumn.map(col => (
             <TextField
               margin="normal"
-              // required
-              fullWidth
+              sx={{ width: '46%', ml: '2%', mr: '2%' }}
               key={col.key as string}
               id={col.key as string}
               label={col.label}
