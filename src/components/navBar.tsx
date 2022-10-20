@@ -9,7 +9,6 @@ import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
@@ -18,6 +17,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import { useRouter } from 'next/router';
 import { page } from '../models/path';
 import Icon from '@mui/material/Icon';
+import Image from 'next/image';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -167,7 +167,7 @@ export default function NavBar() {
         <Toolbar>
           <AppIconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }} onClick={() => router.push(page.home)}>
             <Icon>
-              <img src="/images/logo.svg" style={{ width: 'inherit', height: 'inherit' }} />
+              <Image src="/images/logo.svg" style={{ width: 'inherit', height: 'inherit' }} alt="logo" />
             </Icon>
           </AppIconButton>
           <Typography

@@ -7,7 +7,7 @@ import { Session } from 'next-auth';
 import Layout from '../components/layout';
 
 type GetLayout = (page: ReactElement) => ReactNode;
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout = NextPage & {
   getLayout?: GetLayout;
   auth?: boolean;
 };
@@ -27,7 +27,7 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
   );
 }
 
-function Auth({ children }: React.PropsWithChildren<{}>): JSX.Element {
+function Auth({ children }: React.PropsWithChildren): JSX.Element {
   // if `{ required: true }` is supplied, `status` can only be "loading" or "authenticated"
   const { status } = useSession({
     required: true,

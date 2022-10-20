@@ -15,7 +15,7 @@ export default function SignInButton() {
     return (
       <>
         <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 5 }}>
-          Signed in as {session!.user!.email}
+          Signed in as {session.user!.email}
         </Typography>
         <Button variant="contained" onClick={() => signOut()}>
           Sign out

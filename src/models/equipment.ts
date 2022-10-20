@@ -36,9 +36,10 @@ export function convertToDisplay(obj: any, key: string, type: ValueType) {
     case 'string':
     case 'number':
       return obj[key]?.toString() ?? '';
-    case 'date':
+    case 'date': {
       const dateStr = obj[key]?.toString() ?? '';
       return isDate(dateStr) ? new DateEx(dateStr).toDateString() : '';
+    }
     default:
       return obj[key]?.toString() ?? '';
   }
@@ -48,15 +49,17 @@ export function convertToValue(value: FormDataEntryValue | null, type: ValueType
   switch (type) {
     case 'string':
       return value == null ? '' : value.toString();
-    case 'number':
+    case 'number': {
       if (value == null || !value.toString().trim()) {
         return null;
       }
       const valueNum = Number(value);
       return Number.isNaN(valueNum) ? null : valueNum;
-    case 'date':
+    }
+    case 'date': {
       const dateStr = value?.toString() ?? '';
       return isDate(dateStr) ? new Date(new DateEx(dateStr).toDateString() + 'T00:00:00+09:00') : null;
+    }
     case 'details':
       return value == null ? '' : value.toString();
     default:

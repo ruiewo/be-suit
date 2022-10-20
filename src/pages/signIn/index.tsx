@@ -7,6 +7,7 @@ import { Copyright } from '../../components/copyright';
 import SignInButton from '../../components/signInButton';
 import styles from '../../styles/Home.module.css';
 import { NextPageWithLayout } from '../_app';
+import Image from 'next/image';
 
 const SignInPage: NextPageWithLayout = () => {
   return (
@@ -28,7 +29,7 @@ const SignInPage: NextPageWithLayout = () => {
             }}
           >
             <Icon sx={{ width: 120, height: 120 }}>
-              <img src="/images/logo.svg" style={{ width: 'inherit', height: 'inherit' }} />
+              <Image src="/images/logo.svg" style={{ width: 'inherit', height: 'inherit' }} alt="logo" />
             </Icon>
 
             <SignInButton></SignInButton>

@@ -3,7 +3,7 @@ import EquipmentsTable from '../../components/table';
 import { useEquipments } from '../../hooks/useEquipments';
 
 const Equipment: NextPage = () => {
-  const { equipments, isLoading, isError } = useEquipments();
+  const { equipments, isLoading, isError } = useEquipments('PC', 'D');
 
   if (isError) return <div>Failed to load</div>;
 
