@@ -8,7 +8,7 @@ import { NextPageWithLayout } from '../_app';
 import { PcDetail } from '../../models/equipmentDetails/pc';
 
 const QrCodePage: NextPageWithLayout = () => {
-  const { equipments, isLoading, isError } = useEquipments();
+  const { equipments, isLoading, isError } = useEquipments('PC', 'N');
 
   if (isError) return <div>Failed to load</div>;
 
