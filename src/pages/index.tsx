@@ -20,7 +20,9 @@ const Home: NextPageWithLayout = () => {
       path: '',
     },
     { title: 'QR Code', src: '/images/dev.svg', description: '開発用', path: page.qrCode },
-    { title: 'equipment', src: '/images/dev.svg', description: '開発用', path: page.equipment },
+    { title: 'デスクトップPC', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/d` },
+    { title: 'ノートPC', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/n` },
+    { title: 'タブレット', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/t` },
     { title: 'signIn', src: '/images/dev.svg', description: '開発用', path: page.signIn },
     { title: 'login', src: '/images/dev.svg', description: '開発用', path: page.login },
   ];

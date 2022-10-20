@@ -5,9 +5,9 @@ import { parse } from 'csv-parse';
 
 import { Prisma, PrismaClient } from '@prisma/client';
 
-export async function seedEquipments(prisma: PrismaClient) {
+export async function seedEquipments(prisma: PrismaClient, path: string) {
   try {
-    const equipments = await readCsv();
+    const equipments = await readCsv(path);
     await prisma.equipment.createMany({ data: equipments });
   } catch (error) {
     console.error('SEED EQUIPMENTS FAILED.');
@@ -16,11 +16,11 @@ export async function seedEquipments(prisma: PrismaClient) {
   }
 }
 
-async function readCsv() {
+async function readCsv(path: string) {
   return await new Promise<Prisma.EquipmentCreateManyInput[]>((resolve, reject) => {
     const equipments: Prisma.EquipmentCreateManyInput[] = [];
 
-    fs.createReadStream('./prisma/pc_seed.csv')
+    fs.createReadStream(path)
       .pipe(parse({ delimiter: ',' }))
       .on('data', function (row) {
         const CateWithNum = row[0] as string;

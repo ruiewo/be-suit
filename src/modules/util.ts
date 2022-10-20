@@ -1,5 +1,12 @@
 export const isClientSide = () => typeof window !== 'undefined';
 
+export const isNullOrWhiteSpace = (input: string | null | undefined) => {
+  if (typeof input === 'undefined' || input == null) {
+    return true;
+  }
+  return input.toString().replace(/\s/g, '').length < 1;
+};
+
 export const isDate = (v: string | number) => !isNaN(new Date(v).getTime());
 
 export class DateEx extends Date {

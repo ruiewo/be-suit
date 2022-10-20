@@ -25,7 +25,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   const equipment = req.body.equipment;
   const { id, ...updateEq } = req.body.equipment;
 
-  console.log('aaaaaaaaaaaaaaa-------------------------------------------');
   console.log(equipment);
 
   try {

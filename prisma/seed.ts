@@ -7,8 +7,11 @@ const prisma = new PrismaClient();
 
 async function seed() {
   try {
-    seedCategory(prisma);
-    seedEquipments(prisma);
+    const csvFiles = ['./prisma/csv/pc_d.csv', './prisma/csv/pc_n.csv'];
+    await seedCategory(prisma);
+    for (const file of csvFiles) {
+      await seedEquipments(prisma, file);
+    }
   } catch (error) {
     await prisma.$disconnect();
     process.exit(1);
