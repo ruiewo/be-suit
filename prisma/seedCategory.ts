@@ -2,19 +2,19 @@ import { PrismaClient } from '@prisma/client';
 
 const categories = [
   {
-    key: 'PC',
+    code: 'PC',
     label: 'パソコン',
     enable: true,
     subCategories: [
-      { key: 'D', label: 'Desktop', enable: true },
-      { key: 'N', label: 'Note', enable: true },
-      { key: 'T', label: 'Tablet', enable: true },
+      { code: 'D', label: 'Desktop', enable: true },
+      { code: 'N', label: 'Note', enable: true },
+      { code: 'T', label: 'Tablet', enable: true },
     ],
     columns: [
-      { key: 'os', type: 'details', label: 'OS', width: 120 },
-      { key: 'cpu', type: 'details', label: 'CPU', width: 120 },
-      { key: 'ram', type: 'details', label: 'RAM', width: 120 },
-      { key: 'pcName', type: 'details', label: 'PC名', width: 120 },
+      { key: 'pcName', type: 'string', label: 'PC名', width: 120 },
+      { key: 'os', type: 'string', label: 'OS', width: 120 },
+      { key: 'cpu', type: 'string', label: 'CPU', width: 120 },
+      { key: 'ram', type: 'string', label: 'RAM', width: 120 },
     ],
   },
 ];

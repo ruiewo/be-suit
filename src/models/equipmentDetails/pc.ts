@@ -8,8 +8,8 @@ export type PcDetail = {
 };
 
 export const pcColumn: ColumnDefinition<PcDetail>[] = [
-  { key: 'os', type: 'details', label: 'OS', width: 120 },
-  { key: 'cpu', type: 'details', label: 'CPU', width: 120 },
-  { key: 'ram', type: 'details', label: 'RAM', width: 120 },
-  { key: 'pcName', type: 'details', label: 'PC名', width: 120 },
+  { key: 'pcName', type: 'string', label: 'PC名', width: 120 },
+  { key: 'os', type: 'string', label: 'OS', width: 120 },
+  { key: 'cpu', type: 'string', label: 'CPU', width: 120 },
+  { key: 'ram', type: 'string', label: 'RAM', width: 120 },
 ];

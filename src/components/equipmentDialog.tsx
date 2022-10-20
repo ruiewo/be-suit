@@ -2,14 +2,16 @@ import * as React from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
-import { ColumnDefinition, convertToDisplay, convertToValue, equipmentBaseColumn, EquipmentWithUser } from '../models/equipment';
+import { ColumnDefinition, convertToDisplay, convertToValue, Details, equipmentBaseColumn, EquipmentWithUser } from '../models/equipment';
 import { Equipment, Prisma } from '@prisma/client';
+import { apiPath } from '../models/path';
+import { api } from '../models/api';
 
 type Props = {
   open: boolean;
   onClose: () => void;
   equipment: EquipmentWithUser | null | undefined;
-  optionColumn: ColumnDefinition<any>[];
+  optionColumn: ColumnDefinition<Details>[];
 };
 
 export default function EquipmentDialog({ open, onClose, equipment, optionColumn }: Props) {
@@ -25,34 +27,13 @@ export default function EquipmentDialog({ open, onClose, equipment, optionColumn
       equipmentData[x.key] = convertToValue(data.get(x.key), x.type);
     });
 
-    const details = {} as { [key: string]: string | number | Date | null };
+    const details = {} as Details;
     optionColumn.forEach(col => {
-      // col.key is always string
-      details[col.key as string] = convertToValue(data.get(col.key as string), col.type);
+      details[col.key] = convertToValue(data.get(col.key), col.type);
     });
     equipmentData.details = details as Prisma.JsonValue; // todo refactor as cast.
 
-    console.dir(equipmentData);
-
-    const path = `/api/equipments/update`;
-    const request = new Request(path, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ equipment: equipmentData }),
-    });
-
-    let response: Response;
-
-    try {
-      response = await fetch(request);
-    } catch (error: any) {
-      console.log(error);
-      // const apiError: ApiErrorDetail = { code: errorCode.network, message: 'network error occurred.' };
-      // throw new ApiError({ errors: [apiError] });
-    }
+    api.post<{ equipment: Equipment }>(apiPath.updateEquipment, { equipment: equipmentData });
   };
 
   if (equipment == null) {

@@ -1,11 +1,13 @@
 import { Equipment, User } from '@prisma/client';
 import { DateEx, isDate } from '../modules/util';
 
+export type Details = Record<string, string | number | Date | null>;
+
 export type EquipmentWithUser = Equipment & {
   rentalUser: User | null;
 };
 
-type ValueType = 'string' | 'number' | 'date' | 'details';
+type ValueType = 'string' | 'number' | 'date';
 
 export type ColumnDefinition<T> = {
   key: keyof T;
@@ -60,8 +62,6 @@ export function convertToValue(value: FormDataEntryValue | null, type: ValueType
       const dateStr = value?.toString() ?? '';
       return isDate(dateStr) ? new Date(new DateEx(dateStr).toDateString() + 'T00:00:00+09:00') : null;
     }
-    case 'details':
-      return value == null ? '' : value.toString();
     default:
       return value == null ? '' : value.toString();
   }

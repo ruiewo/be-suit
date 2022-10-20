@@ -1,3 +1,5 @@
+import { ColumnDefinition, Details } from './equipment';
+
 export const Category = {
   PC_Desktop: 'PC-D',
   PC_Notebook: 'PC-N',
@@ -6,29 +8,36 @@ export const Category = {
 
 export type CategoryCode = typeof Category[keyof typeof Category];
 
+export type Category = SubCategory & {
+  subCategories: SubCategory[];
+  columns: ColumnDefinition<Record<string, any>>[];
+};
+
+export type SubCategory = { code: string; label: string; enable: boolean };
+
 const hoge = {
-  category: 'PC',
+  key: 'PC',
   label: 'パソコン',
   enable: true,
   subCategories: [
-    { category: 'D', label: 'Desktop', enable: true },
-    { category: 'N', label: 'Note', enable: true },
-    { category: 'T', label: 'Tablet', enable: true },
+    { key: 'D', label: 'Desktop', enable: true },
+    { key: 'N', label: 'Note', enable: true },
+    { key: 'T', label: 'Tablet', enable: true },
   ],
   columns: [
-    { key: 'os', type: 'details', label: 'OS', width: 120 },
-    { key: 'cpu', type: 'details', label: 'CPU', width: 120 },
-    { key: 'ram', type: 'details', label: 'RAM', width: 120 },
-    { key: 'pcName', type: 'details', label: 'PC名', width: 120 },
+    { key: 'os', type: 'string', label: 'OS', width: 120 },
+    { key: 'cpu', type: 'string', label: 'CPU', width: 120 },
+    { key: 'ram', type: 'string', label: 'RAM', width: 120 },
+    { key: 'pcName', type: 'string', label: 'PC名', width: 120 },
   ],
 };
 const hoge2 = {
-  category: 'PC-D',
+  key: 'PC-D',
   label: 'デスクトップパソコン',
   columns: [
-    { key: 'os', type: 'details', label: 'OS', width: 120 },
-    { key: 'cpu', type: 'details', label: 'CPU', width: 120 },
-    { key: 'ram', type: 'details', label: 'RAM', width: 120 },
-    { key: 'pcName', type: 'details', label: 'PC名', width: 120 },
+    { key: 'os', type: 'string', label: 'OS', width: 120 },
+    { key: 'cpu', type: 'string', label: 'CPU', width: 120 },
+    { key: 'ram', type: 'string', label: 'RAM', width: 120 },
+    { key: 'pcName', type: 'string', label: 'PC名', width: 120 },
   ],
 };

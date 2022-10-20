@@ -59,7 +59,7 @@ model Equipment {
 }
 
 model Category {
-  key           String  @id
+  code          String  @id
   label         String
   enable        Boolean @default(true)
   subCategories Json    @default("[]")

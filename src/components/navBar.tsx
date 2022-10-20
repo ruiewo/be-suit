@@ -167,7 +167,7 @@ export default function NavBar() {
         <Toolbar>
           <AppIconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }} onClick={() => router.push(page.home)}>
             <Icon>
-              <Image src="/images/logo.svg" style={{ width: 'inherit', height: 'inherit' }} alt="logo" />
+              <Image src="/images/logo.svg" alt="logo" layout="fill" />
             </Icon>
           </AppIconButton>
           <Typography

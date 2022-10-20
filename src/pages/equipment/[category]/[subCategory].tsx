@@ -3,7 +3,7 @@ import EquipmentsTable from '../../../components/table';
 import { useEquipments } from '../../../hooks/useEquipments';
 import { useRouter } from 'next/router';
 
-const Equipment: NextPage = () => {
+const EquipmentsPage: NextPage = () => {
   const router = useRouter();
   const { category, subCategory } = router.query;
 
@@ -16,4 +16,4 @@ const Equipment: NextPage = () => {
   return <EquipmentsTable equipments={equipments} />;
 };
 
-export default Equipment;
+export default EquipmentsPage;

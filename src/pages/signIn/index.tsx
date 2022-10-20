@@ -28,8 +28,8 @@ const SignInPage: NextPageWithLayout = () => {
               alignItems: 'center',
             }}
           >
-            <Icon sx={{ width: 120, height: 120 }}>
-              <Image src="/images/logo.svg" style={{ width: 'inherit', height: 'inherit' }} alt="logo" />
+            <Icon sx={{ width: 120, height: 120, position: 'relative' }}>
+              <Image src="/images/logo.svg" alt="logo" layout="fill" objectFit="contain" />
             </Icon>
 
             <SignInButton></SignInButton>
