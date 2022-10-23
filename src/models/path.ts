@@ -10,6 +10,7 @@ export const page = {
 export const apiPath = {
   //   index: '/index',
   //   singIn: '/signIn',
+  getCategory: `/api/category`,
   getCategories: `/api/categories`,
   getEquipments: `/api/equipments`,
   updateEquipment: `/api/equipment/update`,

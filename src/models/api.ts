@@ -1,3 +1,4 @@
+import { ApiErrorDetail, ApiErrorResponse, StatusCode } from './apiHelper';
 import { ErrorCode } from './errorCode';
 
 const statusCode = { networkError: 418 } as const;

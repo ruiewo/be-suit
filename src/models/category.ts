@@ -8,12 +8,12 @@ export const Category = {
 
 export type CategoryCode = typeof Category[keyof typeof Category];
 
-export type Category = SubCategory & {
-  subCategories: SubCategory[];
+export type Category = CategoryBase & {
+  subCategories: CategoryBase[];
   columns: ColumnDefinition<Record<string, any>>[];
 };
 
-export type SubCategory = { code: string; label: string; enable: boolean };
+export type CategoryBase = { code: string; label: string; enable: boolean };
 
 const hoge = {
   key: 'PC',
