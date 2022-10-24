@@ -42,8 +42,6 @@ export default function EquipmentsTable({ equipments }: { equipments: EquipmentW
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
     const tr = (e.target as HTMLElement).closest<HTMLElement>('.equipmentItem');
-    console.log(tr);
-
     if (tr == null) {
       setContextMenu(null);
       return;

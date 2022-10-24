@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
-import { Category, CategoryBase } from '../models/category';
+import { CategoryBase } from '../models/category';
 import { ChangeEvent } from 'react';
 
 type Props = {

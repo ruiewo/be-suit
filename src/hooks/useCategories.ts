@@ -1,5 +1,4 @@
 import useSWR from 'swr';
-import useSWRImmutable from 'swr/immutable';
 import { ApiError } from '../models/api';
 import { Category } from '../models/category';
 import { apiPath } from '../models/path';
@@ -20,17 +19,6 @@ export function useCategories(categoryCode: string) {
 }
 
 export function useCategory(categoryCode: string, callback: (category: Category) => void) {
-  // todo use SearchParam
-  // const {
-  //   data: category,
-  //   error,
-  //   mutate: setCategory,
-  // } = useSWRImmutable<Category, ApiError>(`${apiPath.getCategory}/${categoryCode}`, fetcher, {
-  //   onSuccess(data, key, config) {
-  //     callback(data);
-  //   },
-  // });
-
   const {
     data: category,
     error,
@@ -39,7 +27,7 @@ export function useCategory(categoryCode: string, callback: (category: Category)
     revalidateIfStale: false,
     revalidateOnFocus: false,
     // revalidateOnReconnect: false,
-    // revalidateOnMount: true,
+    revalidateOnMount: true,
     refreshInterval: 0,
     onSuccess(data, key, config) {
       console.log('Category reloaded.');

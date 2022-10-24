@@ -1,5 +1,4 @@
-import { Box, Button, Checkbox, FormControlLabel, TextField } from '@mui/material';
-import { Category, CategoryBase } from '../models/category';
+import { Box, Button, TextField } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { ColumnDefinition, Details } from '../models/equipment';
 

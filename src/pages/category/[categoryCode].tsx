@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
@@ -18,8 +18,7 @@ const CategoryPage: NextPage = () => {
     setColumns(c.columns);
   });
 
-  const [rootCategory, setRootCategory] = useState(category);
-  // const [rootCategory, setRootCategory] = useState({ code: '', label: '', enable: true });
+  const [rootCategory, setRootCategory] = useState(category ?? { code: '', label: '', enable: true });
   const onCategoryChange = (event: ChangeEvent) => {
     const c = { ...rootCategory };
     const target = event.target as HTMLInputElement;
@@ -40,8 +39,7 @@ const CategoryPage: NextPage = () => {
     setRootCategory(c);
   };
 
-  const [subCategories, setSubCategories] = useState<CategoryBase[]>(category?.subCategories);
-  // const [subCategories, setSubCategories] = useState<CategoryBase[]>([{ code: '', label: '', enable: true }]);
+  const [subCategories, setSubCategories] = useState<CategoryBase[]>(category?.subCategories ?? [{ code: '', label: '', enable: true }]);
 
   const onSubCategoryChange = (event: ChangeEvent, index?: number) => {
     if (index == null) {
@@ -81,8 +79,7 @@ const CategoryPage: NextPage = () => {
     setSubCategories(categories);
   };
 
-  const [columns, setColumns] = useState<ColumnDefinition<Details>[]>(category?.columns);
-  // const [columns, setColumns] = useState<ColumnDefinition<Details>[]>([]);
+  const [columns, setColumns] = useState<ColumnDefinition<Details>[]>(category?.columns ?? []);
 
   const onColumnChange = (event: ChangeEvent, index?: number) => {
     if (index == null) {

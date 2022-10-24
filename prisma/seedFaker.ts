@@ -1,9 +1,14 @@
-import { Equipment, PrismaClient } from '@prisma/client';
-import { Category } from '../src/models/category';
+import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 import { PcDetail } from '../src/models/equipmentDetails/pc';
 
 const prisma = new PrismaClient();
+
+const Category = {
+  PC_Desktop: 'PC-D',
+  PC_Notebook: 'PC-N',
+  PC_Tablet: 'PC-T',
+} as const;
 
 async function seedEquipments() {
   const categories = Object.values(Category);
