@@ -15,7 +15,7 @@ export type Category = CategoryBase & {
 
 export type CategoryBase = { code: string; label: string; enable: boolean };
 
-const hoge = {
+const category = {
   key: 'PC',
   label: 'パソコン',
   enable: true,
