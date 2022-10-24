@@ -10,7 +10,7 @@ export type CategoryCode = typeof Category[keyof typeof Category];
 
 export type Category = CategoryBase & {
   subCategories: CategoryBase[];
-  columns: ColumnDefinition<Record<string, any>>[];
+  columns: ColumnDefinition<Details>[];
 };
 
 export type CategoryBase = { code: string; label: string; enable: boolean };

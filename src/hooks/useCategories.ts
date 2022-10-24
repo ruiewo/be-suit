@@ -19,21 +19,33 @@ export function useCategories(categoryCode: string) {
   };
 }
 
-export function useCategory(categoryCode: string) {
+export function useCategory(categoryCode: string, callback: (category: Category) => void) {
   // todo use SearchParam
-  const { data: category, error, mutate: setCategory } = useSWRImmutable<Category, ApiError>(`${apiPath.getCategory}/${categoryCode}`, fetcher);
   // const {
   //   data: category,
   //   error,
   //   mutate: setCategory,
-  // } = useSWR<Category, ApiError>(`${apiPath.getCategory}/${categoryCode}`, fetcher, {
-  //   revalidateIfStale: false,
-  //   revalidateOnFocus: false,
-  //   revalidateOnReconnect: false,
-  //   // revalidateOnMount: true,
+  // } = useSWRImmutable<Category, ApiError>(`${apiPath.getCategory}/${categoryCode}`, fetcher, {
+  //   onSuccess(data, key, config) {
+  //     callback(data);
+  //   },
   // });
 
-  console.log('RENDER USE CATEGORY');
+  const {
+    data: category,
+    error,
+    mutate: setCategory,
+  } = useSWR<Category, ApiError>(`${apiPath.getCategory}/${categoryCode}`, fetcher, {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    // revalidateOnReconnect: false,
+    // revalidateOnMount: true,
+    refreshInterval: 0,
+    onSuccess(data, key, config) {
+      console.log('Category reloaded.');
+      callback(data);
+    },
+  });
 
   return {
     category,

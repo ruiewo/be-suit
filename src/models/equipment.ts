@@ -7,7 +7,7 @@ export type EquipmentWithUser = Equipment & {
   rentalUser: User | null;
 };
 
-type ValueType = 'string' | 'number' | 'date';
+export type ValueType = 'string' | 'number' | 'date';
 
 export type ColumnDefinition<T> = {
   key: keyof T;

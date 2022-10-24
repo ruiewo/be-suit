@@ -3,33 +3,23 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 import { CategoryInput } from '../../components/categoryInput';
-import { useCategories, useCategory } from '../../hooks/useCategories';
-import { Category, CategoryBase } from '../../models/category';
-import { ColumnDefinition, Details } from '../../models/equipment';
-
-const initRootCategory: CategoryBase = {
-  code: '',
-  label: '',
-  enable: true,
-};
-const iniSubCategories = [] as CategoryBase[];
-const initColumns = [] as ColumnDefinition<Record<string, any>>[];
+import { ColumnInput } from '../../components/columnInput';
+import { useCategory } from '../../hooks/useCategories';
+import { CategoryBase } from '../../models/category';
+import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
 
 const CategoryPage: NextPage = () => {
   const router = useRouter();
   const { categoryCode } = router.query;
 
-  const { category, setCategory, isLoading, isError } = useCategory(categoryCode as string);
+  const { category, setCategory, isLoading, isError } = useCategory(categoryCode as string, c => {
+    setRootCategory(c);
+    setSubCategories(c.subCategories);
+    setColumns(c.columns);
+  });
 
-  // const [rootCategory, setRootCategory] = useState(initRootCategory);
-  // const [subCategories, setSubCategories] = useState(iniSubCategories);
-  // const [columns, setColumns] = useState(initColumns);
-
-  // const [rootCategory, setRootCategory] = useState(category == null ? initRootCategory : category);
-  // const [subCategories, setSubCategories] = useState(category == null ? iniSubCategories : category.subCategories);
-  // const [columns, setColumns] = useState(category == null ? initColumns : category.columns);
-
-  const [rootCategory, setRootCategory] = useState(initRootCategory);
+  const [rootCategory, setRootCategory] = useState(category);
+  // const [rootCategory, setRootCategory] = useState({ code: '', label: '', enable: true });
   const onCategoryChange = (event: ChangeEvent) => {
     const c = { ...rootCategory };
     const target = event.target as HTMLInputElement;
@@ -50,7 +40,8 @@ const CategoryPage: NextPage = () => {
     setRootCategory(c);
   };
 
-  const [subCategories, setSubCategories] = useState<CategoryBase[]>([{ code: '', label: '', enable: true }]);
+  const [subCategories, setSubCategories] = useState<CategoryBase[]>(category?.subCategories);
+  // const [subCategories, setSubCategories] = useState<CategoryBase[]>([{ code: '', label: '', enable: true }]);
 
   const onSubCategoryChange = (event: ChangeEvent, index?: number) => {
     if (index == null) {
@@ -60,26 +51,24 @@ const CategoryPage: NextPage = () => {
     const categories = [...subCategories];
     const c = categories[index];
     const target = event.target as HTMLInputElement;
+    const newSubCategory = { ...c };
     switch (target.name) {
       case 'code':
-        c.code = target.value;
+        newSubCategory.code = target.value;
         break;
       case 'label':
-        c.label = target.value;
+        newSubCategory.label = target.value;
         break;
       case 'enable':
-        c.enable = target.checked;
+        newSubCategory.enable = target.checked;
         break;
       default:
         return;
     }
 
-    setSubCategories(categories);
-  };
+    categories.splice(index, 1, newSubCategory);
 
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(subCategories);
+    setSubCategories(categories);
   };
 
   const addSubCategory = () => {
@@ -92,47 +81,65 @@ const CategoryPage: NextPage = () => {
     setSubCategories(categories);
   };
 
+  const [columns, setColumns] = useState<ColumnDefinition<Details>[]>(category?.columns);
+  // const [columns, setColumns] = useState<ColumnDefinition<Details>[]>([]);
+
+  const onColumnChange = (event: ChangeEvent, index?: number) => {
+    if (index == null) {
+      return;
+    }
+
+    const newColumns = [...columns];
+    const c = newColumns[index];
+    const target = event.target as HTMLInputElement;
+    const newColumn = { ...c };
+    switch (target.name) {
+      case 'key':
+        newColumn.key = target.value;
+        break;
+      case 'type':
+        newColumn.type = target.value as ValueType;
+        break;
+      case 'label':
+        newColumn.label = target.value;
+        break;
+      case 'width':
+        newColumn.width = Number(target.value);
+        break;
+      default:
+        return;
+    }
+
+    newColumns.splice(index, 1, newColumn);
+    setColumns(newColumns);
+  };
+
+  const addColumn = () => {
+    setColumns([...columns, { key: 'key', type: 'string', label: 'label', width: 120 }]);
+  };
+
+  const removeColumn = (index: number) => {
+    const newColumns = [...columns];
+    newColumns.splice(index, 1);
+    setColumns(newColumns);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(rootCategory);
+  };
+
   if (isError) return <div>Failed to load</div>;
 
   if (isLoading) return <div>Loading...</div>;
 
-  if (category == null) return <div>Category not found.</div>;
-
-  // if (category != rootCategory) {
-  //   setRootCategory(category);
-  //   setSubCategories(category.subCategories);
-  //   setColumns(category.columns);
-  // }
-  // setSubCategories(category.subCategories);
-  // setColumns(category.columns);
-
-  const handleSubmit = async () => {};
-
-  // const update = () => setCategory({ ...category }, false);
-
-  const updateRootCategory = (oldCategory: CategoryBase, newCategory: CategoryBase) => {
-    // todo refactor as cast.
-    // setRootCategory({ ...newCategory } as Category);
-  };
-  const updateSubCategory = (oldCategory: CategoryBase, newCategory: CategoryBase) => {
-    const newCategories = subCategories.map(element => (element === oldCategory ? newCategory : oldCategory));
-    // setSubCategories(newCategories);
-  };
-
-  const ColumnInput = (column: Details) => (
-    <>
-      <TextField margin="normal" sx={{ width: '20%', ml: '2%', mr: '2%' }} label="key" name="key" defaultValue={column.key} />
-      <TextField margin="normal" sx={{ width: '20%', ml: '2%', mr: '2%' }} label="type" name="type" defaultValue={column.type} />
-      <TextField margin="normal" sx={{ width: '20%', ml: '2%', mr: '2%' }} label="label" name="label" defaultValue={column.label} />
-      <TextField margin="normal" sx={{ width: '20%', ml: '2%', mr: '2%' }} label="width" name="width" defaultValue={column.width} />
-    </>
-  );
+  if (rootCategory == null) return <div>Category not found.</div>;
 
   return (
     <Box>
       <Box id="categoryForm" component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <Typography component="h1" variant="h4" sx={{ textAlign: 'center' }}>
-          Category: {category.code}
+          Category: {rootCategory.code}
         </Typography>
         <CategoryInput category={rootCategory} onChange={onCategoryChange}></CategoryInput>
 
@@ -148,11 +155,19 @@ const CategoryPage: NextPage = () => {
             ADD
           </Button>
         </Box>
+
         <hr />
         <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
           Column
         </Typography>
-        {category.columns.map(ColumnInput)}
+        {columns.map((column, index) => (
+          <ColumnInput key={index} index={index} column={column} onChange={onColumnChange} remove={removeColumn}></ColumnInput>
+        ))}
+        <Box sx={{ textAlign: 'center' }}>
+          <Button type="button" onClick={addColumn}>
+            ADD
+          </Button>
+        </Box>
       </Box>
     </Box>
   );
