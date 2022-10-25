@@ -7,13 +7,15 @@ const EquipmentsPage: NextPage = () => {
   const router = useRouter();
   const { category, subCategory } = router.query;
 
-  const { equipments, isLoading, isError } = useEquipments(category as string, subCategory as string);
+  const { equipments, columns, isLoading, isError } = useEquipments(category as string, subCategory as string);
 
   if (isError) return <div>Failed to load</div>;
 
   if (isLoading) return <div>Loading...</div>;
 
-  return <EquipmentsTable equipments={equipments} />;
+  if (equipments == null || columns == null) return <div>Failed to load</div>;
+
+  return <EquipmentsTable equipments={equipments} columns={columns} />;
 };
 
 export default EquipmentsPage;

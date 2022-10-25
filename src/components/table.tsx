@@ -10,7 +10,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import { equipmentBaseColumn, EquipmentWithUser, convertToDisplay } from '../models/equipment';
+import { equipmentBaseColumn, EquipmentWithUser, convertToDisplay, ColumnDefinition, Details } from '../models/equipment';
 import { pcColumn } from '../models/equipmentDetails/pc';
 import EquipmentDialog from './equipmentDialog';
 
@@ -34,9 +34,14 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function EquipmentsTable({ equipments }: { equipments: EquipmentWithUser[] }) {
+type Props = {
+  equipments: EquipmentWithUser[];
+  columns: ColumnDefinition<Details>[];
+};
+
+export default function EquipmentsTable({ equipments, columns }: Props) {
   const baseColumn = [...equipmentBaseColumn];
-  const optionColumn = [...pcColumn];
+  const optionColumn = [...columns];
 
   const [contextMenu, setContextMenu] = useState<{ mouseX: number; mouseY: number } | null>(null);
   const handleContextMenu = (e: React.MouseEvent) => {
