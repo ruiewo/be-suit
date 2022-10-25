@@ -1,11 +1,9 @@
-import NextAuth, { Session, User } from 'next-auth';
+import NextAuth, { NextAuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '../../../modules/db';
-import { AdapterUser } from 'next-auth/adapters';
-import { JWT } from 'next-auth/jwt';
 
-export const authOptions = {
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
 
   pages: {
@@ -27,8 +25,8 @@ export const authOptions = {
   callbacks: {
     // async signIn({ user, account, profile, email, credentials }) { return true },
     // async redirect({ url, baseUrl }) { return baseUrl },
-    async session({ session, token, user }: { session: Session; user: User | AdapterUser; token: JWT }) {
-      // @ts-ignore
+    // async session({ session, token, user }: { session: Session; user: User | AdapterUser; token: JWT }) {},
+    async session({ session, user }) {
       session.user.role = user.role;
       return session;
     },
