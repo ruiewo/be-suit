@@ -5,8 +5,10 @@ import { ChangeEvent, useState } from 'react';
 import { CategoryInput } from '../../components/categoryInput';
 import { ColumnInput } from '../../components/columnInput';
 import { useCategory } from '../../hooks/useCategories';
-import { CategoryBase } from '../../models/category';
+import { api } from '../../models/api';
+import { Category, CategoryBase } from '../../models/category';
 import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
+import { apiPath } from '../../models/path';
 
 const CategoryPage: NextPage = () => {
   const router = useRouter();
@@ -126,6 +128,11 @@ const CategoryPage: NextPage = () => {
     console.log(rootCategory);
   };
 
+  const update = () => {
+    const newCategory: Category = { ...rootCategory, subCategories, columns };
+    api.post<{ category: Category }>(apiPath.updateCategory, { category: newCategory });
+  };
+
   if (isError) return <div>Failed to load</div>;
 
   if (isLoading) return <div>Loading...</div>;
@@ -134,7 +141,7 @@ const CategoryPage: NextPage = () => {
 
   return (
     <Box>
-      <Box id="categoryForm" component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <Typography component="h1" variant="h4" sx={{ textAlign: 'center' }}>
           Category: {rootCategory.code}
         </Typography>
@@ -163,6 +170,23 @@ const CategoryPage: NextPage = () => {
         <Box sx={{ textAlign: 'center' }}>
           <Button type="button" onClick={addColumn}>
             ADD
+          </Button>
+        </Box>
+        <hr />
+        <Box sx={{ textAlign: 'center' }}>
+          <Button
+            disabled={false}
+            variant="contained"
+            color="secondary"
+            sx={{ width: 200 }}
+            onClick={() => {
+              // onClose();
+            }}
+          >
+            キャンセル
+          </Button>
+          <Button disabled={false} variant="contained" color="primary" sx={{ width: 200 }} onClick={update}>
+            確定
           </Button>
         </Box>
       </Box>

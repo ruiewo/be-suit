@@ -11,6 +11,7 @@ export const apiPath = {
   //   index: '/index',
   //   singIn: '/signIn',
   getCategory: `/api/category`,
+  updateCategory: `/api/category/update`,
   getCategories: `/api/categories`,
   getEquipments: `/api/equipments`,
   updateEquipment: `/api/equipment/update`,
