@@ -20,12 +20,16 @@ async function readCsv(path: string) {
     fs.createReadStream(path)
       .pipe(parse({ delimiter: ',' }))
       .on('data', function (row) {
-        const CateWithNum = row[0] as string;
-        const lastIndexOf = CateWithNum.lastIndexOf('-');
+        const CategoryWithNum = row[0] as string;
+        const arr = CategoryWithNum.split('-');
+        const category = arr[0];
+        const subCategory = arr.length == 3 ? arr[1] : '';
+        const categorySerial = arr.length == 3 ? arr[2] : arr[1];
 
         const equipment = {
-          category: CateWithNum.substring(0, lastIndexOf),
-          serialNumber: parseInt(CateWithNum.substring(lastIndexOf + 1)),
+          category: category,
+          subCategory: subCategory,
+          categorySerial: parseInt(categorySerial),
           // pcName: row[1] as string,
           maker: row[2] as string,
           modelNumber: row[3] as string,

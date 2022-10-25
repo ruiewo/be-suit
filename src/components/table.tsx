@@ -11,7 +11,6 @@ import Paper from '@mui/material/Paper';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { equipmentBaseColumn, EquipmentWithUser, convertToDisplay, ColumnDefinition, Details } from '../models/equipment';
-import { pcColumn } from '../models/equipmentDetails/pc';
 import EquipmentDialog from './equipmentDialog';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

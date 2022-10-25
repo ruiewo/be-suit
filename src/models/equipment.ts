@@ -19,7 +19,8 @@ export type ColumnDefinition<T> = {
 export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'id', type: 'number', label: 'ID', width: 40 },
   { key: 'category', type: 'string', label: '管理番号', width: 100 },
-  { key: 'serialNumber', type: 'number', label: '管理番号', width: 100 },
+  { key: 'subCategory', type: 'string', label: '管理番号', width: 100 },
+  { key: 'categorySerial', type: 'number', label: '管理番号', width: 100 },
   { key: 'maker', type: 'string', label: 'メーカー', width: 120 },
   { key: 'modelNumber', type: 'string', label: '型番', width: 120 },
   { key: 'group', type: 'string', label: '管理者', width: 120 },
@@ -68,5 +69,5 @@ export function convertToValue(value: FormDataEntryValue | null, type: ValueType
 }
 
 export function getEquipmentCode(e: Equipment) {
-  return e.category + '-' + e.serialNumber.toString().padStart(5, '0');
+  return e.category + '-' + e.subCategory + '-' + e.categorySerial.toString().padStart(5, '0');
 }

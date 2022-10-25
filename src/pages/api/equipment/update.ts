@@ -36,7 +36,8 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       data: {
         id: equipment.id,
         category: equipment.category,
-        serialNumber: equipment.serialNumber,
+        subCategory: equipment.subCategory,
+        categorySerial: equipment.categorySerial,
         maker: equipment.maker,
         modelNumber: equipment.modelNumber,
         // details: Prisma.JsonNull,

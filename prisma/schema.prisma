@@ -31,10 +31,11 @@ enum Role {
 // PC名、メーカー、型番、製品名、付属品、
 
 model Equipment {
-  id           Int    @id @default(autoincrement())
+  id             Int    @id @default(autoincrement())
   // 管理番号
-  category     String // PC-Dの部分 {mainCategory}-{subCategory}
-  serialNumber Int // 種別ごとの連番（PC-D以後の連番部分）
+  category       String // PC-DのPC部分 {mainCategory}-{subCategory}
+  subCategory    String // PC-DのD部分 {mainCategory}-{subCategory}
+  categorySerial Int // 種別ごとの連番（PC-D以後の連番部分）
 
   maker       String // メーカー
   modelNumber String // 型番

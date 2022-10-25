@@ -32,7 +32,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
         rentalUser: true,
       },
       where: {
-        category: `${cat.toUpperCase()}-${sub.toUpperCase()}`,
+        category: cat.toUpperCase(),
+        subCategory: sub.toUpperCase(),
       },
       orderBy: [
         {

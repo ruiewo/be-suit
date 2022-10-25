@@ -33,3 +33,19 @@ const hoge2 = {
     { key: 'pcName', type: 'string', label: 'PC名', width: 120 },
   ],
 };
+const hoge = {
+  pc: { label: 'パソコン', sub: [] },
+  monitor: { label: 'モニタ', sub: [] },
+  printer: { label: 'プリンタ', sub: [] },
+  drive: { label: 'ドライブ', sub: ['dvd drive', 'blu-ray drive'] },
+  storage: { label: 'ストレージ', sub: ['nas', 'portable hdd', 'usb memory'] },
+  network: { label: 'ネットワーク機器', sub: ['router', 'Switching Hub'] },
+  other: { label: 'その他', sub: ['ups', 'speaker'] },
+  parts: { label: 'PCパーツ', sub: ['', ''] },
+  cable: { label: '変換ケーブル？？？', sub: ['', ''] },
+  devices: { label: '周辺機器', sub: ['head set', 'web camera'] },
+  chair: { label: '椅子', sub: [] },
+  desk: { label: '机', sub: [] },
+  shelf: { label: '棚・ロッカー', sub: [] },
+  oa: { label: 'OA機器', sub: [] },
+};

@@ -29,7 +29,7 @@ async function seedEquipments() {
     };
     data.push({
       category: getCategory(),
-      serialNumber: i,
+      categorySerial: i,
       maker: faker.company.name(),
       modelNumber: faker.phone.imei(),
       group: '',
