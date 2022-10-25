@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from './auth/[...nextauth]';
 import { ColumnDefinition, Details, EquipmentWithUser } from '../../models/equipment';
 import { prisma } from '../../modules/db';
 import { isNullOrWhiteSpace } from '../../modules/util';
+import { validate } from '../../models/apiHelper';
+import { http } from '../../models/const/httpMethod';
 
 export type EquipmentSearchResult = {
   equipments: EquipmentWithUser[];
@@ -13,9 +13,8 @@ export type EquipmentSearchResult = {
 type SearchQuery = { cat: string; sub: string };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<EquipmentSearchResult>) {
-  const session = await unstable_getServerSession(req, res, authOptions);
-  if (!session) {
-    res.send({ equipments: [], columns: [] });
+  const { isValid } = await validate(req, res, { httpMethods: [http.GET], authorize: false });
+  if (!isValid) {
     return;
   }
 

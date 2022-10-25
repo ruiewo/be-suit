@@ -15,7 +15,7 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import { useRouter } from 'next/router';
-import { page } from '../models/path';
+import { page } from '../models/const/path';
 import Icon from '@mui/material/Icon';
 import Image from 'next/image';
 

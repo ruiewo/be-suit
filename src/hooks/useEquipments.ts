@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import { ApiError } from '../models/api';
-import { apiPath } from '../models/path';
+import { apiPath } from '../models/const/path';
 import { EquipmentSearchResult } from '../pages/api/equipments';
 
 // @ts-ignore

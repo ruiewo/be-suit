@@ -1,7 +1,7 @@
 import useSWR from 'swr';
 import { ApiError } from '../models/api';
 import { Category } from '../models/category';
-import { apiPath } from '../models/path';
+import { apiPath } from '../models/const/path';
 
 // @ts-ignore
 const fetcher = (...args) => fetch(...args).then(res => res.json());

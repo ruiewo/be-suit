@@ -18,7 +18,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<Data>) {
   const session = await unstable_getServerSession(req, res, authOptions);
   if (!session) {
-    res.status(403).json({ error: 'not authorized.' });
+    res.status(403).json({ error: 'forbidden.' });
 
     return;
   }

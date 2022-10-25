@@ -1,5 +1,5 @@
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { page } from '../models/path';
+import { page } from '../models/const/path';
 
 export default function LoginButton() {
   const { data: session } = useSession();

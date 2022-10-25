@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import HomeIcon from '@mui/icons-material/Home';
 import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
-import { page } from '../models/path';
+import { page } from '../models/const/path';
 
 export default function SignInButton() {
   const { data: session } = useSession();

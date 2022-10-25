@@ -8,7 +8,7 @@ import { useCategory } from '../../hooks/useCategories';
 import { api } from '../../models/api';
 import { Category, CategoryBase } from '../../models/category';
 import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
-import { apiPath } from '../../models/path';
+import { apiPath } from '../../models/const/path';
 
 const CategoryPage: NextPage = () => {
   const router = useRouter();

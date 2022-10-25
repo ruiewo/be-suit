@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { ColumnDefinition, convertToDisplay, convertToValue, Details, equipmentBaseColumn, EquipmentWithUser } from '../models/equipment';
 import { Equipment, Prisma } from '@prisma/client';
-import { apiPath } from '../models/path';
+import { apiPath } from '../models/const/path';
 import { api } from '../models/api';
 
 type Props = {

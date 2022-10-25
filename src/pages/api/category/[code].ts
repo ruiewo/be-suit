@@ -4,14 +4,14 @@ import { Category } from '@prisma/client';
 import { authOptions } from '../auth/[...nextauth]';
 import { isNullOrWhiteSpace } from '../../../modules/util';
 import { prisma } from '../../../modules/db';
-import { notFound } from '../../../models/apiHelper';
+import { notFound, unauthorized } from '../../../models/apiHelper';
 
 type SearchQuery = { code?: string };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Category>) {
   const session = await unstable_getServerSession(req, res, authOptions);
   if (!session) {
-    res.status(401);
+    unauthorized(res);
     return;
   }
 
