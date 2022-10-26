@@ -1,8 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from '../auth/[...nextauth]';
 import { prisma } from '../../../modules/db';
 import { Equipment, Prisma } from '@prisma/client';
+import { validate } from '../../../models/apiHelper';
+import { http } from '../../../models/const/httpMethod';
+import { role } from '../../../models/const/role';
 
 type Data = {
   equipment?: Equipment;
@@ -16,12 +17,12 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 }
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<Data>) {
-  const session = await unstable_getServerSession(req, res, authOptions);
-  if (!session) {
-    res.status(403).json({ error: 'forbidden.' });
-
+  // todo change roles.
+  const { isValid } = await validate(req, res, { httpMethods: [http.POST], roles: [role.user, role.admin] });
+  if (!isValid) {
     return;
   }
+
   const equipment = req.body.equipment;
   const { id, ...updateEq } = req.body.equipment;
 

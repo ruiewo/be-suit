@@ -25,16 +25,6 @@ export function methodNotAllowed(res: NextApiResponse) {
   res.status(405).send({ statusCode: 405, errors: [{ code: '', message: 'method not allowed.' }] });
 }
 
-export async function requireAuthentication(req: NextApiRequest, res: NextApiResponse, callback: (session: Session) => void) {
-  const session = await unstable_getServerSession(req, res, authOptions);
-  if (!session) {
-    unauthorized(res);
-    return;
-  }
-
-  callback(session);
-}
-
 type ValidateOption = {
   httpMethods?: HttpMethod[];
   authorize?: boolean;
