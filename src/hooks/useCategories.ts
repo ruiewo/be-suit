@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+
 import { ApiError } from '../models/api';
 import { Category } from '../models/category';
 import { apiPath } from '../models/const/path';
@@ -8,7 +9,7 @@ const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 export function useCategories(categoryCode: string) {
   // todo use SearchParam
-  const { data, error, mutate: setCategories } = useSWR<any, ApiError>(`${apiPath.getCategories}?code=${categoryCode}`, fetcher);
+  const { data, error, mutate: setCategories } = useSWR<any, ApiError>(`${apiPath.category.search}?code=${categoryCode}`, fetcher);
 
   return {
     categories: data?.categories as Category[] | undefined,
@@ -23,7 +24,7 @@ export function useCategory(categoryCode: string, callback: (category: Category)
     data: category,
     error,
     mutate: setCategory,
-  } = useSWR<Category, ApiError>(`${apiPath.getCategory}/${categoryCode}`, fetcher, {
+  } = useSWR<Category, ApiError>(`${apiPath.category.get}/${categoryCode}`, fetcher, {
     revalidateIfStale: false,
     revalidateOnFocus: false,
     // revalidateOnReconnect: false,

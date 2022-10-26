@@ -1,16 +1,18 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { styled } from '@mui/material/styles';
+
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
-import { equipmentBaseColumn, EquipmentWithUser, convertToDisplay, ColumnDefinition, Details } from '../models/equipment';
+import { styled } from '@mui/material/styles';
+
+import { ColumnDefinition, Details, EquipmentWithUser, convertToDisplay, equipmentBaseColumn } from '../models/equipment';
 import EquipmentDialog from './equipmentDialog';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

@@ -1,17 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { unstable_getServerSession } from 'next-auth/next';
+
 import { Category } from '@prisma/client';
-import { authOptions } from '../auth/[...nextauth]';
-import { isNullOrWhiteSpace } from '../../../modules/util';
+
+import { notFound, validate } from '../../../models/apiHelper';
+import { http } from '../../../models/const/httpMethod';
 import { prisma } from '../../../modules/db';
-import { notFound, unauthorized } from '../../../models/apiHelper';
+import { isNullOrWhiteSpace } from '../../../modules/util';
 
 type SearchQuery = { code?: string };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse<Category>) {
-  const session = await unstable_getServerSession(req, res, authOptions);
-  if (!session) {
-    unauthorized(res);
+  const { isValid } = await validate(req, res, { httpMethods: [http.GET], authorize: true });
+  if (!isValid) {
     return;
   }
 

@@ -1,8 +1,10 @@
+import { signIn, signOut, useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+
+import HomeIcon from '@mui/icons-material/Home';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import HomeIcon from '@mui/icons-material/Home';
-import { useSession, signIn, signOut } from 'next-auth/react';
-import { useRouter } from 'next/router';
+
 import { page } from '../models/const/path';
 
 export default function SignInButton() {

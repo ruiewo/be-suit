@@ -1,11 +1,13 @@
 import Head from 'next/head';
-import styles from '../../styles/Home.module.css';
+
 import { Box, Grid } from '@mui/material';
+
 import PcTag from '../../components/pcTag';
 import { useEquipments } from '../../hooks/useEquipments';
 import { getEquipmentCode } from '../../models/equipment';
-import { NextPageWithLayout } from '../_app';
 import { PcDetail } from '../../models/equipmentDetails/pc';
+import styles from '../../styles/Home.module.css';
+import { NextPageWithLayout } from '../_app';
 
 const QrCodePage: NextPageWithLayout = () => {
   const { equipments, isLoading, isError } = useEquipments('PC', 'D');
@@ -13,6 +15,8 @@ const QrCodePage: NextPageWithLayout = () => {
   if (isError) return <div>Failed to load</div>;
 
   if (isLoading) return <div>Loading...</div>;
+
+  if (!equipments) return <div>Failed to load</div>;
 
   return (
     <div className={styles.container}>

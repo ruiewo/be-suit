@@ -1,4 +1,5 @@
 import { Equipment, User } from '@prisma/client';
+
 import { DateEx, isDate } from '../modules/util';
 
 export type Details = Record<string, string | number | Date | null>;

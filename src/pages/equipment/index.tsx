@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+
 import EquipmentsTable from '../../components/table';
 import { useEquipments } from '../../hooks/useEquipments';
 

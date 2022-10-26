@@ -1,9 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { unstable_getServerSession } from 'next-auth/next';
-import { authOptions } from './auth/[...nextauth]';
-import { prisma } from '../../modules/db';
-import { isNullOrWhiteSpace } from '../../modules/util';
+
 import { Category } from '@prisma/client';
+
+import { prisma } from '../../../modules/db';
+import { isNullOrWhiteSpace } from '../../../modules/util';
+import { authOptions } from '../auth/[...nextauth]';
 
 type Data = {
   categories: Category[];

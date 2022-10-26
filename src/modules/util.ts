@@ -22,21 +22,21 @@ export class DateEx extends Date {
   toDateTimeString() {
     // returns 'yyyy-mm-dd hh:mm:ss'
     const offset = this.getTimezoneOffset() * 60 * 1000;
-    const localDatetime = new Date(this.getTime() - offset);
-    let datetimeString = localDatetime.toISOString();
-    datetimeString = datetimeString.slice(0, 19);
-    datetimeString = datetimeString.replace('T', ' ');
-    return datetimeString;
+    const localDateTime = new Date(this.getTime() - offset);
+    let dateTimeString = localDateTime.toISOString();
+    dateTimeString = dateTimeString.slice(0, 19);
+    dateTimeString = dateTimeString.replace('T', ' ');
+    return dateTimeString;
   }
 
   toTimeString() {
     // returns 'hh:mm'
     const offset = this.getTimezoneOffset() * 60 * 1000;
-    const localDatetime = new Date(this.getTime() - offset);
-    let datetimeString = localDatetime.toISOString();
-    datetimeString = datetimeString.slice(11, 16);
-    datetimeString = datetimeString.replace('T', ' ');
-    return datetimeString;
+    const localDateTime = new Date(this.getTime() - offset);
+    let dateTimeString = localDateTime.toISOString();
+    dateTimeString = dateTimeString.slice(11, 16);
+    dateTimeString = dateTimeString.replace('T', ' ');
+    return dateTimeString;
   }
 
   addMonths(months: number) {
@@ -62,14 +62,14 @@ export class DateEx extends Date {
 
   toLocalISOString() {
     const offset = this.getTimezoneOffset() * 60 * 1000;
-    const localDatetime = new Date(this.getTime() - offset);
-    let datetimeString = localDatetime.toISOString();
-    datetimeString = datetimeString.replace('Z', '');
+    const localDateTime = new Date(this.getTime() - offset);
+    let dateTimeString = localDateTime.toISOString();
+    dateTimeString = dateTimeString.replace('Z', '');
     const sign = this.getTimezoneOffset() < 0 ? '-' : '+';
     const absOffset = Math.abs(this.getTimezoneOffset());
     const offsetHH = (absOffset / 60).toString().padStart(2, '0');
     const offsetMM = (absOffset % 60).toString().padStart(2, '0');
-    datetimeString += sign + offsetHH + ':' + offsetMM;
-    return datetimeString;
+    dateTimeString += sign + offsetHH + ':' + offsetMM;
+    return dateTimeString;
   }
 }

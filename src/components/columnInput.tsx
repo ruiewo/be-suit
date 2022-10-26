@@ -1,5 +1,7 @@
-import { Box, Button, TextField } from '@mui/material';
 import { ChangeEvent } from 'react';
+
+import { Box, Button, TextField } from '@mui/material';
+
 import { ColumnDefinition, Details } from '../models/equipment';
 import { DeleteButton } from './deleteButton';
 

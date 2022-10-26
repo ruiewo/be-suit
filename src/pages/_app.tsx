@@ -1,10 +1,11 @@
-import '../styles/globals.css';
-import type { ReactElement, ReactNode } from 'react';
 import type { NextPage } from 'next';
-import type { AppProps } from 'next/app';
-import { SessionProvider, useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { SessionProvider, useSession } from 'next-auth/react';
+import type { AppProps } from 'next/app';
+import type { ReactElement, ReactNode } from 'react';
+
 import Layout from '../components/layout';
+import '../styles/globals.css';
 
 type GetLayout = (page: ReactElement) => ReactNode;
 export type NextPageWithLayout = NextPage & {

@@ -1,4 +1,5 @@
 import Head from 'next/head';
+
 import Login from '../../components/login';
 import LoginButton from '../../components/loginButton';
 import styles from '../../styles/Home.module.css';

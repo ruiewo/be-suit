@@ -8,11 +8,14 @@ export const page = {
 } as const;
 
 export const apiPath = {
-  //   index: '/index',
-  //   singIn: '/signIn',
-  getCategory: `/api/category`,
-  updateCategory: `/api/category/update`,
-  getCategories: `/api/categories`,
-  getEquipments: `/api/equipments`,
-  updateEquipment: `/api/equipment/update`,
+  category: {
+    get: `/api/category`,
+    update: `/api/category/update`,
+    search: `/api/search/categories`,
+  } as const,
+
+  equipment: {
+    update: `/api/equipment/update`,
+    search: `/api/search/equipments`,
+  } as const,
 } as const;

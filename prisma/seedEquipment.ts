@@ -1,5 +1,6 @@
-import * as fs from 'fs';
 import { parse } from 'csv-parse';
+import * as fs from 'fs';
+
 import { Prisma, PrismaClient } from '@prisma/client';
 
 export async function seedEquipments(prisma: PrismaClient, path: string) {

@@ -1,9 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '../../../modules/db';
+
 import { Equipment, Prisma } from '@prisma/client';
+
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
 import { role } from '../../../models/const/role';
+import { prisma } from '../../../modules/db';
 
 type Data = {
   equipment?: Equipment;
@@ -61,5 +63,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     res.status(200).json({ equipment: updatedEq });
   } catch (error) {
     console.error(error);
+    res.status(500);
   }
 }

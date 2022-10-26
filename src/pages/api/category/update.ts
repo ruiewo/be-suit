@@ -1,9 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '../../../modules/db';
-import { Category } from '../../../models/category';
+
 import { validate } from '../../../models/apiHelper';
+import { Category } from '../../../models/category';
 import { http } from '../../../models/const/httpMethod';
 import { role } from '../../../models/const/role';
+import { prisma } from '../../../modules/db';
 
 type Data = {
   category?: Category;
@@ -43,5 +44,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     res.status(200).json({ category: updatedCategory as Category });
   } catch (error) {
     console.error(error);
+    res.status(500);
   }
 }

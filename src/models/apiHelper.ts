@@ -1,6 +1,8 @@
-import { Role } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { Session, unstable_getServerSession } from 'next-auth';
+
+import { Role } from '@prisma/client';
+
 import { authOptions } from '../pages/api/auth/[...nextauth]';
 import { HttpMethod } from './const/httpMethod';
 

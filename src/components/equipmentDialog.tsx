@@ -1,11 +1,13 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
-import { ColumnDefinition, convertToDisplay, convertToValue, Details, equipmentBaseColumn, EquipmentWithUser } from '../models/equipment';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { Equipment, Prisma } from '@prisma/client';
-import { apiPath } from '../models/const/path';
+
 import { api } from '../models/api';
+import { apiPath } from '../models/const/path';
+import { ColumnDefinition, Details, EquipmentWithUser, convertToDisplay, convertToValue, equipmentBaseColumn } from '../models/equipment';
 
 type Props = {
   open: boolean;
@@ -33,7 +35,7 @@ export default function EquipmentDialog({ open, onClose, equipment, optionColumn
     });
     equipmentData.details = details as Prisma.JsonValue; // todo refactor as cast.
 
-    api.post<{ equipment: Equipment }>(apiPath.updateEquipment, { equipment: equipmentData });
+    api.post<{ equipment: Equipment }>(apiPath.equipment.update, { equipment: equipmentData });
   };
 
   if (equipment == null) {

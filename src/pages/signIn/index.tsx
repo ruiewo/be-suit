@@ -1,13 +1,15 @@
+import Head from 'next/head';
+import Image from 'next/image';
+
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
 import Icon from '@mui/material/Icon';
-import Head from 'next/head';
+
 import { Copyright } from '../../components/copyright';
 import SignInButton from '../../components/signInButton';
 import styles from '../../styles/Home.module.css';
 import { NextPageWithLayout } from '../_app';
-import Image from 'next/image';
 
 const SignInPage: NextPageWithLayout = () => {
   return (

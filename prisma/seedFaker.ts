@@ -1,13 +1,14 @@
-import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
+import { PrismaClient } from '@prisma/client';
+
 import { PcDetail } from '../src/models/equipmentDetails/pc';
 
 const prisma = new PrismaClient();
 
 const Category = {
-  PC_Desktop: 'PC-D',
-  PC_Notebook: 'PC-N',
-  PC_Tablet: 'PC-T',
+  PC_Desktop: ['PC', 'D'],
+  PC_Notebook: ['PC', 'N'],
+  PC_Tablet: ['PC', 'T'],
 } as const;
 
 async function seedEquipments() {
@@ -27,8 +28,10 @@ async function seedEquipments() {
       ram: `${faker.random.numeric()}GB`,
       pcName: faker.internet.userName(),
     };
+    const category = getCategory();
     data.push({
-      category: getCategory(),
+      category: category[0],
+      subCategory: category[1],
       categorySerial: i,
       maker: faker.company.name(),
       modelNumber: faker.phone.imei(),

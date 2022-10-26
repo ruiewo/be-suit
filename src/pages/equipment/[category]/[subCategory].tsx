@@ -1,7 +1,8 @@
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
+
 import EquipmentsTable from '../../../components/table';
 import { useEquipments } from '../../../hooks/useEquipments';
-import { useRouter } from 'next/router';
 
 const EquipmentsPage: NextPage = () => {
   const router = useRouter();

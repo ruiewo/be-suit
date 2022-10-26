@@ -1,5 +1,7 @@
 import { ChangeEvent } from 'react';
+
 import { Box, Checkbox, FormControlLabel, TextField } from '@mui/material';
+
 import { CategoryBase } from '../models/category';
 import { DeleteButton } from './deleteButton';
 

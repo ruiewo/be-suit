@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import { ReactElement } from 'react';
-import NavBar from './navBar';
+
 import styles from '../styles/Home.module.css';
+import NavBar from './navBar';
 
 type LayoutProps = Required<{
   readonly children: ReactElement;
