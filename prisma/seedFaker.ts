@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 import { PrismaClient } from '@prisma/client';
 
 import { PcDetail } from '../src/models/equipmentDetails/pc';
+import { seedCategory } from './seedCategory';
 
 const prisma = new PrismaClient();
 
@@ -11,7 +12,7 @@ const Category = {
   PC_Tablet: ['PC', 'T'],
 } as const;
 
-async function seedEquipments() {
+async function seedEquipments(prisma: PrismaClient) {
   const categories = Object.values(Category);
   const categoryCount = categories.length;
 
@@ -47,12 +48,17 @@ async function seedEquipments() {
 }
 
 // EXECUTE
-seedEquipments()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async e => {
-    console.error(e);
+
+async function seed() {
+  try {
+    await seedCategory(prisma);
+    await seedEquipments(prisma);
+  } catch (error) {
+    console.error(error);
+  } finally {
     await prisma.$disconnect();
     process.exit(1);
-  });
+  }
+}
+
+seed();

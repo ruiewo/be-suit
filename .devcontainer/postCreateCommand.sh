@@ -1,4 +1,5 @@
 #!/bin/bash
 
 npm install
-npx prisma migrate dev --name init
+npx prisma db push
+npx ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seedFaker.ts
