@@ -57,7 +57,7 @@ async function seed() {
     console.error(error);
   } finally {
     await prisma.$disconnect();
-    process.exit(1);
+    // process.exit(1);
   }
 }
 

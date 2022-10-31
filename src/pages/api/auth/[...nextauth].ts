@@ -10,8 +10,8 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
 
   pages: {
-    // signIn: '/signIn',
-    // signOut: '/signIn',
+    signIn: '/signIn',
+    signOut: '/signIn',
     // signIn: '/auth/signin',
     // signOut: '/auth/signout',
     // error: '/auth/error', // Error code passed in query string as ?error=
