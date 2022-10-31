@@ -1,4 +1,5 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
+import AzureADProvider from 'next-auth/providers/azure-ad';
 import GithubProvider from 'next-auth/providers/github';
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
@@ -9,8 +10,8 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
 
   pages: {
-    signIn: '/signIn',
-    signOut: '/signIn',
+    // signIn: '/signIn',
+    // signOut: '/signIn',
     // signIn: '/auth/signin',
     // signOut: '/auth/signout',
     // error: '/auth/error', // Error code passed in query string as ?error=
@@ -19,8 +20,13 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     GithubProvider({
-      clientId: process.env.GITHUB_ID!,
-      clientSecret: process.env.GITHUB_SECRET!,
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+    AzureADProvider({
+      clientId: process.env.AZURE_AD_CLIENT_ID,
+      clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
+      tenantId: process.env.AZURE_AD_TENANT_ID,
     }),
   ],
 

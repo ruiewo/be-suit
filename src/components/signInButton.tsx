@@ -35,7 +35,10 @@ export default function SignInButton() {
         Not signed in
       </Typography>
       <Button type="button" variant="contained" onClick={() => signIn('github', { callbackUrl: page.home })}>
-        Sign in
+        Sign in github
+      </Button>
+      <Button type="button" variant="contained" onClick={() => signIn('azure-ad', { callbackUrl: page.home })} sx={{ mt: 3 }}>
+        Sign in azure
       </Button>
     </>
   );
