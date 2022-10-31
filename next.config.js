@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   // trailingSlash: true
-
+  output: 'standalone',
   // except for webpack, other parts are left as generated
   // webpack: (config, context) => {
   //   config.watchOptions = {

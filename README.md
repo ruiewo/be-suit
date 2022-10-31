@@ -154,3 +154,6 @@ https://learn.microsoft.com/ja-jp/windows/wsl/install-manual#step-4---download-t
 npx prisma migrate reset --skip-seed
 npx prisma migrate dev --name init
 npx prisma db push
+
+// release build
+docker build -t sample .
