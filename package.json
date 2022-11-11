@@ -16,6 +16,8 @@
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
   },
   "dependencies": {
+    "@aspida/fetch": "^1.11.0",
+    "@aspida/swr": "^1.11.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.9",
