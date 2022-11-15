@@ -11,9 +11,7 @@
     "prisma:database": "prisma studio",
     "prisma:seed": "prisma db seed",
     "prisma:faker": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seedFaker.ts",
-    "api:build": "aspida",
-    "api:build-win": "aspida && move .\\src\\pages\\$api.ts .\\src\\modules\\$api.ts",
-    "api:build-linux": "aspida && rm ./src/modules/$api.ts && mv -f ./src/pages/$api.ts ./src/modules/$api.ts"
+    "api:build": "aspida"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
@@ -23,13 +21,13 @@
     "@aspida/swr": "^1.11.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@mui/icons-material": "^5.10.9",
-    "@mui/material": "^5.10.11",
+    "@mui/icons-material": "^5.10.14",
+    "@mui/material": "^5.10.14",
     "@next-auth/prisma-adapter": "^1.0.5",
-    "@prisma/client": "^4.5.0",
-    "csv-parse": "^5.3.1",
-    "next": "12.3.1",
-    "next-auth": "^4.15.0",
+    "@prisma/client": "^4.6.1",
+    "csv-parse": "^5.3.2",
+    "next": "12.3.3",
+    "next-auth": "^4.16.4",
     "qrcode.react": "^3.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -38,15 +36,15 @@
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
     "@trivago/prettier-plugin-sort-imports": "^3.4.0",
-    "@types/node": "^18.11.8",
-    "@types/react": "18.0.24",
-    "@types/react-dom": "18.0.8",
-    "@typescript-eslint/eslint-plugin": "^5.41.0",
-    "eslint": "8.26.0",
-    "eslint-config-next": "13.0.0",
+    "@types/node": "^18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "eslint": "8.27.0",
+    "eslint-config-next": "13.0.3",
     "eslint-config-prettier": "^8.5.0",
     "prettier": "^2.7.1",
-    "prisma": "^4.5.0",
+    "prisma": "^4.6.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.4"
   }

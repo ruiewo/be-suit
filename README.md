@@ -157,3 +157,8 @@ npx prisma db push
 
 // release build
 docker build -t sample .
+
+//
+ncu --target minor
+ncu --target minor -u
+npm install
