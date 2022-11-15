@@ -8,9 +8,12 @@
     "start": "next start",
     "lint": "next lint",
     "migrate": "prisma migrate dev",
-    "database": "prisma studio",
-    "seed": "prisma db seed",
-    "csvSeed": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/csvSeed.ts"
+    "prisma:database": "prisma studio",
+    "prisma:seed": "prisma db seed",
+    "prisma:faker": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seedFaker.ts",
+    "api:build": "aspida",
+    "api:build-win": "aspida && move .\\src\\pages\\$api.ts .\\src\\modules\\$api.ts",
+    "api:build-linux": "aspida && rm ./src/modules/$api.ts && mv -f ./src/pages/$api.ts ./src/modules/$api.ts"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"

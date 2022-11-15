@@ -1,3 +1,4 @@
+import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { validate } from '../../../models/apiHelper';
@@ -6,18 +7,27 @@ import { http } from '../../../models/const/httpMethod';
 import { role } from '../../../models/const/role';
 import { prisma } from '../../../modules/db';
 
-type Data = {
+type ReqData = {
+  category: Category;
+};
+
+type ResData = {
   category?: Category;
   error?: string;
 };
 
-interface ExtendedNextApiRequest extends NextApiRequest {
-  body: {
-    category: Category;
+export type Methods = DefineMethods<{
+  post: {
+    reqBody: ReqData;
+    resBody: Category[];
   };
+}>;
+
+interface ExtendedNextApiRequest extends NextApiRequest {
+  body: ReqData;
 }
 
-export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
   // todo change roles.
   const { isValid } = await validate(req, res, { httpMethods: [http.POST], roles: [role.user, role.admin] });
   if (!isValid) {
