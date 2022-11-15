@@ -1,6 +1,6 @@
 export const isClientSide = () => typeof window !== 'undefined';
 
-export const isNullOrWhiteSpace = (input: string | null | undefined) => {
+export const isNullOrWhiteSpace = (input: string | null | undefined): input is null | undefined => {
   if (typeof input === 'undefined' || input == null) {
     return true;
   }
