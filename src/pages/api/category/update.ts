@@ -12,7 +12,7 @@ type ReqData = {
 };
 
 type ResData = {
-  category?: Category;
+  category: Category;
   error?: string;
 };
 
@@ -35,7 +35,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   }
 
   const category = req.body.category;
-  console.log(category);
 
   try {
     const updatedCategory = await prisma.category.update({

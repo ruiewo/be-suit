@@ -1,22 +1,23 @@
 import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { unstable_getServerSession } from 'next-auth/next';
 
-import { notFound, validate } from '../../../models/apiHelper';
 import { Category } from '../../../models/category';
-import { http } from '../../../models/const/httpMethod';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
+import { authOptions } from '../auth/[...nextauth]';
 
 type ReqData = {
   code?: string;
 };
 type ResData = {
-  category: Category;
+  categories: Category[];
   error?: string;
 };
 
 export type Methods = DefineMethods<{
   get: {
+    query: ReqData;
     resBody: ResData;
   };
 }>;
@@ -26,15 +27,19 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 }
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
-  const { isValid } = await validate(req, res, { httpMethods: [http.GET], authorize: true });
-  if (!isValid) {
+  const session = await unstable_getServerSession(req, res, authOptions);
+  if (!session) {
+    res.send({ categories: [] });
     return;
   }
 
   const { code } = req.query;
 
   if (isNullOrWhiteSpace(code)) {
-    notFound(res, { code: '', message: 'category not found.' });
+    const categories = (await prisma.category.findMany({
+      orderBy: [{ code: 'asc' }],
+    })) as Category[];
+    res.send({ categories });
     return;
   }
 
@@ -45,10 +50,5 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     orderBy: [{ code: 'asc' }],
   });
 
-  if (category == null) {
-    notFound(res, { code: '', message: 'category not found.' });
-    return;
-  }
-
-  res.status(200).json({ category: category as Category });
+  res.status(200).json({ categories: category === null ? [] : [category as Category] });
 }
