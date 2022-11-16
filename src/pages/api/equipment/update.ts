@@ -1,24 +1,36 @@
+import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { Equipment, Prisma } from '@prisma/client';
+import { Prisma } from '@prisma/client';
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
 import { role } from '../../../models/const/role';
+import { Equipment } from '../../../models/equipment';
 import { prisma } from '../../../modules/db';
 
-type Data = {
+type ReqData = {
+  equipment: Equipment;
+};
+
+type ResData = {
   equipment?: Equipment;
   error?: string;
 };
 
-interface ExtendedNextApiRequest extends NextApiRequest {
-  body: {
-    equipment: Equipment;
+// @ts-ignore
+export type Methods = DefineMethods<{
+  post: {
+    reqBody: ReqData;
+    resBody: ResData;
   };
+}>;
+
+interface ExtendedNextApiRequest extends NextApiRequest {
+  body: ReqData;
 }
 
-export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<Data>) {
+export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
   // todo change roles.
   const { isValid } = await validate(req, res, { httpMethods: [http.POST], roles: [role.user, role.admin] });
   if (!isValid) {
@@ -60,7 +72,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       },
     });
 
-    res.status(200).json({ equipment: updatedEq });
+    res.status(200).json({ equipment: updatedEq as Equipment });
   } catch (error) {
     console.error(error);
     res.status(500);

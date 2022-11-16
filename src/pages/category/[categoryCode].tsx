@@ -6,7 +6,7 @@ import { Box, Button, Typography } from '@mui/material';
 
 import { CategoryInput } from '../../components/categoryInput';
 import { ColumnInput } from '../../components/columnInput';
-import { useCategory, useCategory2 } from '../../hooks/useCategories';
+import { useCategory } from '../../hooks/useCategories';
 import { api } from '../../models/api';
 import { Category, CategoryBase } from '../../models/category';
 import { apiPath } from '../../models/const/path';
@@ -16,7 +16,7 @@ const CategoryPage: NextPage = () => {
   const router = useRouter();
   const { categoryCode } = router.query;
 
-  const { category, setCategory, isLoading, isError } = useCategory2(categoryCode as string, c => {
+  const { category, isLoading, isError } = useCategory(categoryCode as string, c => {
     setRootCategory(c);
     setSubCategories(c.subCategories);
     setColumns(c.columns);

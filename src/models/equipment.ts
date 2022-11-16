@@ -1,8 +1,31 @@
-import { Equipment, User } from '@prisma/client';
+import { User } from '@prisma/client';
 
 import { DateEx, isDate } from '../modules/util';
 
 export type Details = Record<string, string | number | Date | null>;
+
+export type Equipment = {
+  id: number;
+  category: string;
+  subCategory: string;
+  categorySerial: number;
+  maker: string;
+  modelNumber: string;
+  // details: Prisma.JsonValue | null;
+  details: Details[] | null;
+  note: string;
+  group: string;
+  place: string;
+  rentalDate: Date | null;
+  rentalUserStr: string | null;
+  rentalUserId: string | null;
+  returnDate: Date | null;
+  registrationDate: Date | null;
+  deletedDate: Date | null;
+  inventoryDate: Date | null;
+  createdAt: Date;
+  updatedAt: Date; // todo define as Date or String?
+};
 
 export type EquipmentWithUser = Equipment & {
   rentalUser: User | null;

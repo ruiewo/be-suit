@@ -3,13 +3,15 @@ import { dataToURLString } from 'aspida'
 import type { Methods as Methods0 } from './api/category/[code]'
 import type { Methods as Methods1 } from './api/category/search'
 import type { Methods as Methods2 } from './api/category/update'
+import type { Methods as Methods3 } from './api/equipment/update'
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? '' : baseURL).replace(/\/$/, '')
   const PATH0 = '/api/category'
   const PATH1 = '/api/category/search'
   const PATH2 = '/api/category/update'
-  const PATH3 = '/equipment'
+  const PATH3 = '/api/equipment/update'
+  const PATH4 = '/equipment'
   const GET = 'GET'
   const POST = 'POST'
 
@@ -43,10 +45,19 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
           $path: () => `${prefix}${PATH2}`
         }
       },
+      equipment: {
+        update: {
+          post: (option: { body: Methods3['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods3['post']['resBody']>(prefix, PATH3, POST, option).json(),
+          $post: (option: { body: Methods3['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods3['post']['resBody']>(prefix, PATH3, POST, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH3}`
+        }
+      },
     },
     equipment: {
       _category_: (val1: number | string) => {
-        const prefix1 = `${PATH3}/${val1}`
+        const prefix1 = `${PATH4}/${val1}`
 
       }
     },
