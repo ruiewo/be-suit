@@ -162,3 +162,14 @@ docker build -t sample .
 ncu --target minor
 ncu --target minor -u
 npm install
+
+// aspida
+aspida/dist/createTemplateValues.js
+
+```
+// var valNameRegExpStr = '^_[a-zA-Z][a-zA-Z0-9_]*';
+var valNameRegExpStr = '^\[[a-zA-Z][a-zA-Z0-9_]*\]';
+
+// var hasVal = filename.startsWith('_');
+var hasVal = filename.startsWith('[');
+```
