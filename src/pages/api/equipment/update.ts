@@ -18,7 +18,7 @@ type ResData = {
   error?: string;
 };
 
-// @ts-ignore
+// @ts-ignore todo
 export type Methods = DefineMethods<{
   post: {
     reqBody: ReqData;

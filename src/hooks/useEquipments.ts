@@ -1,14 +1,12 @@
-import useSWR from 'swr';
+import aspida from '@aspida/fetch';
+import useAspidaSWR from '@aspida/swr';
 
-import { ApiError } from '../models/api';
-import { apiPath } from '../models/const/path';
-import { EquipmentSearchResult } from '../pages/api/search/equipments';
+import api from '../pages/$api';
 
-// @ts-ignore
-const fetcher = (...args) => fetch(...args).then(res => res.json());
+const client = api(aspida());
 
 export function useEquipments(category: string, subCategory: string) {
-  const { data, error } = useSWR<EquipmentSearchResult, ApiError>(`${apiPath.equipment.search}?cat=${category}&sub=${subCategory}`, fetcher);
+  const { data, error } = useAspidaSWR(client.api.equipment.search, { query: { cat: category, sub: subCategory } });
 
   return {
     equipments: data?.equipments,

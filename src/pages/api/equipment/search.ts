@@ -1,3 +1,4 @@
+import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { validate } from '../../../models/apiHelper';
@@ -6,20 +7,34 @@ import { ColumnDefinition, Details, EquipmentWithUser } from '../../../models/eq
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
 
-export type EquipmentSearchResult = {
+type ReqData = {
+  cat?: string;
+  sub?: string;
+};
+type ResData = {
   equipments: EquipmentWithUser[];
   columns: ColumnDefinition<Details>[];
 };
 
-type SearchQuery = { cat: string; sub: string };
+// @ts-ignore todo
+export type Methods = DefineMethods<{
+  get: {
+    query: ReqData;
+    resBody: ResData;
+  };
+}>;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse<EquipmentSearchResult>) {
+interface ExtendedNextApiRequest extends NextApiRequest {
+  query: ReqData;
+}
+
+export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
   const { isValid } = await validate(req, res, { httpMethods: [http.GET], authorize: false });
   if (!isValid) {
     return;
   }
 
-  const { cat, sub } = req.query as SearchQuery;
+  const { cat, sub } = req.query;
 
   if (isNullOrWhiteSpace(cat) || isNullOrWhiteSpace(sub)) {
     res.send({ equipments: [], columns: [] });
@@ -53,5 +68,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     return;
   }
 
-  res.status(200).json({ equipments, columns: category.columns as ColumnDefinition<Details>[] });
+  res.status(200).json({ equipments: equipments as EquipmentWithUser[], columns: category.columns as ColumnDefinition<Details>[] });
 }
