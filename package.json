@@ -7,8 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "migrate": "prisma migrate dev",
-    "prisma:database": "prisma studio",
+    "prisma:studio": "prisma studio",
+    "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "prisma db seed",
     "prisma:faker": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seedFaker.ts",
     "api:build": "aspida"
