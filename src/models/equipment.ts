@@ -12,7 +12,7 @@ export type Equipment = {
   maker: string;
   modelNumber: string;
   // details: Prisma.JsonValue | null;
-  details: Details[] | null;
+  details: Details | null;
   note: string;
   group: string;
   place: string;
