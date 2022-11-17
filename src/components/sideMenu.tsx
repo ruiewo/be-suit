@@ -20,7 +20,7 @@ function Logo() {
   return (
     <h1 className={styles.logo}>
       <Link key="Homeへ戻る" href={page.home}>
-        <Image src="/images/setbee-logo.png" alt="Topへ戻る" width={50} height={50} />
+        <Image src="/images/app-logo.png" alt="Topへ戻る" width={50} height={50} />
       </Link>
     </h1>
   );
