@@ -1,13 +1,20 @@
 import * as React from 'react';
 
+import aspida from '@aspida/fetch';
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Equipment, Prisma } from '@prisma/client';
 
-import { api } from '../models/api';
-import { apiPath } from '../models/const/path';
-import { ColumnDefinition, Details, EquipmentWithUser, convertToDisplay, convertToValue, equipmentBaseColumn } from '../models/equipment';
+import {
+  ColumnDefinition,
+  Details,
+  Equipment,
+  EquipmentWithUser,
+  convertToDisplay,
+  convertToValue,
+  equipmentBaseColumn,
+} from '../../models/equipment';
+import api from '../../pages/$api';
 
 type Props = {
   open: boolean;
@@ -15,6 +22,8 @@ type Props = {
   equipment: EquipmentWithUser | null | undefined;
   optionColumn: ColumnDefinition<Details>[];
 };
+
+const client = api(aspida());
 
 export default function EquipmentDialog({ open, onClose, equipment, optionColumn }: Props) {
   const baseColumn = [...equipmentBaseColumn];
@@ -33,9 +42,10 @@ export default function EquipmentDialog({ open, onClose, equipment, optionColumn
     optionColumn.forEach(col => {
       details[col.key] = convertToValue(data.get(col.key), col.type);
     });
-    equipmentData.details = details as Prisma.JsonValue; // todo refactor as cast.
+    equipmentData.details = details; // todo refactor as cast.
 
-    api.post<{ equipment: Equipment }>(apiPath.equipment.update, { equipment: equipmentData });
+    // todo error handling
+    client.api.equipment.update.$post({ body: { equipment: equipmentData } });
   };
 
   if (equipment == null) {
@@ -115,26 +125,10 @@ export default function EquipmentDialog({ open, onClose, equipment, optionColumn
       </DialogContent>
 
       <DialogActions sx={{ justifyContent: 'center' }}>
-        <Button
-          disabled={false}
-          variant="contained"
-          color="secondary"
-          sx={{ width: 200 }}
-          onClick={() => {
-            onClose();
-          }}
-        >
+        <Button disabled={false} variant="contained" color="secondary" sx={{ width: 200 }} onClick={onClose}>
           キャンセル
         </Button>
-        <Button
-          disabled={false}
-          variant="contained"
-          color="primary"
-          sx={{ width: 200 }}
-          onClick={() => {
-            handleSubmit();
-          }}
-        >
+        <Button disabled={false} variant="contained" color="primary" sx={{ width: 200 }} onClick={handleSubmit}>
           確定
         </Button>
       </DialogActions>
