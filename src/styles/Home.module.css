@@ -30,15 +30,6 @@
   flex-grow: 1;
 }
 
-.signInContent {
-  width: 400px;
-  margin: 70px auto;
-  padding: 0 10px;
-  border-radius: 20px;
-  border: 4px solid #f3cb49;
-  background-color: rgba(38, 120, 87, 0.545);
-}
-
 .pageTop {
   position: fixed;
   right: 10px;

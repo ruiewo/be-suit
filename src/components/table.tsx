@@ -13,7 +13,7 @@ import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 
 import { ColumnDefinition, Details, EquipmentWithUser, convertToDisplay, equipmentBaseColumn } from '../models/equipment';
-import EquipmentDialog from './equipmentDialog';
+import EquipmentDialog from './dialog/equipmentDialog';
 import { PageTop } from './pageTop';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
