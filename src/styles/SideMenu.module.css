@@ -39,61 +39,6 @@
   background-image: repeating-linear-gradient(to right, currentcolor 0 2px, transparent 2px 8px);
 }
 
-.menuButton {
-  color: #e0dbca;
-  margin-top: 40px;
-  box-sizing: content-box;
-  flex-basis: 80px;
-  width: 80px;
-  min-height: 80px;
-  margin: 4vh 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-transform: uppercase;
-  flex-direction: column;
-  line-height: 1.6;
-  letter-spacing: 0.08rem;
-  position: relative;
-  padding: 0;
-  background: none;
-  border: 0;
-  -webkit-appearance: none;
-  appearance: none;
-  cursor: pointer;
-}
-
-.menuButton span {
-  transition: 0.5s;
-  display: block;
-  margin: 0;
-  border: none;
-  width: 30%;
-  height: 1.5px;
-  background: #e0dbca;
-  transform-origin: 0% 50%;
-  position: absolute;
-  top: 0px;
-  transition: 0.3s;
-}
-.menuButton .openBar1 {
-  top: 10px;
-}
-.menuButton .openBar3 {
-  top: 20px;
-}
-.menuButton .closeBar1 {
-  top: 3px;
-  transform: rotate(45deg);
-}
-.menuButton .closeBar2 {
-  opacity: 0;
-}
-.menuButton .closeBar3 {
-  top: 20px;
-  transform: rotate(-45deg);
-}
-
 .hide {
   height: 0px;
   overflow: hidden;

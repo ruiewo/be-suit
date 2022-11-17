@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { page } from '../models/const/path';
 import styles from '../styles/SideMenu.module.css';
 import { Account } from './account';
+import { MenuButton } from './menuButton';
 
 export default function SideMenu() {
   return (
@@ -20,7 +21,7 @@ function Logo() {
   return (
     <h1 className={styles.logo}>
       <Link key="Homeへ戻る" href={page.home}>
-        <Image src="/images/app-logo.png" alt="Topへ戻る" width={50} height={50} />
+        <Image src="/images/app-logo.svg" alt="Topへ戻る" width={50} height={50} />
       </Link>
     </h1>
   );
@@ -53,12 +54,7 @@ function Menu() {
 
   return (
     <>
-      <button className={styles.menuButton} onClick={toggleMenuPanel}>
-        <span className={!isMenuOpen ? styles[`closeBar1`] : styles[`openBar1`]}></span>
-        <span className={!isMenuOpen ? styles[`closeBar2`] : styles[`openBar2`]}></span>
-        <span className={!isMenuOpen ? styles[`closeBar3`] : styles[`openBar3`]}></span>
-        <p className={styles.menuLabel}>{!isMenuOpen ? 'Close' : 'Menu'}</p>
-      </button>
+      <MenuButton isOpen={isMenuOpen} toggleOpen={toggleMenuPanel}></MenuButton>
       <div className={!isMenuOpen ? styles[`menuListOpen`] : styles[`hide`]}>
         <ul className={styles.menuList}>
           {menu.map(menu => (
