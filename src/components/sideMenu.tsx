@@ -53,8 +53,7 @@ function Menu() {
   ];
 
   return (
-    <>
-      <MenuButton isOpen={isMenuOpen} toggleOpen={toggleMenuPanel}></MenuButton>
+    <MenuButton isOpen={isMenuOpen} toggleOpen={toggleMenuPanel}>
       <div className={!isMenuOpen ? styles[`menuListOpen`] : styles[`hide`]}>
         <ul className={styles.menuList}>
           {menu.map(menu => (
@@ -68,6 +67,6 @@ function Menu() {
           ))}
         </ul>
       </div>
-    </>
+    </MenuButton>
   );
 }

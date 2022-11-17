@@ -16,7 +16,7 @@
   cursor: pointer;
 }
 
-.menuButton span {
+.menuButton .bar {
   display: block;
   width: 30%;
   height: 1.5px;
@@ -25,24 +25,24 @@
   transform-origin: 0% 50%;
   transition: 0.3s;
 }
-.menuButton span:nth-child(1) {
+.menuButton .bar:nth-child(1) {
   top: 0px;
 }
-.menuButton span:nth-child(2) {
+.menuButton .bar:nth-child(2) {
   top: 10px;
 }
-.menuButton span:nth-child(3) {
+.menuButton .bar:nth-child(3) {
   top: 20px;
 }
 
-.closeButton span:nth-child(1) {
+.closeButton .bar:nth-child(1) {
   top: 3px;
   transform: rotate(45deg);
 }
-.closeButton span:nth-child(2) {
+.closeButton .bar:nth-child(2) {
   opacity: 0;
 }
-.closeButton span:nth-child(3) {
+.closeButton .bar:nth-child(3) {
   top: 20px;
   transform: rotate(-45deg);
 }
