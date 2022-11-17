@@ -1,0 +1,190 @@
+.sideMenu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 80px;
+  height: 100%;
+  overflow-x: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+  color: #e0dbca;
+  text-align: center;
+  background: #324a71;
+}
+
+.logo {
+  position: relative;
+  margin: 30px 0 0 0;
+  cursor: pointer;
+}
+
+.sideMenu .logo a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+}
+
+.logo::after {
+  position: absolute;
+  top: 80px;
+  bottom: 0;
+  left: 3px;
+  width: calc(100% - 6px);
+  height: 1px;
+  content: '';
+  background-image: repeating-linear-gradient(to right, currentcolor 0 2px, transparent 2px 8px);
+}
+
+.menuButton {
+  color: #e0dbca;
+  margin-top: 40px;
+  box-sizing: content-box;
+  flex-basis: 80px;
+  width: 80px;
+  min-height: 80px;
+  margin: 4vh 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  flex-direction: column;
+  line-height: 1.6;
+  letter-spacing: 0.08rem;
+  position: relative;
+  padding: 0;
+  background: none;
+  border: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.menuButton span {
+  transition: 0.5s;
+  display: block;
+  margin: 0;
+  border: none;
+  width: 30%;
+  height: 1.5px;
+  background: #e0dbca;
+  transform-origin: 0% 50%;
+  position: absolute;
+  top: 0px;
+  transition: 0.3s;
+}
+.menuButton .openBar1 {
+  top: 10px;
+}
+.menuButton .openBar3 {
+  top: 20px;
+}
+.menuButton .closeBar1 {
+  top: 3px;
+  transform: rotate(45deg);
+}
+.menuButton .closeBar2 {
+  opacity: 0;
+}
+.menuButton .closeBar3 {
+  top: 20px;
+  transform: rotate(-45deg);
+}
+
+.hide {
+  height: 0px;
+  overflow: hidden;
+}
+
+.menuListOpen {
+  transition: 1s;
+  margin-left: 80px;
+  position: fixed;
+  display: flex;
+  background: #e0dbca;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.menuList {
+  position: relative;
+  display: grid;
+  grid-template-columns: 300px 300px 300px 300px;
+  grid-gap: 30px 20px;
+  width: 100%;
+  padding: 100px 0 0 150px;
+}
+
+.menu {
+  display: block;
+  color: #bd577d;
+  font-style: normal;
+  font-size: xx-large;
+  padding: 0 0 30px 0;
+  text-align: left;
+  font-weight: 700;
+}
+
+.menuDescription {
+  display: table;
+  font-family: sans-serif;
+  line-height: 1.2;
+  font-size: medium;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.menu:hover,
+.menuDescription:hover {
+  color: #324a71;
+  transition: 1.5s;
+}
+
+.accountButton {
+  background: #324a71;
+  border: none;
+  cursor: pointer;
+}
+ul.account {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 0;
+  appearance: none;
+  cursor: pointer;
+}
+.profile,
+.signOut {
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  position: fixed;
+  height: 45px;
+  width: 45px;
+  padding: 12px 0 0 0;
+  border-radius: 100%;
+  transition-duration: 180ms;
+  -webkit-transition-duration: 180ms;
+  -webkit-transform: translate3d(0.08361px, -104.99997px, 0);
+  transform: translate3d(0.08361px, -104.99997px, 0);
+  background-color: #bd577d;
+  box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.12);
+}
+.profile:hover,
+.signOut:hover {
+  background: #f5cb4a;
+  transition: 1s;
+}
+.profile {
+  margin: 10px 0 0 20px;
+}
+.signOut {
+  margin: 50px 0 0 60px;
+}

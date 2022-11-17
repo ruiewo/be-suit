@@ -14,6 +14,7 @@ import { styled } from '@mui/material/styles';
 
 import { ColumnDefinition, Details, EquipmentWithUser, convertToDisplay, equipmentBaseColumn } from '../models/equipment';
 import EquipmentDialog from './equipmentDialog';
+import { PageTop } from './pageTop';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -123,6 +124,7 @@ export default function EquipmentsTable({ equipments, columns }: Props) {
         <MenuItem onClick={handleClose}>RENTAL</MenuItem>
         <MenuItem onClick={handleClose}>RETURN</MenuItem>
       </Menu>
+      <PageTop />
       <EquipmentDialog open={open} onClose={handleDialogClose} equipment={equipment} optionColumn={optionColumn} />
     </TableContainer>
   );

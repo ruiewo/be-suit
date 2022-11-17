@@ -1,8 +1,7 @@
 export const page = {
-  home: '/',
+  home: '/equipment',
   signIn: '/signIn',
-  qrCode: '/qrCode',
-  login: '/login',
+  qrCode: '/qrcode',
   equipment: '/equipment',
   category: '/category',
 } as const;

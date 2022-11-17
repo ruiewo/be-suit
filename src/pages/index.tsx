@@ -23,7 +23,6 @@ const cards = [
   { title: 'タブレット', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/t` },
   { title: 'Category-PC', src: '/images/dev.svg', description: '開発用', path: `${page.category}/pc` },
   { title: 'signIn', src: '/images/dev.svg', description: '開発用', path: page.signIn },
-  { title: 'login', src: '/images/dev.svg', description: '開発用', path: page.login },
 ];
 
 const Home: NextPageWithLayout = () => {

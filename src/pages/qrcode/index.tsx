@@ -22,7 +22,7 @@ const QrCodePage: NextPageWithLayout = () => {
     <div className={styles.container}>
       <Head>
         <title>QRcode</title>
-        <meta name="description" content="login page" />
+        <meta name="description" content="QRcode page" />
         <link rel="icon" href="/images/favicon.ico" />
       </Head>
       <main className={styles.main}>

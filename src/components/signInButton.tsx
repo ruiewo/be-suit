@@ -17,13 +17,13 @@ export default function SignInButton() {
     return (
       <>
         <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 5 }}>
-          Signed in as {session.user!.email}
+          Signed in as {session.user.email}
         </Typography>
         <Button variant="contained" onClick={() => signOut()}>
           Sign out
         </Button>
 
-        <Button variant="contained" onClick={() => router.push(page.home)} sx={{ mt: 5, mb: 5 }}>
+        <Button variant="contained" onClick={() => router.push(page.equipment)} sx={{ mt: 5, mb: 5 }}>
           <HomeIcon />
         </Button>
       </>
@@ -34,10 +34,10 @@ export default function SignInButton() {
       <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 5 }}>
         Not signed in
       </Typography>
-      <Button type="button" variant="contained" onClick={() => signIn('github', { callbackUrl: page.home })}>
+      <Button type="button" variant="contained" onClick={() => signIn('github', { callbackUrl: page.equipment })}>
         Sign in github
       </Button>
-      <Button type="button" variant="contained" onClick={() => signIn('azure-ad', { callbackUrl: page.home })} sx={{ mt: 3 }}>
+      <Button type="button" variant="contained" onClick={() => signIn('azure-ad', { callbackUrl: page.equipment })} sx={{ mt: 3 }}>
         Sign in azure
       </Button>
     </>
