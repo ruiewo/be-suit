@@ -2,15 +2,17 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 
+import aspida from '@aspida/fetch';
 import { Box, Button, Typography } from '@mui/material';
 
 import { CategoryInput } from '../../components/categoryInput';
 import { ColumnInput } from '../../components/columnInput';
 import { useCategory } from '../../hooks/useCategories';
-import { api } from '../../models/api';
 import { Category, CategoryBase } from '../../models/category';
-import { apiPath } from '../../models/const/path';
 import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
+import api from '../../pages/$api';
+
+const client = api(aspida());
 
 const CategoryPage: NextPage = () => {
   const router = useRouter();
@@ -132,7 +134,7 @@ const CategoryPage: NextPage = () => {
 
   const update = () => {
     const newCategory: Category = { ...rootCategory, subCategories, columns };
-    api.post<{ category: Category }>(apiPath.category.update, { category: newCategory });
+    client.api.category.update.$post({ body: { category: newCategory } });
   };
 
   if (isError) return <div>Failed to load</div>;
