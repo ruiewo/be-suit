@@ -1,11 +1,6 @@
-<?xml version="1.0" standalone="no"?>
+<svg version="1.0" xmlns="http://www.w3.org/2000/svg" width="616" height="576" viewBox="0 0 616 576">
 
-<svg version="1.0" xmlns="http://www.w3.org/2000/svg"
- width="616pt" height="576pt" viewBox="0 0 616 576"
- preserveAspectRatio="xMidYMid meet">
-
-<g transform="translate(0.000000,576.000000) scale(0.100000,-0.100000)"
-fill="#f5cb4a" stroke="none">
+<g transform="translate(0,576) scale(0.1,-0.1)" fill="#f5cb4a" stroke="none">
 <path d="M3565 4674 c-106 -21 -135 -29 -166 -45 -20 -10 -50 -29 -66 -43 -30
 -25 -30 -25 -127 -14 -74 9 -120 9 -192 0 -94 -12 -96 -12 -127 12 -77 57
 -169 86 -277 86 -65 0 -90 -15 -90 -54 0 -34 17 -43 100 -49 41 -4 97 -14 123
