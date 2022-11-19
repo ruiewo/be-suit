@@ -6,7 +6,7 @@ import PcTag from '../../components/pcTag';
 import { useEquipments } from '../../hooks/useEquipments';
 import { getEquipmentCode } from '../../models/equipment';
 import { PcDetail } from '../../models/equipmentDetails/pc';
-import styles from '../../styles/Home.module.css';
+import styles from '../../styles/home.module.css';
 import { NextPageWithLayout } from '../_app';
 
 const QrCodePage: NextPageWithLayout = () => {

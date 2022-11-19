@@ -2,7 +2,7 @@ import { useSession } from 'next-auth/react';
 
 import MainMenuCard from '../components/mainMenuCard';
 import { page } from '../models/const/path';
-import styles from '../styles/Home.module.css';
+import styles from '../styles/home.module.css';
 import { NextPageWithLayout } from './_app';
 
 const cards = [

@@ -1,3 +1,23 @@
+:root {
+  /* colorは白黒除いて Max5色 まで */
+  --color-white: #eee;
+  --color-black: #333;
+  --color1: #e0dbca;
+  --color2: #bd577d;
+  --color3: #324a71;
+
+  --primary-bg-color1: #e0dbca;
+  --primary-color1: #bd577d;
+  --primary-color2: #324a71;
+
+  --secondary-bg-color: #324a71;
+  --secondary-color1: #e0dbca;
+  --secondary-color2: #bd577d;
+
+  --tertiary-bg-color: #bd577d;
+  --tertiary-color1: #e0dbca;
+}
+
 html,
 body {
   padding: 0;
@@ -14,6 +34,10 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+.hidden {
+  display: none !important;
 }
 
 @media (prefers-color-scheme: dark) {
