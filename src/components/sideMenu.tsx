@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { page } from '../models/const/path';
-import styles from '../styles/SideMenu.module.css';
-import { Account } from './account';
+import styles from '../styles/sideMenu.module.css';
+import { AccountButton } from './accountButton';
 import { MenuButton } from './menuButton';
 
 export default function SideMenu() {
@@ -12,7 +12,7 @@ export default function SideMenu() {
     <div className={styles.sideMenu}>
       <Logo />
       <Menu />
-      <Account />
+      <AccountButton />
     </div>
   );
 }
@@ -54,7 +54,7 @@ function Menu() {
 
   return (
     <MenuButton isOpen={isMenuOpen} toggleOpen={toggleMenuPanel}>
-      <div className={!isMenuOpen ? styles[`menuListOpen`] : styles[`hide`]}>
+      <div className={!isMenuOpen ? styles.menuListOpen : styles.hide}>
         <ul className={styles.menuList}>
           {menu.map(menu => (
             <li className={styles.menu} key={menu.title}>
