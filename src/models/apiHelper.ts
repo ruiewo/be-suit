@@ -54,7 +54,6 @@ export async function validate(
   }
 
   const session = await unstable_getServerSession(req, res, authOptions);
-
   if (!session) {
     unauthorized(res);
     return { isValid: false };
