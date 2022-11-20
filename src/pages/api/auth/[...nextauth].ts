@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import AzureADProvider from 'next-auth/providers/azure-ad';
+import CognitoProvider from 'next-auth/providers/cognito';
 import GithubProvider from 'next-auth/providers/github';
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
@@ -27,6 +28,11 @@ export const authOptions: NextAuthOptions = {
       clientId: process.env.AZURE_AD_CLIENT_ID,
       clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
       tenantId: process.env.AZURE_AD_TENANT_ID,
+    }),
+    CognitoProvider({
+      clientId: process.env.COGNITO_CLIENT_ID,
+      clientSecret: process.env.COGNITO_CLIENT_SECRET,
+      issuer: process.env.COGNITO_ISSUER,
     }),
   ],
 

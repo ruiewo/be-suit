@@ -4,10 +4,14 @@
 // type StatusCode = { statusCode: number };
 namespace NodeJS {
   interface ProcessEnv extends NodeJS.ProcessEnv {
-    AZURE_AD_CLIENT_ID: string;
-    AZURE_AD_CLIENT_SECRET: string;
-    AZURE_AD_TENANT_ID: string;
-    GITHUB_ID: string;
-    GITHUB_SECRET: string;
+    readonly AZURE_AD_CLIENT_ID: string;
+    readonly AZURE_AD_CLIENT_SECRET: string;
+    readonly AZURE_AD_TENANT_ID: string;
+    readonly GITHUB_ID: string;
+    readonly GITHUB_SECRET: string;
+
+    readonly COGNITO_CLIENT_ID: string;
+    readonly COGNITO_CLIENT_SECRET: string;
+    readonly COGNITO_ISSUER: string;
   }
 }
