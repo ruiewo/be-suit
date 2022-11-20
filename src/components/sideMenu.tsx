@@ -21,7 +21,9 @@ function Logo() {
   return (
     <h1 className={styles.logo}>
       <Link key="Homeへ戻る" href={page.home}>
-        <Image src="/images/app-logo.svg" alt="Topへ戻る" width={50} height={50} />
+        <div>
+          <Image src="/images/app-logo.svg" alt="Topへ戻る" width={50} height={50} />
+        </div>
       </Link>
     </h1>
   );

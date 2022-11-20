@@ -11,7 +11,7 @@ const SignInPage: NextPageWithLayout = () => {
       <Head>
         <title>Sign in</title>
         <meta name="description" content="Sign in page" />
-        <link rel="icon" href="/images/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <Container

@@ -23,7 +23,7 @@ const QrCodePage: NextPageWithLayout = () => {
       <Head>
         <title>QRcode</title>
         <meta name="description" content="QRcode page" />
-        <link rel="icon" href="/images/favicon.ico" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
         <Box sx={{ flexGrow: 1 }}>

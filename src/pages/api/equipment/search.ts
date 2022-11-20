@@ -29,7 +29,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 }
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
-  const { isValid } = await validate(req, res, { httpMethods: [http.GET], authorize: false });
+  const { isValid } = await validate(req, res, { httpMethods: [http.GET], authorize: true });
   if (!isValid) {
     return;
   }

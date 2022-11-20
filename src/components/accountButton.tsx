@@ -10,8 +10,8 @@ export function AccountButton() {
 
   const mainButton = { title: 'account', imageUrl: '/images/account.svg' };
   const subButtons = [
+    { title: 'notice', imageUrl: '/images/notice.svg', link: page.user },
     { title: 'signOut', imageUrl: '/images/signOut.svg', link: page.signIn },
-    { title: 'notice', imageUrl: '/images/notice.svg', link: page.signIn },
   ];
 
   return (
