@@ -1,5 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Session, unstable_getServerSession } from 'next-auth';
+import { unstable_getServerSession } from 'next-auth';
+import { Session } from 'next-auth/core/types';
 
 import { Role } from '@prisma/client';
 
@@ -19,7 +20,7 @@ export function forbidden(res: NextApiResponse) {
   res.status(403).send({ statusCode: 403, errors: [{ code: '', message: 'forbidden.' }] });
 }
 
-export function notFound(res: NextApiResponse, error: ApiErrorDetail) {
+export function notFound(res: NextApiResponse) {
   res.status(404).send({ statusCode: 404, errors: [{ code: '', message: 'not found.' }] });
 }
 
@@ -53,6 +54,7 @@ export async function validate(
   }
 
   const session = await unstable_getServerSession(req, res, authOptions);
+
   if (!session) {
     unauthorized(res);
     return { isValid: false };

@@ -1,7 +1,4 @@
-// type ApiErrorResponse = { statusCode: number; errors: ApiErrorDetail[] };
-// type ApiErrorDetail = { code: string; message: string };
-
-// type StatusCode = { statusCode: number };
+/* eslint-disable @typescript-eslint/no-unused-vars */
 namespace NodeJS {
   interface ProcessEnv extends NodeJS.ProcessEnv {
     readonly AZURE_AD_CLIENT_ID: string;
