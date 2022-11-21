@@ -1,12 +1,23 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { page } from '../models/const/path';
 import styles from '../styles/accountButton.module.css';
 
 export function AccountButton() {
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const [isActive, setActive] = useState<boolean>(false);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (wrapperRef.current && !wrapperRef.current.contains(e.target as HTMLElement)) {
+        setActive(false);
+      }
+    }
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  });
 
   const mainButton = { title: 'account', imageUrl: '/images/account.svg' };
   const subButtons = [
@@ -15,7 +26,7 @@ export function AccountButton() {
   ];
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={wrapperRef}>
       <div className={styles.parentButton} onClick={() => setActive(!isActive)}>
         <Image src={mainButton.imageUrl} alt={mainButton.title} width={30} height={30} />
       </div>
