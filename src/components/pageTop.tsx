@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { page } from '../models/const/path';
 import styles from '../styles/home.module.css';
 
-export function PageTop(props: any) {
+export function PageTop() {
   const menu = [
     {
       name: '機器追加',
@@ -21,6 +21,7 @@ export function PageTop(props: any) {
       style: { margin: '5px' },
     },
   ];
+
   return (
     <div className={styles.pageTop}>
       {menu.map(item => (

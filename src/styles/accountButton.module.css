@@ -16,7 +16,7 @@
   height: 45px;
   width: 45px;
   border-radius: 100%;
-  background-color: #bd577d;
+  background-color: var(--color2);
   box-shadow: 3px 3px 0 0 rgba(0, 0, 0, 0.14);
   display: flex;
   align-items: center;

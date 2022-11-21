@@ -49,7 +49,7 @@
   margin-left: 80px;
   position: fixed;
   display: flex;
-  background: #e0dbca;
+  background: var(--color1);
   top: 0;
   left: 0;
   width: 100%;
@@ -67,7 +67,7 @@
 
 .menu {
   display: block;
-  color: #bd577d;
+  color: var(--color2);
   font-style: normal;
   font-size: xx-large;
   padding: 0 0 30px 0;
@@ -86,6 +86,6 @@
 
 .menu:hover,
 .menuDescription:hover {
-  color: var(--primary-color2);
+  color: var(--color3);
   transition: 1.5s;
 }

@@ -25,7 +25,7 @@ export const AccountDialog = () => {
         <Image src="/images/app-logo-text-1.png" alt="logo" layout="fill" objectFit="contain" />
       </Icon>
       <SignInButton />
-      <Copyright sx={{ mt: 8 }} />
+      <Copyright sx={{ mt: 5 }} />
     </Box>
   );
 };

@@ -16,14 +16,17 @@ export default function SignInButton() {
   if (session) {
     return (
       <>
-        <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 5 }}>
-          Signed in as {session.user.email}
+        <Typography component="h1" variant="h6" sx={{ mt: 5 }}>
+          Signed in as
+        </Typography>
+        <Typography component="h1" variant="h5" sx={{ mt: 2, mb: 5 }}>
+          {session.user.email}
         </Typography>
         <Button variant="contained" onClick={() => signOut()}>
           Sign out
         </Button>
 
-        <Button variant="contained" onClick={() => router.push(page.equipment)} sx={{ mt: 5, mb: 5 }}>
+        <Button variant="contained" onClick={() => router.push(page.equipment)} sx={{ mt: 5 }}>
           <HomeIcon />
         </Button>
       </>

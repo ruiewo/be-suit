@@ -5,17 +5,6 @@
   --color1: #e0dbca;
   --color2: #bd577d;
   --color3: #324a71;
-
-  --primary-bg-color1: #e0dbca;
-  --primary-color1: #bd577d;
-  --primary-color2: #324a71;
-
-  --secondary-bg-color: #324a71;
-  --secondary-color1: #e0dbca;
-  --secondary-color2: #bd577d;
-
-  --tertiary-bg-color: #bd577d;
-  --tertiary-color1: #e0dbca;
 }
 
 html,
@@ -24,7 +13,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   height: 100vh;
-  background-color: #e0dbca;
+  background-color: var(--color1);
 }
 
 a {
