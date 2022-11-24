@@ -34,7 +34,6 @@ function Auth({ children }: React.PropsWithChildren): JSX.Element {
   const { status } = useSession({
     required: true,
   });
-  // return <Loading />;
 
   if (status === 'loading') {
     return <Loading />;

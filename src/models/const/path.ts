@@ -1,5 +1,5 @@
 export const page = {
-  home: '/equipment',
+  home: '/user/me',
   signIn: '/signIn',
   qrCode: '/qrcode',
   equipment: '/equipment',
