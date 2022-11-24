@@ -7,6 +7,7 @@ import { Box, Button, Typography } from '@mui/material';
 
 import { CategoryInput } from '../../components/categoryInput';
 import { ColumnInput } from '../../components/columnInput';
+import { Loading } from '../../components/loading';
 import { useCategory } from '../../hooks/useCategories';
 import { Category, CategoryBase } from '../../models/category';
 import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
@@ -139,7 +140,7 @@ const CategoryPage: NextPage = () => {
 
   if (isError) return <div>Failed to load</div>;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   if (rootCategory == null) return <div>Category not found.</div>;
 

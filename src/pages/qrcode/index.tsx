@@ -2,6 +2,7 @@ import Head from 'next/head';
 
 import { Box, Grid } from '@mui/material';
 
+import { Loading } from '../../components/loading';
 import PcTag from '../../components/pcTag';
 import { useEquipments } from '../../hooks/useEquipments';
 import { getEquipmentCode } from '../../models/equipment';
@@ -14,7 +15,7 @@ const QrCodePage: NextPageWithLayout = () => {
 
   if (isError) return <div>Failed to load</div>;
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading />;
 
   if (!equipments) return <div>Failed to load</div>;
 

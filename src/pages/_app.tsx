@@ -5,6 +5,7 @@ import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 
 import Layout from '../components/layout';
+import { Loading } from '../components/loading';
 import '../styles/globals.css';
 
 type GetLayout = (page: ReactElement) => ReactNode;
@@ -33,9 +34,10 @@ function Auth({ children }: React.PropsWithChildren): JSX.Element {
   const { status } = useSession({
     required: true,
   });
+  // return <Loading />;
 
   if (status === 'loading') {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   // todo refactor. ReactNode is not valid JSX.Element.
