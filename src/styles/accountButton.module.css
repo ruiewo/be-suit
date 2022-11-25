@@ -25,7 +25,8 @@
   overflow: hidden;
 }
 .childButton:hover {
-  background: #f5cb4a;
+  background: var(--color3);
+  filter: brightness(2);
   transition: 1s;
 }
 .childButton:nth-child(2) {
