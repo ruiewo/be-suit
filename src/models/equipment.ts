@@ -31,7 +31,7 @@ export type EquipmentWithUser = Equipment & {
   rentalUser: User | null;
 };
 
-export type ValueType = 'string' | 'number' | 'date';
+export type ValueType = 'code' | 'string' | 'number' | 'date';
 
 export type ColumnDefinition<T> = {
   key: keyof T;
@@ -60,6 +60,8 @@ export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
 
 export function convertToDisplay(obj: any, key: string, type: ValueType) {
   switch (type) {
+    case 'code':
+      return getEquipmentCode(obj);
     case 'string':
     case 'number':
       return obj[key]?.toString() ?? '';
