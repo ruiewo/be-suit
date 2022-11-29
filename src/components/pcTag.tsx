@@ -1,8 +1,6 @@
-import * as React from 'react';
-
-import { Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 
+import styles from '../styles/qrcode.module.css';
 import NormalTag from './normalTag';
 
 type Props = {
@@ -12,12 +10,21 @@ type Props = {
 
 export default function PcTag({ value, pcName }: Props) {
   return (
-    <Box sx={{ width: 158, display: 'inline-flex', flexDirection: 'column', border: '5px solid black', padding: '10px 10px 0' }}>
+    <Box
+      sx={{
+        width: '20mm',
+        height: '20mm',
+        display: 'inline-flex',
+        flexDirection: 'column',
+        border: '1px solid black',
+        padding: '4px 0 0 0',
+      }}
+    >
       <NormalTag value={value}></NormalTag>
-      <Box sx={{ width: 128, padding: '5px 0' }}>
-        <Typography>{value}</Typography>
-        <Typography>{pcName}</Typography>
-      </Box>
+      <div className={styles.textArea}>
+        <p className={styles.text}>{value}</p>
+        <p className={styles.text}>{pcName}</p>
+      </div>
     </Box>
   );
 }

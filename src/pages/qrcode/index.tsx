@@ -1,13 +1,8 @@
 import Head from 'next/head';
 
-import { Box, Grid } from '@mui/material';
-
 import { Loading } from '../../components/loading';
-import PcTag from '../../components/pcTag';
+import { QrPage } from '../../components/qrPage';
 import { useEquipments } from '../../hooks/useEquipments';
-import { getEquipmentCode } from '../../models/equipment';
-import { PcDetail } from '../../models/equipmentDetails/pc';
-import styles from '../../styles/home.module.css';
 import { NextPageWithLayout } from '../_app';
 
 const QrCodePage: NextPageWithLayout = () => {
@@ -20,22 +15,16 @@ const QrCodePage: NextPageWithLayout = () => {
   if (!equipments) return <div>Failed to load</div>;
 
   return (
-    <div className={styles.container}>
+    <>
       <Head>
         <title>QRcode</title>
         <meta name="description" content="QRcode page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container gap={5}>
-            {equipments.map(x => (
-              <PcTag key={x.id} value={getEquipmentCode(x)} pcName={(x.details as PcDetail).pcName} />
-            ))}
-          </Grid>
-        </Box>
+      <main>
+        <QrPage equipments={equipments} />
       </main>
-    </div>
+    </>
   );
 };
 

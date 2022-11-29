@@ -1,7 +1,8 @@
 import { QRCodeSVG } from 'qrcode.react';
-import * as React from 'react';
 
 import Box from '@mui/material/Box';
+
+import styles from '../styles/qrcode.module.css';
 
 type Props = {
   value: string;
@@ -9,19 +10,10 @@ type Props = {
 
 export default function NormalTag({ value }: Props) {
   return (
-    <Box sx={{ width: 128, position: 'relative', display: 'inline-block' }}>
-      <QRCodeSVG value={value} level="H" />
-      <Box
-        sx={{
-          width: 48,
-          height: 48,
-          backgroundImage: 'url("/qrlogo.svg")',
-          backgroundSize: 'contain',
-          position: 'absolute',
-          left: 40,
-          top: 40,
-        }}
-      ></Box>
+    <Box sx={{ width: '20mm', position: 'relative', display: 'inline-block' }}>
+      <div className={styles.qrcode}>
+        <QRCodeSVG size={35} value={value} level="H" className={styles.qrcodeIncludeImage} />
+      </div>
     </Box>
   );
 }

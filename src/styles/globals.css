@@ -9,6 +9,16 @@
   --color5: #7ba58b;
 }
 
+::-webkit-scrollbar {
+  width: 15px;
+}
+::-webkit-scrollbar-track {
+  background-color: #d0d0d0;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color3);
+}
+
 html,
 body {
   padding: 0;
