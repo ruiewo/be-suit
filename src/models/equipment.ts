@@ -1,6 +1,6 @@
 import { User } from '@prisma/client';
 
-import { DateEx, isDate } from '../modules/util';
+import { DateEx, isDate, isNullOrWhiteSpace } from '../modules/util';
 
 export type Details = Record<string, string | number | Date | null>;
 
@@ -31,7 +31,7 @@ export type EquipmentWithUser = Equipment & {
   rentalUser: User | null;
 };
 
-export type ValueType = 'code' | 'string' | 'number' | 'date';
+export type ValueType = 'code' | 'rentalState' | 'string' | 'number' | 'date';
 
 export type ColumnDefinition<T> = {
   key: keyof T;
@@ -62,6 +62,8 @@ export function convertToDisplay(obj: any, key: string, type: ValueType) {
   switch (type) {
     case 'code':
       return getEquipmentCode(obj);
+    case 'rentalState':
+      return getRentalState(obj);
     case 'string':
     case 'number':
       return obj[key]?.toString() ?? '';
@@ -96,4 +98,12 @@ export function convertToValue(value: FormDataEntryValue | null, type: ValueType
 
 export function getEquipmentCode(e: Equipment) {
   return e.category + '-' + e.subCategory + '-' + e.categorySerial.toString().padStart(5, '0');
+}
+
+export function getRentalState(e: Equipment) {
+  if (isNullOrWhiteSpace(e.rentalDate as unknown as string)) {
+    return '';
+  } else {
+    return '貸出中';
+  }
 }
