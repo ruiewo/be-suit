@@ -7,6 +7,7 @@ import { Box, Button, Typography } from '@mui/material';
 
 import { CategoryInput } from '../../components/categoryInput';
 import { ColumnInput } from '../../components/columnInput';
+import { ErrorDialog } from '../../components/errorDialog';
 import { Loading } from '../../components/loading';
 import { useCategory } from '../../hooks/useCategories';
 import { Category, CategoryBase } from '../../models/category';
@@ -138,7 +139,7 @@ const CategoryPage: NextPage = () => {
     client.api.category.update.$post({ body: { category: newCategory } });
   };
 
-  if (isError) return <div>Failed to load</div>;
+  if (isError) return <ErrorDialog />;
 
   if (isLoading) return <Loading />;
 

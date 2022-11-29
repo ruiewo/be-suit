@@ -1,5 +1,6 @@
 import Head from 'next/head';
 
+import { ErrorDialog } from '../../components/errorDialog';
 import { Loading } from '../../components/loading';
 import { QrPage } from '../../components/qrPage';
 import { useEquipments } from '../../hooks/useEquipments';
@@ -8,11 +9,11 @@ import { NextPageWithLayout } from '../_app';
 const QrCodePage: NextPageWithLayout = () => {
   const { equipments, isLoading, isError } = useEquipments('PC', 'D');
 
-  if (isError) return <div>Failed to load</div>;
+  if (isError) return <ErrorDialog />;
 
   if (isLoading) return <Loading />;
 
-  if (!equipments) return <div>Failed to load</div>;
+  if (!equipments) return <ErrorDialog />;
 
   return (
     <>

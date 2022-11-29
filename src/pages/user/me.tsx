@@ -2,6 +2,7 @@ import type { NextPage } from 'next';
 
 import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 
+import { ErrorDialog } from '../../components/errorDialog';
 import { Loading } from '../../components/loading';
 import { useUsersMe } from '../../hooks/useUsers';
 import { Equipment, getEquipmentCode } from '../../models/equipment';
@@ -11,11 +12,11 @@ import styles from '../../styles/home.module.css';
 const CategoryPage: NextPage = () => {
   const { equipments, isLoading, isError } = useUsersMe();
 
-  if (isError) return <div>Failed to load</div>;
+  if (isError) return <ErrorDialog />;
 
   if (isLoading) return <Loading />;
 
-  if (equipments == null) return <div>Failed to load</div>;
+  if (equipments == null) return <ErrorDialog />;
 
   return (
     <Box>
