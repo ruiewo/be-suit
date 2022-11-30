@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 
-import { ErrorDialog } from '../../components/errorDialog';
+import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useEquipments } from '../../hooks/useEquipments';
 import { Details, Equipment, ValueType, convertToDisplay } from '../../models/equipment';

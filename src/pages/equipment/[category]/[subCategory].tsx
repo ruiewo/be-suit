@@ -1,7 +1,7 @@
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
-import { ErrorDialog } from '../../../components/errorDialog';
+import { ErrorDialog } from '../../../components/dialog/errorDialog';
 import { Loading } from '../../../components/loading';
 import EquipmentsTable from '../../../components/table';
 import { useEquipments } from '../../../hooks/useEquipments';

@@ -2,7 +2,7 @@ import type { NextPage } from 'next';
 
 import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 
-import { ErrorDialog } from '../../components/errorDialog';
+import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useUsersMe } from '../../hooks/useUsers';
 import { Equipment, getEquipmentCode } from '../../models/equipment';

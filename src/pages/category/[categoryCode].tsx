@@ -7,7 +7,7 @@ import { Box, Button, Typography } from '@mui/material';
 
 import { CategoryInput } from '../../components/categoryInput';
 import { ColumnInput } from '../../components/columnInput';
-import { ErrorDialog } from '../../components/errorDialog';
+import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useCategory } from '../../hooks/useCategories';
 import { Category, CategoryBase } from '../../models/category';

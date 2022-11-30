@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { ErrorDialog } from '../../components/errorDialog';
+import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { QrPage } from '../../components/qrPage';
 import { useEquipments } from '../../hooks/useEquipments';
