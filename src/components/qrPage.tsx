@@ -11,19 +11,20 @@ type Props = {
 };
 
 export const QrPage = ({ equipments }: Props) => {
-  const pageComponents = [];
+  const sheetComponents = [];
   const maxItemCount = 70;
   const pageCount = Math.floor(equipments.length / maxItemCount) + 1;
 
   for (let i = 0; i < pageCount; i++) {
     const lastIndex = (i + 1) * maxItemCount;
-    const page = OnePage(equipments.slice(i * maxItemCount, lastIndex));
-    pageComponents.push(page);
+    const sheet = RectangleSheet(equipments.slice(i * maxItemCount, lastIndex));
+    sheetComponents.push(sheet);
   }
-  return <>{pageComponents}</>;
+
+  return <>{sheetComponents}</>;
 };
 
-const OnePage = (equipment: EquipmentWithUser[]) => {
+export const RectangleSheet = (equipment: EquipmentWithUser[]) => {
   return (
     <section className={styles.onePage}>
       <Box sx={{ flexGrow: 1 }}>
