@@ -1,13 +1,18 @@
 import type { NextPage } from 'next';
+import { ChangeEventHandler, Dispatch, SetStateAction, useState } from 'react';
+
+import { TextField } from '@mui/material';
 
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useEquipments } from '../../hooks/useEquipments';
 import { Details, Equipment, ValueType, convertToDisplay } from '../../models/equipment';
+import { isNullOrWhiteSpace } from '../../modules/util';
 import styles from '../../styles/equipmentTable.module.css';
 
 const EquipmentPage: NextPage = () => {
   const { equipments, columns, isLoading, isError } = useEquipments('PC', 'D');
+  const [filterText, setFilterText] = useState('');
 
   if (isError) return <ErrorDialog />;
 
@@ -17,22 +22,36 @@ const EquipmentPage: NextPage = () => {
 
   return (
     <>
-      <SearchPanel />
-      <Table equipments={equipments} />
+      <SearchPanel filterText={filterText} setFilterText={setFilterText} />
+      <Table equipments={equipments} filterText={filterText} />
     </>
   );
 };
 
 export default EquipmentPage;
 
-const SearchPanel = () => {
-  return <div>SearchPanel</div>;
+type SearchPanelProps = {
+  filterText: string;
+  setFilterText: Dispatch<SetStateAction<string>>;
 };
-type Props = {
-  equipments: Equipment[];
+const SearchPanel = ({ filterText, setFilterText }: SearchPanelProps) => {
+  const filter: ChangeEventHandler<HTMLInputElement> = e => {
+    setFilterText(e.target.value);
+  };
+
+  return (
+    <div>
+      <TextField margin="normal" label="絞り込み" value={filterText} onChange={filter} />
+    </div>
+  );
 };
 
-const Table = ({ equipments }: Props) => {
+type Props = {
+  equipments: Equipment[];
+  filterText: string;
+};
+
+const Table = ({ equipments, filterText }: Props) => {
   type ColumnDefinition<T> = {
     key: keyof T;
     type: ValueType;
@@ -42,16 +61,21 @@ const Table = ({ equipments }: Props) => {
   };
 
   const baseColumn: ColumnDefinition<Details>[] = [
-    { key: 'id', type: 'code', label: '管理番号', width: 110 },
+    { key: 'id', type: 'code', label: '管理番号', style: 'center', width: 110 },
     { key: 'maker', type: 'string', label: 'メーカー', style: 'upLeft', width: 100 },
     { key: 'modelNumber', type: 'string', label: '型番', style: 'bottomRight', width: 130 },
     { key: 'group', type: 'string', label: '管理者', style: 'upLeft', width: 100 },
     { key: 'rentalUserStr', type: 'string', label: '使用者', style: 'bottomRight', width: 100 },
-    { key: 'place', type: 'string', label: '場所', width: 180 },
+    { key: 'place', type: 'string', label: '場所', style: 'center', width: 180 },
     { key: 'rentalDate', type: 'rentalState', label: '貸出状態', style: 'center', width: 80 },
     { key: 'registrationDate', type: 'date', label: '登録日', style: 'center', width: 120 },
     { key: 'note', type: 'string', label: '備考', width: 400 },
   ];
+
+  const lowerFilterText = filterText.toLowerCase();
+  const filteredEquipments = isNullOrWhiteSpace(lowerFilterText)
+    ? equipments
+    : equipments.filter(x => Object.values(x).some(value => value?.toString().toLowerCase().includes(lowerFilterText)));
 
   return (
     <div className={styles.tableWrapper}>
@@ -66,7 +90,7 @@ const Table = ({ equipments }: Props) => {
           </tr>
         </thead>
         <tbody className={styles.tbody}>
-          {equipments.map(equipment => {
+          {filteredEquipments.map(equipment => {
             return (
               <tr key={equipment.id}>
                 {baseColumn.map(col => (

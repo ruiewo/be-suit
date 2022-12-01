@@ -40,6 +40,7 @@
   padding: 2px 9px;
 }
 .tbody [data-type='center'] {
+  user-select: all;
   text-align: center;
 }
 .tbody [data-type='upLeft'] {
