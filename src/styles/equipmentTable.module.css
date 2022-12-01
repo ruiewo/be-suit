@@ -55,3 +55,14 @@
   white-space: nowrap;
   direction: rtl;
 }
+
+.selectPanel {
+  display: flex;
+  flex-direction: row;
+}
+
+.categoryChip {
+  /* todo */
+  margin-top: 8px;
+  margin-bottom: 8px;
+}

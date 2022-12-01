@@ -3,6 +3,7 @@ import { ChangeEventHandler, Dispatch, SetStateAction, useState } from 'react';
 
 import { TextField } from '@mui/material';
 
+import CategoryChip from '../../components/categoryChip';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useEquipments } from '../../hooks/useEquipments';
@@ -11,8 +12,10 @@ import { isNullOrWhiteSpace } from '../../modules/util';
 import styles from '../../styles/equipmentTable.module.css';
 
 const EquipmentPage: NextPage = () => {
-  const { equipments, columns, isLoading, isError } = useEquipments('PC', 'D');
+  // const { equipments, columns, isLoading, isError } = useEquipments('MO', 'D');
   const [filterText, setFilterText] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState(['PC']);
+  const { equipments, columns, isLoading, isError } = useEquipments(selectedCategories[0], 'D');
 
   if (isError) return <ErrorDialog />;
 
@@ -22,7 +25,12 @@ const EquipmentPage: NextPage = () => {
 
   return (
     <>
-      <SearchPanel filterText={filterText} setFilterText={setFilterText} />
+      <SearchPanel
+        filterText={filterText}
+        setFilterText={setFilterText}
+        selectedCategories={selectedCategories}
+        setSelectedCategories={setSelectedCategories}
+      />
       <Table equipments={equipments} filterText={filterText} />
     </>
   );
@@ -33,14 +41,16 @@ export default EquipmentPage;
 type SearchPanelProps = {
   filterText: string;
   setFilterText: Dispatch<SetStateAction<string>>;
+  selectedCategories: string[];
+  setSelectedCategories: Dispatch<SetStateAction<string[]>>;
 };
-const SearchPanel = ({ filterText, setFilterText }: SearchPanelProps) => {
+const SearchPanel = ({ filterText, setFilterText, selectedCategories, setSelectedCategories }: SearchPanelProps) => {
   const filter: ChangeEventHandler<HTMLInputElement> = e => {
     setFilterText(e.target.value);
   };
-
   return (
-    <div>
+    <div className={styles.selectPanel}>
+      <CategoryChip selectedCategories={selectedCategories} setSelectedCategories={setSelectedCategories} />
       <TextField margin="normal" label="絞り込み" value={filterText} onChange={filter} />
     </div>
   );

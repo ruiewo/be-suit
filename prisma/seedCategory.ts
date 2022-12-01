@@ -17,6 +17,29 @@ const categories = [
       { key: 'ram', type: 'string', label: 'RAM', width: 120 },
     ],
   },
+  {
+    code: 'MO',
+    label: 'モニター',
+    enable: true,
+    subCategories: [
+      { code: 'D', label: 'Desktop', enable: true },
+      { code: 'M', label: 'Mobile', enable: true },
+    ],
+    columns: [
+      { key: 'size', type: 'string', label: 'inch', width: 120 },
+      { key: 'resolution', type: 'string', label: '解像度', width: 120 },
+    ],
+  },
+  {
+    code: 'DR',
+    label: 'ドライブ',
+    enable: true,
+    subCategories: [
+      { code: 'D', label: 'DVD', enable: true },
+      { code: 'B', label: 'Blu-Ray', enable: true },
+    ],
+    columns: [],
+  },
 ];
 
 export async function seedCategory(prisma: PrismaClient) {
