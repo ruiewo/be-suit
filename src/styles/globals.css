@@ -9,6 +9,11 @@
   --color5: #7ba58b;
 }
 
+*::selection {
+  background-color: var(--color2);
+  color: #fff;
+}
+
 ::-webkit-scrollbar {
   width: 15px;
 }
