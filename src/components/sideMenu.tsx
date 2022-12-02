@@ -56,7 +56,7 @@ function Menu() {
 
   return (
     <MenuButton isOpen={isMenuOpen} toggleOpen={toggleMenuPanel}>
-      <div className={`${styles.menuOverlay} ${!isMenuOpen ? styles.menuOverlayOpen : styles.menuOverlayClose}`}>
+      <div className={`${styles.menuOverlay} ${isMenuOpen ? styles.menuOverlayOpen : styles.menuOverlayClose}`}>
         <ul className={styles.menuOverlayGridContainer}>
           {menu.map(menu => (
             <li className={styles.menu} key={menu.title}>

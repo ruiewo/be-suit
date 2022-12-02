@@ -10,11 +10,11 @@ type Props = {
 
 export const MenuButton = ({ children, isOpen, toggleOpen }: Props) => {
   return (
-    <div className={`${styles.menuButton} ${isOpen ? '' : styles.closeButton}`} onClick={toggleOpen}>
+    <div className={`${styles.menuButton} ${isOpen ? styles.closeButton : ''}`} onClick={toggleOpen}>
       <span className={styles.bar}></span>
       <span className={styles.bar}></span>
       <span className={styles.bar}></span>
-      <p className={styles.menuLabel}>{!isOpen ? 'Close' : 'Menu'}</p>
+      <p className={styles.menuLabel}>{!isOpen ? 'Menu' : 'Close'}</p>
       {children}
     </div>
   );
