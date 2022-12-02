@@ -24,9 +24,9 @@ const MenuProps = {
   },
 };
 
-function getStyles(categoryName: string, personName: readonly string[], theme: Theme) {
+function getStyles(categoryCode: string, selectedCategories: readonly string[], theme: Theme) {
   return {
-    fontWeight: personName.indexOf(categoryName) === -1 ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
+    fontWeight: selectedCategories.includes(categoryCode) ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
   };
 }
 type Props = {
@@ -41,10 +41,12 @@ export default function CategoryChip({ selectedCategories, setSelectedCategories
     const {
       target: { value },
     } = event;
-    setSelectedCategories(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value
-    );
+
+    if (typeof value === 'string') {
+      return;
+    }
+
+    setSelectedCategories(value);
   };
 
   return (
@@ -67,11 +69,16 @@ export default function CategoryChip({ selectedCategories, setSelectedCategories
           )}
           MenuProps={MenuProps}
         >
-          {(categories ?? []).map(category => (
-            <MenuItem key={category.code} value={category.code} style={getStyles(category.code, selectedCategories, theme)}>
-              {category.code}
-            </MenuItem>
-          ))}
+          {(categories ?? []).map(category =>
+            category.subCategories.map(subCategory => {
+              const value = `${category.code}-${subCategory.code}`;
+              return (
+                <MenuItem key={value} value={value} style={getStyles(value, selectedCategories, theme)}>
+                  {category.label} - {subCategory.label}
+                </MenuItem>
+              );
+            })
+          )}
         </Select>
       </FormControl>
     </div>

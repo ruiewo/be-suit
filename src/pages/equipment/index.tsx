@@ -1,21 +1,44 @@
 import type { NextPage } from 'next';
-import { ChangeEventHandler, Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEventHandler, Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+import aspida from '@aspida/fetch';
 import { TextField } from '@mui/material';
 
 import CategoryChip from '../../components/categoryChip';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
-import { useEquipments } from '../../hooks/useEquipments';
-import { Details, Equipment, ValueType, convertToDisplay } from '../../models/equipment';
+import { ColumnDefinition, Details, Equipment, ValueType, convertToDisplay } from '../../models/equipment';
 import { isNullOrWhiteSpace } from '../../modules/util';
+import api from '../../pages/$api';
 import styles from '../../styles/equipmentTable.module.css';
 
+const client = api(aspida());
+
 const EquipmentPage: NextPage = () => {
-  // const { equipments, columns, isLoading, isError } = useEquipments('MO', 'D');
   const [filterText, setFilterText] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState(['PC']);
-  const { equipments, columns, isLoading, isError } = useEquipments(selectedCategories[0], 'D');
+  const [selectedCategories, setSelectedCategories] = useState(['PC-D']);
+
+  const [equipments, setEquipments] = useState<Equipment[]>([]);
+  const [columns, setColumns] = useState<ColumnDefinition<Details>[]>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    async function get() {
+      setIsLoading(true);
+      try {
+        const { equipments, columns } = await client.api.equipment.advancedSearch.$post({ body: { categoryCodes: selectedCategories } });
+        setEquipments(equipments);
+        setColumns(columns);
+      } catch (error) {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    get();
+  }, [selectedCategories]);
 
   if (isError) return <ErrorDialog />;
 
