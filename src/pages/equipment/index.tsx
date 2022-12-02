@@ -42,8 +42,6 @@ const EquipmentPage: NextPage = () => {
 
   if (isError) return <ErrorDialog />;
 
-  if (isLoading) return <Loading />;
-
   if (equipments == null || columns == null) return <ErrorDialog />;
 
   return (
@@ -54,7 +52,7 @@ const EquipmentPage: NextPage = () => {
         selectedCategories={selectedCategories}
         setSelectedCategories={setSelectedCategories}
       />
-      <Table equipments={equipments} filterText={filterText} />
+      {isLoading ? <Loading /> : <Table equipments={equipments} filterText={filterText} />}
     </>
   );
 };
