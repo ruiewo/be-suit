@@ -8,7 +8,7 @@ import CategoryChip from '../../components/categoryChip';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { ColumnDefinition, Details, Equipment, ValueType, convertToDisplay } from '../../models/equipment';
-import { isNullOrWhiteSpace } from '../../modules/util';
+import { isNullOrWhiteSpace, sleep } from '../../modules/util';
 import api from '../../pages/$api';
 import styles from '../../styles/equipmentTable.module.css';
 
@@ -27,7 +27,11 @@ const EquipmentPage: NextPage = () => {
     async function get() {
       setIsLoading(true);
       try {
-        const { equipments, columns } = await client.api.equipment.advancedSearch.$post({ body: { categoryCodes: selectedCategories } });
+        const [{ equipments, columns }, _] = await Promise.all([
+          client.api.equipment.advancedSearch.$post({ body: { categoryCodes: selectedCategories } }),
+          sleep(1000),
+        ]);
+
         setEquipments(equipments);
         setColumns(columns);
       } catch (error) {

@@ -1,5 +1,7 @@
 export const isClientSide = () => typeof window !== 'undefined';
 
+export const sleep = (msec: number) => new Promise(resolve => setTimeout(resolve, msec));
+
 export const isNullOrWhiteSpace = (input: string | null | undefined): input is null | undefined => {
   if (typeof input === 'undefined' || input == null) {
     return true;
