@@ -1,18 +1,15 @@
 import type { NextPage } from 'next';
 import { ChangeEventHandler, Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import aspida from '@aspida/fetch';
 import { TextField } from '@mui/material';
 
 import CategoryChip from '../../components/categoryChip';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
+import { client } from '../../models/apiClient';
 import { ColumnDefinition, Details, Equipment, convertToDisplay } from '../../models/equipment';
 import { isNullOrWhiteSpace, sleep } from '../../modules/util';
-import api from '../../pages/$api';
 import styles from '../../styles/equipmentTable.module.css';
-
-const client = api(aspida());
 
 const EquipmentPage: NextPage = () => {
   const [filterText, setFilterText] = useState('');

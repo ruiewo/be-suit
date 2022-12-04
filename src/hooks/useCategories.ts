@@ -1,10 +1,7 @@
-import aspida from '@aspida/fetch';
 import useAspidaSWR from '@aspida/swr';
 
+import { client } from '../models/apiClient';
 import { Category } from '../models/category';
-import api from '../pages/$api';
-
-const client = api(aspida());
 
 export function useCategories(categoryCode: string) {
   const { data, error, mutate: setCategories } = useAspidaSWR(client.api.category.search, { query: { code: categoryCode } });

@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 
-import aspida from '@aspida/fetch';
 import { Box, Button, Typography } from '@mui/material';
 
 import { CategoryInput } from '../../components/categoryInput';
@@ -10,11 +9,10 @@ import { ColumnInput } from '../../components/columnInput';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useCategory } from '../../hooks/useCategories';
+import { client } from '../../models/apiClient';
 import { Category, CategoryBase } from '../../models/category';
 import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
-import api from '../../pages/$api';
 
-const client = api(aspida());
 const convertUpperCaseOnly = (value: string) => value.replace(/[^a-zA-Z]/g, '').toUpperCase();
 
 const CategoryPage: NextPage = () => {

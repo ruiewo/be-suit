@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import aspida from '@aspida/fetch';
 import { Box, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
+import { client } from '../../models/apiClient';
 import {
   ColumnDefinition,
   Details,
@@ -14,7 +14,6 @@ import {
   convertToValue,
   equipmentBaseColumn,
 } from '../../models/equipment';
-import api from '../../pages/$api';
 
 type Props = {
   open: boolean;
@@ -22,8 +21,6 @@ type Props = {
   equipment: EquipmentWithUser | null | undefined;
   optionColumn: ColumnDefinition<Details>[];
 };
-
-const client = api(aspida());
 
 export default function EquipmentDialog({ open, onClose, equipment, optionColumn }: Props) {
   const baseColumn = [...equipmentBaseColumn];
