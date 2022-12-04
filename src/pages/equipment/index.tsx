@@ -100,10 +100,23 @@ const Table = ({ equipments, columns, filterText }: Props) => {
     { key: 'note', type: 'string', label: '備考', width: 400 },
   ];
 
+  const convertedEquipments = equipments.map(equipment => {
+    const converted: Record<string, string> = {};
+    for (const col of baseColumn) {
+      converted[col.key] = convertToDisplay(equipment, col.key, col.type);
+    }
+
+    for (const col of columns) {
+      converted[col.key] = convertToDisplay(equipment.details, col.key, col.type);
+    }
+
+    return converted;
+  });
+
   const lowerFilterText = filterText.toLowerCase();
   const filteredEquipments = isNullOrWhiteSpace(lowerFilterText)
-    ? equipments
-    : equipments.filter(x => Object.values(x).some(value => value?.toString().toLowerCase().includes(lowerFilterText)));
+    ? convertedEquipments
+    : convertedEquipments.filter(x => Object.values(x).some(value => value?.toString().toLowerCase().includes(lowerFilterText)));
 
   return (
     <div className={styles.tableWrapper}>
@@ -128,12 +141,12 @@ const Table = ({ equipments, columns, filterText }: Props) => {
               <tr key={equipment.id}>
                 {baseColumn.map(col => (
                   <td key={col.key} data-type={col.style == null ? '' : col.style}>
-                    {convertToDisplay(equipment, col.key, col.type)}
+                    {equipment[col.key]}
                   </td>
                 ))}
                 {columns.map(col => (
                   <td key={col.key} data-type={col.style == null ? '' : col.style}>
-                    {convertToDisplay(equipment.details, col.key, col.type)}
+                    {equipment[col.key]}
                   </td>
                 ))}
               </tr>
