@@ -15,6 +15,7 @@ import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
 import api from '../../pages/$api';
 
 const client = api(aspida());
+const convertUpperCaseOnly = (value: string) => value.replace(/[^a-zA-Z]/g, '').toUpperCase();
 
 const CategoryPage: NextPage = () => {
   const router = useRouter();
@@ -32,7 +33,7 @@ const CategoryPage: NextPage = () => {
     const target = event.target as HTMLInputElement;
     switch (target.name) {
       case 'code':
-        c.code = target.value;
+        c.code = convertUpperCaseOnly(target.value);
         break;
       case 'label':
         c.label = target.value;
@@ -60,7 +61,7 @@ const CategoryPage: NextPage = () => {
     const newSubCategory = { ...c };
     switch (target.name) {
       case 'code':
-        newSubCategory.code = target.value;
+        newSubCategory.code = convertUpperCaseOnly(target.value);
         break;
       case 'label':
         newSubCategory.label = target.value;
