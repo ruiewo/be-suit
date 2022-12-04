@@ -93,7 +93,7 @@ const Table = ({ equipments, columns, filterText }: Props) => {
     { key: 'maker', type: 'string', label: 'メーカー', style: 'upLeft', width: 100 },
     { key: 'modelNumber', type: 'string', label: '型番', style: 'bottomRight', width: 130 },
     { key: 'group', type: 'string', label: '管理者', style: 'upLeft', width: 100 },
-    { key: 'rentalUserStr', type: 'string', label: '使用者', style: 'bottomRight', width: 100 },
+    { key: 'rentalUser', type: 'string', label: '使用者', style: 'bottomRight', width: 100 },
     { key: 'place', type: 'string', label: '場所', style: 'center', width: 180 },
     { key: 'rentalDate', type: 'rentalState', label: '貸出状態', style: 'center', width: 80 },
     { key: 'registrationDate', type: 'date', label: '登録日', style: 'center', width: 120 },

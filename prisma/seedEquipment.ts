@@ -36,7 +36,7 @@ async function readCsv(path: string) {
           modelNumber: row[3] as string,
           // maker: row[4], // type
           group: row[5] as string,
-          rentalUserStr: row[6] as string,
+          rentalUser: row[6] as string,
           place: row[7] as string,
           // maker: row[8],  // 社外
           registrationDate: toDate(row[9]),

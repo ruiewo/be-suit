@@ -25,7 +25,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const equipments = await prisma.equipment.findMany({
     where: {
-      rentalUserStr: { contains: session.user.name! },
+      rentalUser: { contains: session.user.name! },
     },
     orderBy: [
       {

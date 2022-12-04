@@ -17,8 +17,7 @@ export type Equipment = {
   group: string;
   place: string;
   rentalDate: Date | null;
-  rentalUserStr: string | null;
-  rentalUserId: string | null;
+  rentalUser: string | null;
   returnDate: Date | null;
   registrationDate: Date | null;
   deletedDate: Date | null;
@@ -49,7 +48,7 @@ export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'maker', type: 'string', label: 'メーカー', width: 120 },
   { key: 'modelNumber', type: 'string', label: '型番', width: 120 },
   { key: 'group', type: 'string', label: '管理者', width: 120 },
-  { key: 'rentalUserStr', type: 'string', label: '使用者', width: 120 },
+  { key: 'rentalUser', type: 'string', label: '使用者', width: 120 },
   { key: 'place', type: 'string', label: '使用・保管場所', width: 180 },
   { key: 'rentalDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },

@@ -8,15 +8,14 @@ datasource db {
 }
 
 model User {
-  id            String      @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?     @unique
-  role          Role        @default(user)
+  email         String?   @unique
+  role          Role      @default(user)
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Equipment     Equipment[]
 }
 
 enum Role {
@@ -43,13 +42,11 @@ model Equipment {
   note        String // 備考
 
   // 貸与関係
-  group         String // 管理者
-  place         String // 使用・保管場所
-  rentalDate    DateTime? // 貸出日
-  rentalUserStr String? // 手入力時の名前 通常rentalUserを入れるが、「共有」などの個人に所属しない or アカウントのない個人（協力会社）等の場合にのみ利用する。
-  rentalUser    User?     @relation(fields: [rentalUserId], references: [id]) // 使用者
-  rentalUserId  String? // 使用者
-  returnDate    DateTime? // 返却日
+  group      String // 管理者
+  place      String // 使用・保管場所
+  rentalDate DateTime? // 貸出日
+  rentalUser String? // 外部キーにしたいが退職済みユーザの扱いが複雑になるため文字列とする。
+  returnDate DateTime? // 返却日
 
   // 登録・削除
   registrationDate DateTime? // 登録日 

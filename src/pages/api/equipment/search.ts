@@ -43,9 +43,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
 
   const [equipments, category] = await Promise.all([
     prisma.equipment.findMany({
-      include: {
-        rentalUser: true,
-      },
       where: {
         category: cat.toUpperCase(),
         subCategory: sub.toUpperCase(),

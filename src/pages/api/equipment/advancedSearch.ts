@@ -58,9 +58,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   });
 
   const findEquipmentsQuery = prisma.equipment.findMany({
-    include: {
-      rentalUser: true,
-    },
     where: {
       OR: whereConditions,
     },
