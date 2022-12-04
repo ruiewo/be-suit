@@ -22,7 +22,7 @@ const cards = [
   { title: 'デスクトップPC', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/d` },
   { title: 'ノートPC', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/n` },
   { title: 'タブレット', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/t` },
-  { title: 'Category-PC', src: '/images/dev.svg', description: '開発用', path: `${page.category}/pc` },
+  { title: 'Category', src: '/images/dev.svg', description: '開発用', path: `${page.category}` },
   { title: 'signIn', src: '/images/dev.svg', description: '開発用', path: page.signIn },
 ];
 
