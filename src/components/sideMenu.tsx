@@ -51,6 +51,7 @@ function Menu() {
     { title: 'ノートPC', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/n` },
     { title: 'タブレット', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/t` },
     { title: 'Category', src: '/images/dev.svg', description: '開発用', path: `${page.category}` },
+    { title: 'MyPage', src: '/images/dev.svg', description: '開発用', path: `${page.user}` },
     { title: 'signIn', src: '/images/dev.svg', description: '開発用', path: page.signIn },
   ];
 
