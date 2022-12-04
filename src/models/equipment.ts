@@ -37,6 +37,7 @@ export type ColumnDefinition<T> = {
   key: keyof T;
   type: ValueType;
   label: string;
+  style?: string;
   width: number;
 };
 

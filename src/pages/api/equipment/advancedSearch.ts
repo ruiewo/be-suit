@@ -40,38 +40,54 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     return;
   }
 
+  let isUniqueCategory = true;
+  let lastCategory: string | null = null;
+
   const whereConditions = categoryCodes.map(x => {
     const [cat, sub] = x.split('-');
+
+    if (lastCategory === null) {
+      lastCategory = cat;
+    }
+
+    if (isUniqueCategory) {
+      isUniqueCategory = lastCategory == cat;
+    }
+
     return { category: cat.toUpperCase(), subCategory: sub.toUpperCase() };
   });
 
-  const [equipments, category] = await Promise.all([
-    prisma.equipment.findMany({
-      include: {
-        rentalUser: true,
+  const findEquipmentsQuery = prisma.equipment.findMany({
+    include: {
+      rentalUser: true,
+    },
+    where: {
+      OR: whereConditions,
+    },
+    orderBy: [
+      {
+        id: 'asc',
       },
-      where: {
-        OR: whereConditions,
-      },
-      orderBy: [
-        {
-          id: 'asc',
+    ],
+  });
+
+  const findCategoryQuery = isUniqueCategory
+    ? prisma.category.findFirst({
+        where: {
+          code: lastCategory!.toUpperCase(),
         },
-      ],
-    }),
-    [],
-    // prisma.category.findFirst({
-    //   where: {
-    //     code: cat.toUpperCase(),
-    //   },
-    // }),
-  ]);
+      })
+    : null;
+
+  const [equipments, category] = await Promise.all([findEquipmentsQuery, findCategoryQuery]);
 
   if (category == null) {
-    res.send({ equipments: [], columns: [] });
+    res.send({ equipments: equipments as Equipment[], columns: [] });
     return;
   }
 
-  res.status(200).json({ equipments: equipments as Equipment[], columns: [] });
-  // res.status(200).json({ equipments: equipments as Equipment[], columns: category.columns as ColumnDefinition<Details>[] });
+  res.status(200).json({
+    equipments: equipments as Equipment[],
+    columns: category.columns as ColumnDefinition<Details>[],
+  });
 }

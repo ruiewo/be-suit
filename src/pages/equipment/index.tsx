@@ -7,7 +7,7 @@ import { TextField } from '@mui/material';
 import CategoryChip from '../../components/categoryChip';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
-import { ColumnDefinition, Details, Equipment, ValueType, convertToDisplay } from '../../models/equipment';
+import { ColumnDefinition, Details, Equipment, convertToDisplay } from '../../models/equipment';
 import { isNullOrWhiteSpace, sleep } from '../../modules/util';
 import api from '../../pages/$api';
 import styles from '../../styles/equipmentTable.module.css';
@@ -19,7 +19,7 @@ const EquipmentPage: NextPage = () => {
   const [selectedCategories, setSelectedCategories] = useState(['PC-D']);
 
   const [equipments, setEquipments] = useState<Equipment[]>([]);
-  const [columns, setColumns] = useState<ColumnDefinition<Details>[]>();
+  const [columns, setColumns] = useState<ColumnDefinition<Details>[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -56,7 +56,7 @@ const EquipmentPage: NextPage = () => {
         selectedCategories={selectedCategories}
         setSelectedCategories={setSelectedCategories}
       />
-      {isLoading ? <Loading /> : <Table equipments={equipments} filterText={filterText} />}
+      {isLoading ? <Loading /> : <Table equipments={equipments} columns={columns} filterText={filterText} />}
     </>
   );
 };
@@ -83,18 +83,11 @@ const SearchPanel = ({ filterText, setFilterText, selectedCategories, setSelecte
 
 type Props = {
   equipments: Equipment[];
+  columns: ColumnDefinition<Details>[];
   filterText: string;
 };
 
-const Table = ({ equipments, filterText }: Props) => {
-  type ColumnDefinition<T> = {
-    key: keyof T;
-    type: ValueType;
-    label: string;
-    style?: string;
-    width: number;
-  };
-
+const Table = ({ equipments, columns, filterText }: Props) => {
   const baseColumn: ColumnDefinition<Details>[] = [
     { key: 'id', type: 'code', label: '管理番号', style: 'center', width: 110 },
     { key: 'maker', type: 'string', label: 'メーカー', style: 'upLeft', width: 100 },
@@ -122,6 +115,11 @@ const Table = ({ equipments, filterText }: Props) => {
                 {x.label}
               </th>
             ))}
+            {columns.map(x => (
+              <th key={x.key} style={{ width: x.width }}>
+                {x.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className={styles.tbody}>
@@ -131,6 +129,11 @@ const Table = ({ equipments, filterText }: Props) => {
                 {baseColumn.map(col => (
                   <td key={col.key} data-type={col.style == null ? '' : col.style}>
                     {convertToDisplay(equipment, col.key, col.type)}
+                  </td>
+                ))}
+                {columns.map(col => (
+                  <td key={col.key} data-type={col.style == null ? '' : col.style}>
+                    {convertToDisplay(equipment.details, col.key, col.type)}
                   </td>
                 ))}
               </tr>
