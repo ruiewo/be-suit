@@ -5,20 +5,12 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
 import { client } from '../../models/apiClient';
-import {
-  ColumnDefinition,
-  Details,
-  Equipment,
-  EquipmentWithUser,
-  convertToDisplay,
-  convertToValue,
-  equipmentBaseColumn,
-} from '../../models/equipment';
+import { ColumnDefinition, Details, Equipment, convertToDisplay, convertToValue, equipmentBaseColumn } from '../../models/equipment';
 
 type Props = {
   open: boolean;
   onClose: () => void;
-  equipment: EquipmentWithUser | null | undefined;
+  equipment: Equipment | null | undefined;
   optionColumn: ColumnDefinition<Details>[];
 };
 

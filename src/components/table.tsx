@@ -12,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 
-import { ColumnDefinition, Details, EquipmentWithUser, convertToDisplay, equipmentBaseColumn } from '../models/equipment';
+import { ColumnDefinition, Details, Equipment, EquipmentWithUser, convertToDisplay, equipmentBaseColumn } from '../models/equipment';
 import EquipmentDialog from './dialog/equipmentDialog';
 import { PageTop } from './pageTop';
 
@@ -63,7 +63,7 @@ export default function EquipmentsTable({ equipments, columns }: Props) {
 
   // for dialog
   const [open, setOpen] = useState(false);
-  const [equipment, setEquipment] = useState<EquipmentWithUser | null | undefined>(null);
+  const [equipment, setEquipment] = useState<Equipment | null | undefined>(null);
   const handleDialogOpen = (e: React.MouseEvent) => {
     e.preventDefault();
     const tr = (e.target as HTMLElement).closest<HTMLElement>('.equipmentItem');
@@ -81,7 +81,6 @@ export default function EquipmentsTable({ equipments, columns }: Props) {
 
   const handleDialogClose = () => {
     setOpen(false);
-    // setEquipment(null);
   };
 
   return (
