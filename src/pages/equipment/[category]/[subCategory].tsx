@@ -2,23 +2,28 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 
 import { ErrorDialog } from '../../../components/dialog/errorDialog';
+import { EquipmentPage } from '../../../components/equipmentsPage';
 import { Loading } from '../../../components/loading';
 import EquipmentsTable from '../../../components/table';
 import { useEquipments } from '../../../hooks/useEquipments';
 
-const EquipmentsPage: NextPage = () => {
+const Page: NextPage = () => {
   const router = useRouter();
   const { category, subCategory } = router.query;
 
-  const { equipments, columns, isLoading, isError } = useEquipments(category as string, subCategory as string);
+  const categoryCode = `${(category as string).toUpperCase()}-${(subCategory as string).toUpperCase()}`;
 
-  if (isError) return <ErrorDialog />;
+  return <EquipmentPage category={categoryCode} key={categoryCode} />;
 
-  if (isLoading) return <Loading />;
+  // const { equipments, columns, isLoading, isError } = useEquipments(category as string, subCategory as string);
 
-  if (equipments == null || columns == null) return <ErrorDialog />;
+  // if (isError) return <ErrorDialog />;
 
-  return <EquipmentsTable equipments={equipments} columns={columns} />;
+  // if (isLoading) return <Loading />;
+
+  // if (equipments == null || columns == null) return <ErrorDialog />;
+
+  // return <EquipmentsTable equipments={equipments} columns={columns} />;
 };
 
-export default EquipmentsPage;
+export default Page;
