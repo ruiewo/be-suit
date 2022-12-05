@@ -79,12 +79,12 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   const [equipments, category] = await Promise.all([findEquipmentsQuery, findCategoryQuery]);
 
   if (category == null) {
-    res.send({ equipments: equipments as Equipment[], columns: [] });
+    res.send({ equipments: equipments as unknown as Equipment[], columns: [] });
     return;
   }
 
   res.status(200).json({
-    equipments: equipments as Equipment[],
+    equipments: equipments as unknown as Equipment[],
     columns: category.columns as ColumnDefinition<Details>[],
   });
 }

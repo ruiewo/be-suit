@@ -24,7 +24,7 @@ const EquipmentPage: NextPage = () => {
     async function get() {
       setIsLoading(true);
       try {
-        const [{ equipments, columns }, _] = await Promise.all([
+        const [{ equipments, columns }] = await Promise.all([
           client.api.equipment.advancedSearch.$post({ body: { categoryCodes: selectedCategories } }),
           sleep(1000),
         ]);
