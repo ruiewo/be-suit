@@ -29,10 +29,12 @@ function getStyles(categoryCode: string, selectedCategories: readonly string[], 
     fontWeight: selectedCategories.includes(categoryCode) ? theme.typography.fontWeightRegular : theme.typography.fontWeightMedium,
   };
 }
+
 type Props = {
   selectedCategories: string[];
   setSelectedCategories: Dispatch<SetStateAction<string[]>>;
 };
+
 export default function CategoryChip({ selectedCategories, setSelectedCategories }: Props) {
   const theme = useTheme();
   const { categories, isLoading, isError } = useCategories('');
