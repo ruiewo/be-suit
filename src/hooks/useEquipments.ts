@@ -12,3 +12,20 @@ export function useEquipments(category: string, subCategory: string) {
     isError: error,
   };
 }
+
+export function useEquipment(id: number) {
+  const { data, error } = useAspidaSWR(client.api.equipment._id_(id), {
+    revalidateIfStale: false,
+    revalidateOnFocus: false,
+    // revalidateOnReconnect: false,
+    revalidateOnMount: true,
+    refreshInterval: 0,
+  });
+
+  return {
+    equipment: data?.equipment,
+    columns: data?.columns,
+    isLoading: !error && !data,
+    isError: error,
+  };
+}
