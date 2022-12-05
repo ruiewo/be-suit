@@ -25,7 +25,6 @@ export default function SignInButton() {
         <Button variant="contained" onClick={() => signOut()}>
           Sign out
         </Button>
-
         <Button variant="contained" onClick={() => router.push(page.equipment)} sx={{ mt: 5 }}>
           <HomeIcon />
         </Button>

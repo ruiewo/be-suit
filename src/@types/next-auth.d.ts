@@ -9,6 +9,7 @@ declare module 'next-auth' {
   interface Session {
     user: {
       role: Role;
+      image: string;
     } & DefaultSession['user'];
   }
 

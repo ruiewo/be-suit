@@ -1,11 +1,14 @@
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
 import { page } from '../models/const/path';
+import { isNullOrWhiteSpace } from '../modules/util';
 import styles from '../styles/accountButton.module.css';
 
 export function AccountButton() {
+  const { data: session } = useSession({ required: true });
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [isActive, setActive] = useState<boolean>(false);
 
@@ -28,7 +31,11 @@ export function AccountButton() {
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
       <div className={styles.parentButton} onClick={() => setActive(!isActive)}>
-        <Image src={mainButton.imageUrl} alt={mainButton.title} width={30} height={30} />
+        {isNullOrWhiteSpace(session?.user?.image) ? (
+          <Image src={mainButton.imageUrl} alt={mainButton.title} width={30} height={30} />
+        ) : (
+          <img src={session.user.image} alt="" style={{ width: 30, height: 30, borderRadius: '50%' }} />
+        )}
       </div>
       {subButtons.map(x => (
         <ChildButton key={x.title} isActive={isActive} {...x} />
