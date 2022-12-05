@@ -28,13 +28,15 @@ export function AccountButton() {
     { title: 'signOut', imageUrl: '/images/signOut.svg', link: page.signIn },
   ];
 
+  const avatarUrl = session?.user?.image;
+
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
       <div className={styles.parentButton} onClick={() => setActive(!isActive)}>
-        {isNullOrWhiteSpace(session?.user?.image) ? (
+        {isNullOrWhiteSpace(avatarUrl) ? (
           <Image src={mainButton.imageUrl} alt={mainButton.title} width={30} height={30} />
         ) : (
-          <img src={session.user.image} alt="" style={{ width: 30, height: 30, borderRadius: '50%' }} />
+          <img src={avatarUrl} alt="" style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid var(--color1)' }} />
         )}
       </div>
       {subButtons.map(x => (

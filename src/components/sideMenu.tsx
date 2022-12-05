@@ -36,7 +36,7 @@ function Menu() {
 
   const menu = [
     { title: '機器管理', src: '/images/computer.svg', description: 'PC一覧を表示します', path: page.equipment },
-    { title: 'Monitor', src: '/images/monitor.svg', description: 'モニタ一覧を表示します', path: '' },
+    { title: 'Monitor', src: '/images/monitor.svg', description: 'モニタ一覧を表示します', path: `${page.equipment}/mo/d` },
     { title: '貸出', src: '/images/rental.svg', description: 'not implemented yet.', path: '' },
     { title: 'ユーザ管理', src: '/images/user.svg', description: 'not implemented yet.', path: '' },
     { title: 'マスタ管理', src: '/images/master.svg', description: 'not implemented yet.', path: '' },
@@ -47,9 +47,6 @@ function Menu() {
       path: '',
     },
     { title: 'QR Code', src: '/images/dev.svg', description: '開発用', path: page.qrCode },
-    { title: 'デスクトップPC', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/d` },
-    { title: 'ノートPC', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/n` },
-    { title: 'タブレット', src: '/images/dev.svg', description: '開発用', path: `${page.equipment}/pc/t` },
     { title: 'Category', src: '/images/dev.svg', description: '開発用', path: `${page.category}` },
     { title: 'MyPage', src: '/images/dev.svg', description: '開発用', path: `${page.user}` },
     { title: 'signIn', src: '/images/dev.svg', description: '開発用', path: page.signIn },
