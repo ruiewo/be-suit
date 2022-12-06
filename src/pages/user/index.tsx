@@ -151,6 +151,7 @@ export const RoleContextMenu = ({ contextMenu, onClose }: ContextMenuProps) => {
   return (
     <Menu
       open={contextMenu !== null}
+      onClose={() => onClose(false)}
       anchorReference="anchorPosition"
       anchorPosition={contextMenu !== null ? { top: contextMenu.mouseY, left: contextMenu.mouseX } : undefined}
     >
