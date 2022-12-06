@@ -16,6 +16,8 @@ import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
 const convertUpperCaseOnly = (value: string) => value.replace(/[^a-zA-Z]/g, '').toUpperCase();
 
 const CategoryPage: NextPage = () => {
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+
   const router = useRouter();
   const { categoryCode } = router.query;
 
@@ -130,15 +132,19 @@ const CategoryPage: NextPage = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(rootCategory);
   };
 
-  const update = () => {
+  const update = async () => {
     const newCategory: Category = { ...rootCategory, subCategories, columns };
-    client.api.category.update.$post({ body: { category: newCategory } });
+    const { error } = await client.api.category.update.$post({ body: { category: newCategory } });
+
+    if (error) {
+      const message = error.errors.reduce((prev, current) => prev + '\n' + current.message, '');
+      setErrorMessage(message);
+    }
   };
 
-  if (isError) return <ErrorDialog />;
+  if (isError || errorMessage) return <ErrorDialog message={errorMessage} />;
 
   if (isLoading) return <Loading />;
 

@@ -13,19 +13,19 @@ export type ApiErrorDetail = { code: string; message: string };
 export type StatusCode = { statusCode: number };
 
 export function unauthorized(res: NextApiResponse) {
-  res.status(401).send({ statusCode: 401, errors: [{ code: '', message: 'unauthorized' }] });
+  res.status(401).send({ error: { statusCode: 401, errors: [{ code: '', message: 'unauthorized.' }] } });
 }
 
 export function forbidden(res: NextApiResponse) {
-  res.status(403).send({ statusCode: 403, errors: [{ code: '', message: 'forbidden.' }] });
+  res.status(403).send({ error: { statusCode: 403, errors: [{ code: '', message: 'forbidden.' }] } });
 }
 
 export function notFound(res: NextApiResponse) {
-  res.status(404).send({ statusCode: 404, errors: [{ code: '', message: 'not found.' }] });
+  res.status(404).send({ error: { statusCode: 404, errors: [{ code: '', message: 'not found.' }] } });
 }
 
 export function methodNotAllowed(res: NextApiResponse) {
-  res.status(405).send({ statusCode: 405, errors: [{ code: '', message: 'method not allowed.' }] });
+  res.status(403).send({ error: { statusCode: 405, errors: [{ code: '', message: 'method not allowed.' }] } });
 }
 
 type ValidateOption = {
