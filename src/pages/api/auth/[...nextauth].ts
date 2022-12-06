@@ -1,13 +1,15 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import AzureADProvider from 'next-auth/providers/azure-ad';
 import CognitoProvider from 'next-auth/providers/cognito';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { Role } from '@prisma/client';
 
 import { prisma } from '../../../modules/db';
 
-export const authOptions: NextAuthOptions = {
+const defaultOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
 
   pages: {
@@ -79,5 +81,52 @@ export const authOptions: NextAuthOptions = {
     // async jwt({ token, user, account, profile, isNewUser }) { return token }
   },
 };
+
+const debugOption: NextAuthOptions = {
+  providers: [
+    CredentialsProvider({
+      id: 'admin-login',
+      name: 'admin-login',
+      credentials: {
+        // username: { label: 'Username', type: 'text', placeholder: 'admin' },
+        // password: { label: 'Password', type: 'password', placeholder: 'admin' },
+      },
+      async authorize(credentials: any, req: any) {
+        return {
+          id: 'admin',
+          name: 'admin',
+          email: 'admin@email.com',
+          role: 'admin',
+        };
+      },
+    }),
+
+    CredentialsProvider({
+      id: 'user-login',
+      name: 'user-login',
+      credentials: {
+        // username: { label: 'Username', type: 'text', placeholder: 'user' },
+        // password: { label: 'Password', type: 'password', placeholder: 'user' },
+      },
+      async authorize(credentials: any, req: any) {
+        return {
+          id: 'user',
+          name: 'user',
+          email: 'user@email.com',
+          role: 'user',
+        };
+      },
+    }),
+  ],
+
+  callbacks: {
+    async session({ session, user }) {
+      session.user.role = session.user.name as Role;
+      return session;
+    },
+  },
+};
+
+export const authOptions = process.env.NEXT_PUBLIC_DEBUG_MODE === 'true' ? debugOption : defaultOptions;
 
 export default NextAuth(authOptions);

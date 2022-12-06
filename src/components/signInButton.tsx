@@ -31,6 +31,21 @@ export default function SignInButton() {
       </>
     );
   }
+
+  if (process.env.NEXT_PUBLIC_DEBUG_MODE === 'true') {
+    return (
+      <>
+        <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 5 }}>
+          Not signed in
+        </Typography>
+
+        <Button type="button" variant="contained" onClick={() => signIn()}>
+          Sign in
+        </Button>
+      </>
+    );
+  }
+
   return (
     <>
       <Typography component="h1" variant="h5" sx={{ mt: 5, mb: 5 }}>
