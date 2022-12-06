@@ -1,5 +1,3 @@
-import { User } from '@prisma/client';
-
 import { DateEx, isDate, isNullOrWhiteSpace } from '../modules/util';
 
 export type Details = Record<string, string | number | Date | null>;

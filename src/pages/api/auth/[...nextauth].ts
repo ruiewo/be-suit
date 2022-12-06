@@ -48,12 +48,14 @@ export const authOptions: NextAuthOptions = {
             name: profile.name,
             email: profile.email,
             image: `data:image/jpeg;base64, ${pictureBase64}`,
+            role: 'user',
           };
         } else {
           return {
             id: profile.sub,
             name: profile.name,
             email: profile.email,
+            role: 'user',
           };
         }
       },

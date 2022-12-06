@@ -34,7 +34,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   const { code } = req.query;
 
   if (isNullOrWhiteSpace(code)) {
-    notFound(res, { code: '', message: 'category not found.' });
+    notFound(res);
     return;
   }
 
@@ -46,7 +46,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   });
 
   if (category == null) {
-    notFound(res, { code: '', message: 'category not found.' });
+    notFound(res);
     return;
   }
 
