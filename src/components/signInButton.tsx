@@ -9,7 +9,6 @@ import { page } from '../models/const/path';
 
 export default function SignInButton() {
   const { data: session } = useSession();
-  console.dir(session);
 
   const router = useRouter();
 
