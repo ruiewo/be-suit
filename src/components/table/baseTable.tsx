@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { ColumnDefinition, Details } from '../../models/equipment';
 import { isNullOrWhiteSpace } from '../../modules/util';
+import { ContextMenuProps } from '../../pages/user';
 import styles from '../../styles/equipmentTable.module.css';
 
 type Props = {
@@ -10,9 +11,10 @@ type Props = {
   filterText: string;
   reload?: () => void;
   Dialog?: ({ onClose, id }: { id: number; onClose: (isEdited: boolean) => void }) => JSX.Element;
+  ContextMenu?: ({ contextMenu, onClose }: ContextMenuProps) => JSX.Element;
 };
 
-export const BaseTable = ({ data, columns, filterText, reload, Dialog }: Props) => {
+export const BaseTable = ({ data, columns, filterText, reload, Dialog, ContextMenu }: Props) => {
   const lowerFilterText = filterText.toLowerCase();
   const filteredData = isNullOrWhiteSpace(lowerFilterText)
     ? data
@@ -39,6 +41,26 @@ export const BaseTable = ({ data, columns, filterText, reload, Dialog }: Props) 
     }
   };
 
+  // context menu
+  const [contextMenu, setContextMenu] = useState<{ mouseX: number; mouseY: number; dataId: string } | null>(null);
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const tr = (e.target as HTMLElement).closest<HTMLElement>('tr');
+    if (tr == null) {
+      setContextMenu(null);
+      return;
+    }
+
+    setContextMenu(contextMenu === null ? { mouseX: e.clientX + 2, mouseY: e.clientY - 6, dataId: tr.dataset.id! } : null);
+  };
+  const handleContextMenuClose = (isEdited: boolean) => {
+    setContextMenu(null);
+    if (isEdited && typeof reload === 'function') {
+      reload();
+    }
+  };
+
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
@@ -51,7 +73,7 @@ export const BaseTable = ({ data, columns, filterText, reload, Dialog }: Props) 
             ))}
           </tr>
         </thead>
-        <tbody className={styles.tbody} onDoubleClick={handleDialogOpen}>
+        <tbody className={styles.tbody} onDoubleClick={handleDialogOpen} onContextMenu={handleContextMenu}>
           {filteredData.map(data => {
             return (
               <tr key={data.id} data-id={data.id}>
@@ -66,6 +88,7 @@ export const BaseTable = ({ data, columns, filterText, reload, Dialog }: Props) 
         </tbody>
       </table>
       {Dialog == null || dataId == null ? <></> : <Dialog onClose={handleDialogClose} id={dataId} />}
+      {ContextMenu == null ? <></> : <ContextMenu contextMenu={contextMenu} onClose={handleContextMenuClose} />}
     </div>
   );
 };

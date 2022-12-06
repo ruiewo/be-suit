@@ -1,6 +1,8 @@
 :root {
   /* colorは白黒除いて Max5色 まで */
   --color-white: #eee;
+  --color-light-gray: #b6b6b6;
+  --color-dark-gray: rgba(0, 0, 0, 0.6);
   --color-black: #333;
   --color1: #e0dbca;
   --color2: #bd577d;
