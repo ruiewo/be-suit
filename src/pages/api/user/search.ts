@@ -9,35 +9,37 @@ import { User } from '../../../models/user';
 import { prisma } from '../../../modules/db';
 
 type ReqData = {
-  role?: string;
+  roles: Role[];
 };
+
 type ResData = {
   users: User[];
   error?: string;
 };
 
 export type Methods = DefineMethods<{
-  get: {
-    query: ReqData;
+  post: {
+    reqBody: ReqData;
     resBody: ResData;
   };
 }>;
 
 interface ExtendedNextApiRequest extends NextApiRequest {
-  query: ReqData;
+  body: ReqData;
 }
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
-  const { isValid } = await validate(req, res, { httpMethods: [http.GET], authorize: true });
+  const { isValid } = await validate(req, res, { httpMethods: [http.POST], authorize: true });
   if (!isValid) {
-    res.send({ users: [] });
     return;
   }
 
-  const { role } = req.query;
+  const roles = req.body.roles;
 
   const users = await prisma.user.findMany({
-    where: { role: role as Role },
+    where: {
+      role: { in: roles },
+    },
     orderBy: [{ name: 'asc' }],
     select: {
       id: true,
