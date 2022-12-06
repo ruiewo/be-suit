@@ -4,3 +4,5 @@ export const role = {
   admin: 'admin',
   superAdmin: 'superAdmin',
 } as const;
+
+export const roles = Object.values(role);

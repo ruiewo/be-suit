@@ -9,6 +9,7 @@ import type { Methods as Methods5 } from './api/equipment/search'
 import type { Methods as Methods6 } from './api/equipment/update'
 import type { Methods as Methods7 } from './api/user/me'
 import type { Methods as Methods8 } from './api/user/search'
+import type { Methods as Methods9 } from './api/user/update'
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? '' : baseURL).replace(/\/$/, '')
@@ -21,7 +22,8 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH6 = '/api/equipment/update'
   const PATH7 = '/api/user/me'
   const PATH8 = '/api/user/search'
-  const PATH9 = '/equipment'
+  const PATH9 = '/api/user/update'
+  const PATH10 = '/equipment'
   const GET = 'GET'
   const POST = 'POST'
 
@@ -99,18 +101,24 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
           $path: () => `${prefix}${PATH7}`
         },
         search: {
-          get: (option: { query: Methods8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods8['get']['resBody']>(prefix, PATH8, GET, option).json(),
-          $get: (option: { query: Methods8['get']['query'], config?: T | undefined }) =>
-            fetch<Methods8['get']['resBody']>(prefix, PATH8, GET, option).json().then(r => r.body),
-          $path: (option?: { method?: 'get' | undefined; query: Methods8['get']['query'] } | undefined) =>
-            `${prefix}${PATH8}${option && option.query ? `?${dataToURLString(option.query)}` : ''}`
+          post: (option: { body: Methods8['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods8['post']['resBody']>(prefix, PATH8, POST, option).json(),
+          $post: (option: { body: Methods8['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods8['post']['resBody']>(prefix, PATH8, POST, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH8}`
+        },
+        update: {
+          post: (option: { body: Methods9['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods9['post']['resBody']>(prefix, PATH9, POST, option).json(),
+          $post: (option: { body: Methods9['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods9['post']['resBody']>(prefix, PATH9, POST, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH9}`
         }
       }
     },
     equipment: {
       _category_: (val1: number | string) => {
-        const prefix1 = `${PATH9}/${val1}`
+        const prefix1 = `${PATH10}/${val1}`
 
       }
     },
