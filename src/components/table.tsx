@@ -12,7 +12,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { styled } from '@mui/material/styles';
 
-import { ColumnDefinition, Details, Equipment, EquipmentWithUser, convertToDisplay, equipmentBaseColumn } from '../models/equipment';
+import { ColumnDefinition, Details, Equipment, convertToDisplay, equipmentBaseColumn } from '../models/equipment';
 import EquipmentDialog from './dialog/equipmentDialog';
 import { PageTop } from './pageTop';
 
@@ -37,7 +37,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 type Props = {
-  equipments: EquipmentWithUser[];
+  equipments: Equipment[];
   columns: ColumnDefinition<Details>[];
 };
 

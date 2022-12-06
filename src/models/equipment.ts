@@ -26,10 +26,6 @@ export type Equipment = {
   updatedAt: Date; // todo define as Date or String?
 };
 
-export type EquipmentWithUser = Equipment & {
-  rentalUser: User | null;
-};
-
 export type ValueType = 'code' | 'rentalState' | 'string' | 'number' | 'date';
 
 export type ColumnDefinition<T> = {

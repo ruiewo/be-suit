@@ -1,13 +1,13 @@
 import { Box, Grid } from '@mui/material';
 
 import { getEquipmentCode } from '../models/equipment';
-import { EquipmentWithUser } from '../models/equipment';
+import { Equipment } from '../models/equipment';
 import { PcDetail } from '../models/equipmentDetails/pc';
 import styles from '../styles/qrcode.module.css';
 import PcTag from './pcTag';
 
 type Props = {
-  equipments: EquipmentWithUser[];
+  equipments: Equipment[];
 };
 
 export const QrPage = ({ equipments }: Props) => {
@@ -24,7 +24,7 @@ export const QrPage = ({ equipments }: Props) => {
   return <>{sheetComponents}</>;
 };
 
-export const RectangleSheet = (equipment: EquipmentWithUser[]) => {
+export const RectangleSheet = (equipment: Equipment[]) => {
   return (
     <section className={styles.onePage}>
       <Box sx={{ flexGrow: 1 }}>

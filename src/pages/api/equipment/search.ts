@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { ColumnDefinition, Details, EquipmentWithUser } from '../../../models/equipment';
+import { ColumnDefinition, Details, Equipment } from '../../../models/equipment';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
 
@@ -12,7 +12,7 @@ type ReqData = {
   sub?: string;
 };
 type ResData = {
-  equipments: EquipmentWithUser[];
+  equipments: Equipment[];
   columns: ColumnDefinition<Details>[];
 };
 
@@ -65,5 +65,5 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     return;
   }
 
-  res.status(200).json({ equipments: equipments as EquipmentWithUser[], columns: category.columns as ColumnDefinition<Details>[] });
+  res.status(200).json({ equipments: equipments as unknown as Equipment[], columns: category.columns as ColumnDefinition<Details>[] });
 }
