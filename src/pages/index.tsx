@@ -7,10 +7,10 @@ import styles from '../styles/home.module.css';
 import { NextPageWithLayout } from './_app';
 
 const cards = [
+  { title: '機器管理', src: '/images/computer.svg', description: 'PC一覧を表示します', path: page.equipment },
   { title: 'Monitor', src: '/images/monitor.svg', description: 'モニタ一覧を表示します。', path: `${page.equipment}/mo/d` },
   { title: '貸出', src: '/images/rental.svg', description: 'not implemented yet.', path: '' },
-  { title: '機器管理', src: '/images/computer.svg', description: 'PC一覧を表示します', path: page.equipment },
-  { title: 'ユーザ管理', src: '/images/user.svg', description: 'not implemented yet.', path: '' },
+  { title: 'ユーザ管理', src: '/images/user.svg', description: 'not implemented yet.', path: page.user },
   { title: 'マスタ管理', src: '/images/master.svg', description: 'not implemented yet.', path: '' },
   {
     title: 'メンテナンス',

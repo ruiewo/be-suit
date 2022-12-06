@@ -8,8 +8,8 @@ type Props = {
   data: Record<string, string | number>[];
   columns: ColumnDefinition<Details>[];
   filterText: string;
-  reload: () => void;
-  Dialog({ onClose, id }: { id: number; onClose: (isEdited: boolean) => void }): JSX.Element;
+  reload?: () => void;
+  Dialog?: ({ onClose, id }: { id: number; onClose: (isEdited: boolean) => void }) => JSX.Element;
 };
 
 export const BaseTable = ({ data, columns, filterText, reload, Dialog }: Props) => {
@@ -34,7 +34,7 @@ export const BaseTable = ({ data, columns, filterText, reload, Dialog }: Props) 
 
   const handleDialogClose = (isEdited: boolean) => {
     setDataId(null);
-    if (isEdited) {
+    if (isEdited && typeof reload === 'function') {
       reload();
     }
   };
@@ -65,7 +65,7 @@ export const BaseTable = ({ data, columns, filterText, reload, Dialog }: Props) 
           })}
         </tbody>
       </table>
-      {dataId == null ? <></> : <Dialog onClose={handleDialogClose} id={dataId} />}
+      {Dialog == null || dataId == null ? <></> : <Dialog onClose={handleDialogClose} id={dataId} />}
     </div>
   );
 };

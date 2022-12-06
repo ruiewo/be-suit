@@ -4,5 +4,6 @@ export const page = {
   qrCode: '/qrcode',
   equipment: '/equipment',
   category: '/category',
-  user: '/user/me',
+  user: '/user',
+  myPage: '/user/me',
 } as const;
