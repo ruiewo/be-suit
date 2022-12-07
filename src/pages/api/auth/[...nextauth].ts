@@ -8,6 +8,7 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { Role } from '@prisma/client';
 
 import { prisma } from '../../../modules/db';
+import { isNullOrWhiteSpace } from '../../../modules/util';
 
 const defaultOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -57,6 +58,7 @@ const defaultOptions: NextAuthOptions = {
             id: profile.sub,
             name: profile.name,
             email: profile.email,
+            image: createAvatarImage(profile.name),
             role: 'user',
           };
         }
@@ -128,5 +130,30 @@ const debugOption: NextAuthOptions = {
 };
 
 export const authOptions = process.env.NEXT_PUBLIC_DEBUG_MODE === 'true' ? debugOption : defaultOptions;
+
+function createAvatarImage(userName?: string) {
+  if (isNullOrWhiteSpace(userName)) {
+    return undefined;
+  }
+
+  let twoLetter = '';
+  const strArr = userName.split(' ');
+  if (strArr.length === 1) {
+    twoLetter = strArr[0].substring(0, 2);
+  } else {
+    twoLetter = strArr[0].substring(0, 1) + strArr[1].substring(0, 1);
+  }
+
+  const svg = `<svg width="512" height="512" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle fill="#dbf0f3" cx="50" cy="50" r="50"></circle>
+<text x="50%" y="50%" font-family="Verdana" font-size="42" fill="#6d9291" text-anchor="middle" dominant-baseline="central">${twoLetter}</text>
+</svg>
+`;
+
+  const base64Svg = Buffer.from(svg).toString('base64');
+  const imageSrc = `data:image/svg+xml;base64, ${base64Svg}`;
+
+  return imageSrc;
+}
 
 export default NextAuth(authOptions);
