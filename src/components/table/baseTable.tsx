@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 import { ColumnDefinition, Details } from '../../models/equipment';
 import { isNullOrWhiteSpace } from '../../modules/util';
-import { ContextMenuProps } from '../../pages/user';
 import styles from '../../styles/equipmentTable.module.css';
+import { ContextMenuProps } from './userTable';
 
 type Props = {
   data: Record<string, string | number>[];

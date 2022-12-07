@@ -2,7 +2,7 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { EditButton } from '../../components/editButton';

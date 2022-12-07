@@ -20,6 +20,6 @@ export const ColumnInput = ({ index, column, onChange, remove }: Props) => (
     <ColumnTypeSelect sx={style} value={column.type} index={index} onChange={onChange} />
     <TextField margin="normal" sx={style} label="label" name="label" value={column.label} onChange={e => onChange(e, index)} />
     <TextField margin="normal" sx={style} label="width" name="width" value={column.width} onChange={e => onChange(e, index)} />
-    {remove != null ? <DeleteButton onClick={() => remove(index!)}> Remove </DeleteButton> : null}
+    {remove != null ? <DeleteButton onClick={() => remove(index)}> Remove </DeleteButton> : null}
   </Box>
 );

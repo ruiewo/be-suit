@@ -1,7 +1,7 @@
 import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { ApiErrorResponse, forbidden, validate } from '../../../models/apiHelper';
+import { ApiErrorResponse, validate } from '../../../models/apiHelper';
 import { Category } from '../../../models/category';
 import { http } from '../../../models/const/httpMethod';
 import { role } from '../../../models/const/role';
@@ -31,7 +31,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   // todo change roles.
   const { isValid } = await validate(req, res, { httpMethods: [http.POST], roles: [role.admin] });
   if (!isValid) {
-    // return forbidden(res);
     return;
   }
 

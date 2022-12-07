@@ -38,7 +38,7 @@ function Menu() {
     { title: '機器管理', src: '/images/computer.svg', description: 'PC一覧を表示します', path: page.equipment },
     { title: 'Monitor', src: '/images/monitor.svg', description: 'モニタ一覧を表示します', path: `${page.equipment}/mo/d` },
     { title: '貸出', src: '/images/rental.svg', description: 'not implemented yet.', path: '' },
-    { title: 'ユーザ管理', src: '/images/user.svg', description: 'not implemented yet.', path: page.user },
+    { title: 'ユーザ管理', src: '/images/user.svg', description: 'ユーザ一覧を表示します', path: page.user },
     { title: 'マスタ管理', src: '/images/master.svg', description: 'not implemented yet.', path: '' },
     {
       title: 'メンテナンス',
@@ -47,9 +47,8 @@ function Menu() {
       path: '',
     },
     { title: 'QR Code', src: '/images/dev.svg', description: '開発用', path: page.qrCode },
-    { title: 'Category', src: '/images/dev.svg', description: '開発用', path: page.category },
+    { title: 'Category', src: '/images/dev.svg', description: 'カテゴリ一覧を表示します', path: page.category },
     { title: 'MyPage', src: '/images/dev.svg', description: '開発用', path: page.myPage },
-    { title: 'signIn', src: '/images/dev.svg', description: '開発用', path: page.signIn },
   ];
 
   return (
