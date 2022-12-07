@@ -1,7 +1,5 @@
 .loadingWrapper {
   position: absolute;
-  /* width: 100vw;
-  height: 100vh; */
   width: 100%;
   height: 100%;
   display: flex;
@@ -13,8 +11,8 @@
   position: absolute;
 
   display: block;
-  width: 616px;
-  height: 576px;
+  width: 256px;
+  height: 256px;
 
   background-repeat: no-repeat;
   background-position: center;
@@ -37,7 +35,7 @@
     opacity: 1;
   }
   50% {
-    transform: rotate(180deg) scale(1);
+    transform: rotate(180deg) scale(1.3);
     /* opacity: 0; */
   }
   to {
