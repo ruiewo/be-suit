@@ -11,7 +11,7 @@ import Select from '@mui/material/Select';
 import { useCategories } from '../../hooks/useCategories';
 import { Category, CategoryBase } from '../../models/category';
 import { CategoryCodes } from '../../pages/api/equipment/advancedSearch';
-import styles2 from '../../styles/multiSelectButton.module.css';
+import styles from '../../styles/multiSelectButton.module.css';
 import { Loading } from '../loading';
 
 type Props = {
@@ -44,7 +44,7 @@ export const EquipmentSearchPanel = ({ filterText, setFilterText, categoryCodes,
   };
 
   return (
-    <div className={styles2.selectPanel}>
+    <div className={styles.selectPanel}>
       <MainCategorySelect categories={allCategories} value={categoryCodes.main} onChange={onMainCategoryChange}></MainCategorySelect>
       <SubCategoryButtons categoryCodes={categoryCodes} subCategories={subCategories} setCategoryCodes={setCategoryCodes} />
       <TextField margin="normal" label="絞り込み" value={filterText} onChange={filter} />
@@ -97,7 +97,7 @@ const SubCategoryButtons = ({ categoryCodes, subCategories, setCategoryCodes }: 
   };
 
   return (
-    <div className={styles2.multiSelectButton}>
+    <div className={styles.multiSelectButton}>
       {subCategories.map(x => (
         <div key={x.code}>
           <input

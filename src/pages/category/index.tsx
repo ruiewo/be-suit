@@ -1,5 +1,6 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 import { Box, Typography } from '@mui/material';
 
@@ -10,6 +11,7 @@ import { useCategories } from '../../hooks/useCategories';
 import { Category } from '../../models/category';
 import { page } from '../../models/const/path';
 import styles from '../../styles/categoryList.module.css';
+import styles2 from '../../styles/multiSelectButton.module.css';
 
 const CategoryPage: NextPage = () => {
   const { categories, isLoading, isError } = useCategories('');
@@ -36,18 +38,21 @@ function CategoryList({ categories }: { categories: Category[] }) {
 }
 
 function ListItem({ category }: { category: Category }) {
+  const router = useRouter();
+
   return (
     <Box component="li" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-      <Typography className={styles.mainLabel} fontWeight="bold">
-        {category.label}
-      </Typography>
-      {category.subCategories.map(x => (
-        <Link key={x.code} href={`${page.equipment}/${category.code}/${x.code}`}>
-          <span className={styles.subLabel}> {x.label}</span>
-        </Link>
-      ))}
+      <span className={styles.mainLabel}>{category.label}</span>
+      <div className={styles2.multiSelectButton}>
+        {category.subCategories.map(x => (
+          <div key={x.code}>
+            <input type="checkbox" checked={false} onClick={() => router.push(`${page.equipment}/${category.code}/${x.code}`)} readOnly />
+            <label>{x.label}</label>
+          </div>
+        ))}
+      </div>
       <Link href={`${page.category}/${category.code}`}>
-        <EditButton></EditButton>
+        <EditButton sx={{ width: 56, height: 56, mt: 2, mb: 1 }}></EditButton>
       </Link>
     </Box>
   );

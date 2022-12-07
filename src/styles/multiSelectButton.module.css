@@ -14,8 +14,21 @@
   margin: 16px 0 8px;
   height: 56px;
 }
+
 .multiSelectButton * {
   box-sizing: border-box;
+}
+
+.multiSelectButton div {
+  position: relative;
+  flex: 1;
+}
+
+.multiSelectButton input {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  margin: 0;
 }
 
 .multiSelectButton label {
@@ -33,18 +46,6 @@
   border-right: 1px solid var(--color-light-gray);
 }
 
-.multiSelectButton input {
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  margin: 0;
-}
-
-.multiSelectButton div {
-  position: relative;
-  flex: 1;
-}
-
 .multiSelectButton div:last-child label {
   border-right: 0;
 }
@@ -53,4 +54,14 @@
   background: var(--color3);
   font-weight: 500;
   color: var(--color-white);
+}
+
+.multiSelectButton input:hover {
+  cursor: pointer;
+}
+.multiSelectButton input:hover + label {
+  background: var(--color3);
+  font-weight: 500;
+  color: var(--color-white);
+  cursor: pointer;
 }
