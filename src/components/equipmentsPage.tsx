@@ -3,17 +3,18 @@ import { useEffect, useState } from 'react';
 import { client } from '../models/apiClient';
 import { ColumnDefinition, Details, Equipment } from '../models/equipment';
 import { sleep } from '../modules/util';
+import { CategoryCodes } from '../pages/api/equipment/advancedSearch';
 import { ErrorDialog } from './dialog/errorDialog';
 import { Loading } from './loading';
 import { EquipmentSearchPanel } from './searchPanel/equipmentSearchPanel';
 import { EquipmentTable } from './table/equipmentTable';
 
 type Props = {
-  category: string;
+  categoryCodes: CategoryCodes;
 };
 
-export const EquipmentPage = ({ category }: Props) => {
-  const [selectedCategories, setSelectedCategories] = useState([category]);
+export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
+  const [categoryCodes, setCategoryCodes] = useState(initialCategories);
 
   const [filterText, setFilterText] = useState('');
 
@@ -28,7 +29,7 @@ export const EquipmentPage = ({ category }: Props) => {
 
       try {
         const [{ equipments, columns }] = await Promise.all([
-          client.api.equipment.advancedSearch.$post({ body: { categoryCodes: selectedCategories } }),
+          client.api.equipment.advancedSearch.$post({ body: { categoryCodes: categoryCodes } }),
           sleep(1000),
         ]);
 
@@ -42,9 +43,9 @@ export const EquipmentPage = ({ category }: Props) => {
     }
 
     load();
-  }, [selectedCategories]);
+  }, [categoryCodes]);
 
-  const reload = () => setSelectedCategories([...selectedCategories]);
+  const reload = () => setCategoryCodes({ ...categoryCodes });
 
   if (isError) return <ErrorDialog />;
 
@@ -52,12 +53,7 @@ export const EquipmentPage = ({ category }: Props) => {
 
   return (
     <>
-      <EquipmentSearchPanel
-        filterText={filterText}
-        setFilterText={setFilterText}
-        selectedCategories={selectedCategories}
-        setSelectedCategories={setSelectedCategories}
-      />
+      <EquipmentSearchPanel filterText={filterText} setFilterText={setFilterText} categoryCodes={categoryCodes} setCategoryCodes={setCategoryCodes} />
       {isLoading ? <Loading /> : <EquipmentTable equipments={equipments} columns={columns} filterText={filterText} reload={reload} />}
     </>
   );

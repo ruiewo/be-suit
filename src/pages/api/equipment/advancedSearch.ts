@@ -5,9 +5,12 @@ import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
 import { ColumnDefinition, Details, Equipment } from '../../../models/equipment';
 import { prisma } from '../../../modules/db';
+import { isNullOrWhiteSpace } from '../../../modules/util';
+
+export type CategoryCodes = { main: string; sub: string[] };
 
 type ReqData = {
-  categoryCodes: string[]; // e.g. ['PC-D', 'MO-D']
+  categoryCodes: CategoryCodes; // e.g. { main:'PC', sub: ['D', 'N'] }
 };
 
 type ResData = {
@@ -33,50 +36,30 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     return;
   }
 
-  const categoryCodes = req.body.categoryCodes;
+  const { main, sub } = req.body.categoryCodes;
 
-  if (categoryCodes.length === 0) {
+  if (isNullOrWhiteSpace(main) || sub.length === 0) {
     res.send({ equipments: [], columns: [] });
     return;
   }
 
-  let isUniqueCategory = true;
-  let lastCategory: string | null = null;
-
-  const whereConditions = categoryCodes.map(x => {
-    const [cat, sub] = x.split('-');
-
-    if (lastCategory === null) {
-      lastCategory = cat;
-    }
-
-    if (isUniqueCategory) {
-      isUniqueCategory = lastCategory == cat;
-    }
-
-    return { category: cat.toUpperCase(), subCategory: sub.toUpperCase() };
-  });
-
-  const findEquipmentsQuery = prisma.equipment.findMany({
-    where: {
-      OR: whereConditions,
-    },
-    orderBy: [
-      {
-        id: 'asc',
+  const [equipments, category] = await Promise.all([
+    prisma.equipment.findMany({
+      where: {
+        OR: sub.map(x => ({ category: main.toUpperCase(), subCategory: x.toUpperCase() })),
       },
-    ],
-  });
-
-  const findCategoryQuery = isUniqueCategory
-    ? prisma.category.findFirst({
-        where: {
-          code: lastCategory!.toUpperCase(),
+      orderBy: [
+        {
+          id: 'asc',
         },
-      })
-    : null;
-
-  const [equipments, category] = await Promise.all([findEquipmentsQuery, findCategoryQuery]);
+      ],
+    }),
+    prisma.category.findFirst({
+      where: {
+        code: main.toUpperCase(),
+      },
+    }),
+  ]);
 
   if (category == null) {
     res.send({ equipments: equipments as unknown as Equipment[], columns: [] });

@@ -7,9 +7,10 @@ const Page: NextPage = () => {
   const router = useRouter();
   const { category, subCategory } = router.query;
 
-  const categoryCode = `${(category as string).toUpperCase()}-${(subCategory as string).toUpperCase()}`;
+  const main = (category as string).toUpperCase();
+  const sub = (subCategory as string).toUpperCase();
 
-  return <EquipmentPage category={categoryCode} key={categoryCode} />;
+  return <EquipmentPage categoryCodes={{ main, sub: [sub] }} key={`${main}-${sub}`} />;
 };
 
 export default Page;
