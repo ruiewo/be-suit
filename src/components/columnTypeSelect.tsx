@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { ChangeEvent } from 'react';
 
 import { SxProps } from '@mui/material';
@@ -30,7 +29,6 @@ export default function ColumnTypeSelect({ index, value, onChange, sx }: Props) 
           <MenuItem value="string">string</MenuItem>
           <MenuItem value="number">number</MenuItem>
           <MenuItem value="date">date</MenuItem>
-          <MenuItem value="Date">Date11111110349853058038450385038508011</MenuItem>
         </Select>
       </FormControl>
     </Box>

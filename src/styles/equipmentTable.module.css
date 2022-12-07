@@ -6,7 +6,6 @@
 .table {
   table-layout: fixed;
   border-collapse: separate;
-  /* border-collapse: collapse; */
   width: 100%;
   border-spacing: 0;
 }
@@ -44,7 +43,6 @@
   text-align: center;
 }
 .tbody [data-type='upLeft'] {
-  /* color: var(--color3); */
   text-align: left;
   vertical-align: top;
   white-space: nowrap;
@@ -54,15 +52,4 @@
   vertical-align: bottom;
   white-space: nowrap;
   direction: rtl;
-}
-
-.selectPanel {
-  display: flex;
-  flex-direction: row;
-}
-
-.categoryChip {
-  /* todo */
-  margin-top: 8px;
-  margin-bottom: 8px;
 }

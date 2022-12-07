@@ -23,16 +23,7 @@ const category = {
     { key: 'pcName', type: 'string', label: 'PC名', width: 120 },
   ],
 };
-const hoge2 = {
-  key: 'PC-D',
-  label: 'デスクトップパソコン',
-  columns: [
-    { key: 'os', type: 'string', label: 'OS', width: 120 },
-    { key: 'cpu', type: 'string', label: 'CPU', width: 120 },
-    { key: 'ram', type: 'string', label: 'RAM', width: 120 },
-    { key: 'pcName', type: 'string', label: 'PC名', width: 120 },
-  ],
-};
+
 const hoge = {
   pc: { label: 'パソコン', sub: [] },
   monitor: { label: 'モニタ', sub: [] },

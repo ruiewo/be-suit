@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
-import EquipmentsTable from '../../components/table';
 import { useEquipments } from '../../hooks/useEquipments';
 
 const EquipmentPage: NextPage = () => {

@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent } from 'react';
+import { MouseEvent } from 'react';
 import { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 
 import { TextField } from '@mui/material';
@@ -38,14 +38,6 @@ const RoleSelectButtons = ({ roles, setRoles }: ButtonProps) => {
     { role: 'admin', label: '管理者' },
     { role: 'superAdmin', label: '特権管理者' },
   ];
-
-  const onChange = (e: ChangeEvent<HTMLInputElement>, role: Role) => {
-    if (e.target.checked) {
-      setRoles([...roles, role]);
-    } else {
-      setRoles([...roles.filter(x => x !== role)]);
-    }
-  };
 
   const onClick = (e: MouseEvent<HTMLInputElement>, role: Role) => {
     e.preventDefault();

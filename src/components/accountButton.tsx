@@ -36,7 +36,7 @@ export function AccountButton() {
         {isNullOrWhiteSpace(avatarUrl) ? (
           <Image src={mainButton.imageUrl} alt={mainButton.title} width={30} height={30} />
         ) : (
-          <img src={avatarUrl} alt="" style={{ width: 40, height: 40, borderRadius: '50%', border: '2px solid var(--color1)' }} />
+          <img src={avatarUrl} alt="" style={{ width: 40, height: 40, borderRadius: '50%' }} />
         )}
       </div>
       {subButtons.map(x => (
