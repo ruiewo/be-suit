@@ -2,8 +2,8 @@ import { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 
 import { TextField } from '@mui/material';
 
-import styles from '../styles/equipmentTable.module.css';
-import CategoryChip from './categoryChip';
+import styles from '../../styles/equipmentTable.module.css';
+import CategoryChip from '../categoryChip';
 
 type Props = {
   filterText: string;

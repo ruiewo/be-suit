@@ -4,8 +4,8 @@ import { client } from '../models/apiClient';
 import { ColumnDefinition, Details, Equipment } from '../models/equipment';
 import { sleep } from '../modules/util';
 import { ErrorDialog } from './dialog/errorDialog';
-import { EquipmentSearchPanel } from './equipmentSearchPanel';
 import { Loading } from './loading';
+import { EquipmentSearchPanel } from './searchPanel/equipmentSearchPanel';
 import { EquipmentTable } from './table/equipmentTable';
 
 type Props = {
