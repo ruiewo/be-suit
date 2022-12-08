@@ -44,6 +44,11 @@ const categories = [
 
 export async function seedCategory(prisma: PrismaClient) {
   try {
+    const hasData = await prisma.category.findFirst();
+    if (hasData) {
+      return;
+    }
+
     await prisma.category.createMany({ data: categories });
   } catch (error) {
     console.error('SEED CATEGORY FAILED.');
