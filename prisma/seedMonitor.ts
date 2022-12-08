@@ -3,12 +3,12 @@ import * as fs from 'fs';
 
 import { Prisma, PrismaClient } from '@prisma/client';
 
-export async function seedEquipments(prisma: PrismaClient, path: string) {
+export async function seedMonitors(prisma: PrismaClient, path: string) {
   try {
     const equipments = await readCsv(path);
     await prisma.equipment.createMany({ data: equipments });
   } catch (error) {
-    console.error('SEED EQUIPMENTS FAILED.');
+    console.error('SEED MONITOR FAILED.');
     console.error(error);
     throw error;
   }
@@ -43,9 +43,9 @@ async function readCsv(path: string) {
           inventoryDate: toDate(row[10]),
           deletedDate: toDate(row[11]),
           note: row[12] as string,
-          details: {
-            pcName: row[1],
-          },
+          // details: {
+          //   pcName: row[1],
+          // },
         };
 
         console.log(equipment);

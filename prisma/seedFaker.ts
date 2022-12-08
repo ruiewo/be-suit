@@ -7,9 +7,9 @@ import { seedCategory } from './seedCategory';
 const prisma = new PrismaClient();
 
 const Category = {
-  // PC_Desktop: ['PC', 'D'],
-  // PC_Notebook: ['PC', 'N'],
-  // PC_Tablet: ['PC', 'T'],
+  PC_Desktop: ['PC', 'D'],
+  PC_Notebook: ['PC', 'N'],
+  PC_Tablet: ['PC', 'T'],
   MO_Desktop: ['MO', 'D'],
   DR_Dvd: ['DR', 'D'],
 } as const;
@@ -23,7 +23,7 @@ async function seedEquipments(prisma: PrismaClient) {
   }
 
   const data = [];
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 100; i++) {
     const cpuNum = `${faker.random.numeric(2)}00`;
     const details: PcDetail = {
       os: `windows${faker.random.numeric()}`,
@@ -53,7 +53,7 @@ async function seedEquipments(prisma: PrismaClient) {
 
 async function seed() {
   try {
-    // await seedCategory(prisma);
+    await seedCategory(prisma);
     await seedEquipments(prisma);
   } catch (error) {
     console.error(error);

@@ -53,6 +53,10 @@ export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
 ];
 
 export function convertToDisplay(obj: any, key: string, type: ValueType) {
+  if (obj == null) {
+    return '';
+  }
+
   switch (type) {
     case 'code':
       return getEquipmentCode(obj);
