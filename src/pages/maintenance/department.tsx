@@ -90,12 +90,12 @@ const DepartmentPage: NextPage = () => {
   };
 
   const update = async () => {
-    // const newDepartments: DepartmentModel[] = [...departments];
-    // const { error } = await client.api.department.update.$post({ body: { departments: newDepartments } });
-    // if (error) {
-    //   const message = error.errors.reduce((prev, current) => prev + '\n' + current.message, '');
-    //   setErrorMessage(message);
-    // }
+    const newDepartments: DepartmentModel[] = [...departments];
+    const { error } = await client.api.department.update.$post({ body: { departments: newDepartments } });
+    if (error) {
+      const message = error.errors.reduce((prev, current) => prev + '\n' + current.message, '');
+      setErrorMessage(message);
+    }
   };
 
   if (isError || errorMessage) return <ErrorDialog message={errorMessage} />;
@@ -167,9 +167,16 @@ const buttonStyle = { width: '15%', ml: '2%', mr: '2%' };
 const DepartmentInput = ({ leaders, index, department: department, onChange, remove }: Props) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <TextField margin="normal" sx={style} label="id" name="id" value={department.id} onChange={e => onChange(e, index)} />
-      <TextField margin="normal" sx={style} label="label" name="label" value={department.label} onChange={e => onChange(e, index)} />
-      <LeaderSelect sx={style} leaders={leaders} value={department.leaderId} index={index} onChange={onChange} />
+      <TextField margin="normal" sx={{ ...style, width: '8%' }} label="id" name="id" value={department.id} onChange={e => onChange(e, index)} />
+      <TextField
+        margin="normal"
+        sx={{ ...style, width: '35%' }}
+        label="label"
+        name="label"
+        value={department.label}
+        onChange={e => onChange(e, index)}
+      />
+      <LeaderSelect sx={{ ...style, width: '25%' }} leaders={leaders} value={department.leaderId} index={index} onChange={onChange} />
       <FormControlLabel
         sx={buttonStyle}
         control={<Checkbox name="enable" checked={department.enable} onChange={e => onChange(e, index)} />}
