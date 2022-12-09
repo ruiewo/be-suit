@@ -6,7 +6,7 @@ import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '
 import { DeleteButton } from '../../components/deleteButton';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
-import { CommonSelect, CommonSelectItem } from '../../components/select/LeaderSelect';
+import { CommonSelect, CommonSelectItem } from '../../components/select/CommonSelect';
 import { useDepartments } from '../../hooks/useDepartments';
 import { client } from '../../models/apiClient';
 import { DepartmentModel } from '../../models/department';
