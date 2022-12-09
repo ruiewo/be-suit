@@ -1,15 +1,15 @@
 import type { NextPage } from 'next';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, SxProps, TextField, Typography } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 
 import { DeleteButton } from '../../components/deleteButton';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
+import { CommonSelect, CommonSelectItem } from '../../components/select/LeaderSelect';
 import { useDepartments } from '../../hooks/useDepartments';
 import { client } from '../../models/apiClient';
 import { DepartmentModel } from '../../models/department';
-import { User } from '../../models/user';
 
 const DepartmentPage: NextPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
@@ -18,7 +18,7 @@ const DepartmentPage: NextPage = () => {
 
   const [departments, setDepartments] = useState<DepartmentModel[]>(baseDepartments ?? []);
 
-  const [users, setUsers] = useState<User[]>([]);
+  const [leaders, setLeaders] = useState<CommonSelectItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -28,7 +28,7 @@ const DepartmentPage: NextPage = () => {
 
       try {
         const { users } = await client.api.user.search.$post({ body: { roles: ['admin'] } });
-        setUsers(users);
+        setLeaders(users.map(x => ({ value: x.id, label: x.name ?? '' })));
       } catch (error) {
         setIsError(true);
       } finally {
@@ -113,7 +113,7 @@ const DepartmentPage: NextPage = () => {
         {departments.map((department, index) => (
           <DepartmentInput
             key={index}
-            leaders={users}
+            leaders={leaders}
             index={index}
             department={department}
             onChange={onDepartmentChange}
@@ -151,7 +151,7 @@ const DepartmentPage: NextPage = () => {
 export default DepartmentPage;
 
 type Props = {
-  leaders: User[];
+  leaders: CommonSelectItem[];
   index: number;
   department: DepartmentModel;
   onChange: (event: ChangeEvent, index?: number) => void;
@@ -173,7 +173,14 @@ const DepartmentInput = ({ leaders, index, department: department, onChange, rem
         value={department.label}
         onChange={e => onChange(e, index)}
       />
-      <LeaderSelect sx={{ ...style, width: '25%' }} leaders={leaders} value={department.leaderId} index={index} onChange={onChange} />
+      <CommonSelect
+        sx={{ ...style, width: '25%' }}
+        label="leader"
+        name="leader"
+        value={department.leaderId ?? ''}
+        onChange={e => onChange(e as ChangeEvent, index)}
+        items={leaders}
+      />
       <FormControlLabel
         sx={buttonStyle}
         control={<Checkbox name="enable" checked={department.enable} onChange={e => onChange(e, index)} />}
@@ -183,28 +190,3 @@ const DepartmentInput = ({ leaders, index, department: department, onChange, rem
     </Box>
   );
 };
-
-type LeaderSelectProps = {
-  leaders: User[];
-  index: number;
-  value: string | null;
-  onChange: (event: ChangeEvent, index?: number) => void;
-  sx: SxProps;
-};
-function LeaderSelect({ leaders, index, value, onChange, sx }: LeaderSelectProps) {
-  return (
-    <Box sx={sx}>
-      <FormControl fullWidth>
-        <InputLabel>leader</InputLabel>
-        <Select label="leader" name="leader" value={value ? value : ''} onChange={e => onChange(e as ChangeEvent, index)}>
-          <MenuItem value="">未設定</MenuItem>
-          {leaders.map(x => (
-            <MenuItem key={x.id} value={x.id}>
-              {x.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </Box>
-  );
-}

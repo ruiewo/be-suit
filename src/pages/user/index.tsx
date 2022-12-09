@@ -8,14 +8,14 @@ import { Loading } from '../../components/loading';
 import { UserSearchPanel } from '../../components/searchPanel/userSearchPanel';
 import { UserTable } from '../../components/table/userTable';
 import { client } from '../../models/apiClient';
-import { User } from '../../models/user';
+import { UserModel } from '../../models/user';
 import { sleep } from '../../modules/util';
 
 const Page: NextPage = () => {
   const [filterText, setFilterText] = useState('');
   const [roles, setRoles] = useState<Role[]>(['user']);
 
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<UserModel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 

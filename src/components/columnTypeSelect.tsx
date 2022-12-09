@@ -17,15 +17,8 @@ export default function ColumnTypeSelect({ index, value, onChange, sx }: Props) 
   return (
     <Box sx={sx}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">type</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          label="type"
-          name="type"
-          value={value}
-          onChange={e => onChange(e as ChangeEvent, index)}
-        >
+        <InputLabel>type</InputLabel>
+        <Select label="type" name="type" value={value} onChange={e => onChange(e as ChangeEvent, index)}>
           <MenuItem value="string">string</MenuItem>
           <MenuItem value="number">number</MenuItem>
           <MenuItem value="date">date</MenuItem>

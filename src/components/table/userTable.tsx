@@ -3,11 +3,11 @@ import { Role } from '@prisma/client';
 
 import { client } from '../../models/apiClient';
 import { ColumnDefinition, Details } from '../../models/equipment';
-import { User } from '../../models/user';
+import { UserModel } from '../../models/user';
 import { BaseTable } from './baseTable';
 
 type Props = {
-  users: User[];
+  users: UserModel[];
   filterText: string;
   reload: () => void;
 };

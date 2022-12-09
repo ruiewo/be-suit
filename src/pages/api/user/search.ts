@@ -5,7 +5,7 @@ import { Role } from '@prisma/client';
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { User } from '../../../models/user';
+import { UserModel } from '../../../models/user';
 import { prisma } from '../../../modules/db';
 
 type ReqData = {
@@ -13,7 +13,7 @@ type ReqData = {
 };
 
 type ResData = {
-  users: User[];
+  users: UserModel[];
   error?: string;
 };
 
