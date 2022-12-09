@@ -62,9 +62,6 @@ const DepartmentPage: NextPage = () => {
       case 'leader':
         newDepartment.leaderId = target.value;
         break;
-      case 'leaderId':
-        // newDepartment.leaderId = target.checked;
-        break;
       default:
         return;
     }
@@ -187,19 +184,20 @@ const DepartmentInput = ({ leaders, index, department: department, onChange, rem
   );
 };
 
-type LeaderProps = {
+type LeaderSelectProps = {
   leaders: User[];
   index: number;
   value: string | null;
   onChange: (event: ChangeEvent, index?: number) => void;
   sx: SxProps;
 };
-function LeaderSelect({ leaders, index, value, onChange, sx }: LeaderProps) {
+function LeaderSelect({ leaders, index, value, onChange, sx }: LeaderSelectProps) {
   return (
     <Box sx={sx}>
       <FormControl fullWidth>
-        <InputLabel id="leaderSelect">leader</InputLabel>
-        <Select labelId="leaderSelect" label="leader" name="leader" value={value} onChange={e => onChange(e as ChangeEvent, index)}>
+        <InputLabel>leader</InputLabel>
+        <Select label="leader" name="leader" value={value ? value : ''} onChange={e => onChange(e as ChangeEvent, index)}>
+          <MenuItem value="">未設定</MenuItem>
           {leaders.map(x => (
             <MenuItem key={x.id} value={x.id}>
               {x.name}
