@@ -44,7 +44,7 @@ function Menu() {
       title: 'メンテナンス',
       src: '/images/maintenance.svg',
       description: 'maintenance',
-      path: '',
+      path: page.maintenance,
     },
     { title: 'QR Code', src: '/images/dev.svg', description: '開発用', path: page.qrCode },
     { title: 'Category', src: '/images/dev.svg', description: 'カテゴリ一覧を表示します', path: page.category },

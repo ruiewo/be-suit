@@ -3,17 +3,15 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { ColumnDefinition, Details, Equipment } from '../../../models/equipment';
+import { DepartmentModel } from '../../../models/department';
 import { prisma } from '../../../modules/db';
-import { isNullOrWhiteSpace } from '../../../modules/util';
 
 type ReqData = {
-  cat?: string;
-  sub?: string;
+  // cat?: string;
+  // sub?: string;
 };
 type ResData = {
-  equipments: Equipment[];
-  columns: ColumnDefinition<Details>[];
+  departments: DepartmentModel[];
 };
 
 // @ts-ignore todo
@@ -29,41 +27,39 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 }
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
-  const { isValid } = await validate(req, res, { httpMethods: [http.GET], authorize: true });
+  const { isValid } = await validate(req, res, { httpMethods: [http.GET], roles: ['user', 'admin'] });
   if (!isValid) {
     return;
   }
 
-  const { cat, sub } = req.query;
-
-  if (isNullOrWhiteSpace(cat) || isNullOrWhiteSpace(sub)) {
-    res.send({ equipments: [], columns: [] });
-    return;
-  }
-
-  const [equipments, category] = await Promise.all([
-    prisma.equipment.findMany({
-      where: {
-        category: cat.toUpperCase(),
-        subCategory: sub.toUpperCase(),
+  const departments = await prisma.department.findMany({
+    orderBy: [
+      {
+        id: 'asc',
       },
-      orderBy: [
-        {
-          id: 'asc',
+    ],
+    select: {
+      id: true,
+      label: true,
+      enable: true,
+      leaderId: true,
+      leader: {
+        select: {
+          name: true,
         },
-      ],
-    }),
-    prisma.category.findFirst({
-      where: {
-        code: cat.toUpperCase(),
       },
-    }),
-  ]);
+    },
+  });
 
-  if (category == null) {
-    res.send({ equipments: [], columns: [] });
-    return;
-  }
+  const departmentModels: DepartmentModel[] = departments.map(x => {
+    return {
+      id: x.id,
+      label: x.label,
+      enable: x.enable,
+      leader: x.leader?.name ?? null,
+      leaderId: x.leaderId,
+    };
+  });
 
-  res.status(200).json({ equipments: equipments as unknown as Equipment[], columns: category.columns as ColumnDefinition<Details>[] });
+  res.status(200).json({ departments: departmentModels });
 }

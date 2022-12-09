@@ -1,133 +1,88 @@
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, SxProps, TextField, Typography } from '@mui/material';
 
-import { CategoryInput } from '../../components/categoryInput';
-import { ColumnInput } from '../../components/columnInput';
+import { DeleteButton } from '../../components/deleteButton';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
-import { useCategory } from '../../hooks/useCategories';
+import { useDepartments } from '../../hooks/useDepartments';
 import { client } from '../../models/apiClient';
-import { Category, CategoryBase } from '../../models/category';
-import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
+import { DepartmentModel } from '../../models/department';
+import { User } from '../../models/user';
 
-const convertUpperCaseOnly = (value: string) => value.replace(/[^a-zA-Z]/g, '').toUpperCase();
-
-const CategoryPage: NextPage = () => {
+const DepartmentPage: NextPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-  const router = useRouter();
-  const { categoryCode } = router.query;
+  const { departments: baseDepartments } = useDepartments(x => setDepartments(x));
 
-  const { category, isLoading, isError } = useCategory(categoryCode as string, c => {
-    setRootCategory(c);
-    setSubCategories(c.subCategories);
-    setColumns(c.columns);
-  });
+  const [departments, setDepartments] = useState<DepartmentModel[]>(baseDepartments ?? []);
 
-  const [rootCategory, setRootCategory] = useState(category ?? { code: '', label: '', enable: true });
-  const onCategoryChange = (event: ChangeEvent) => {
-    const c = { ...rootCategory };
-    const target = event.target as HTMLInputElement;
-    switch (target.name) {
-      case 'code':
-        c.code = convertUpperCaseOnly(target.value);
-        break;
-      case 'label':
-        c.label = target.value;
-        break;
-      case 'enable':
-        c.enable = target.checked;
-        break;
-      default:
-        return;
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    async function load() {
+      setIsLoading(true);
+
+      try {
+        const { users } = await client.api.user.search.$post({ body: { roles: ['admin'] } });
+        setUsers(users);
+      } catch (error) {
+        setIsError(true);
+      } finally {
+        setIsLoading(false);
+      }
     }
 
-    setRootCategory(c);
-  };
+    load();
+  }, []);
 
-  const [subCategories, setSubCategories] = useState<CategoryBase[]>(category?.subCategories ?? [{ code: '', label: '', enable: true }]);
-
-  const onSubCategoryChange = (event: ChangeEvent, index?: number) => {
+  const onDepartmentChange = (event: ChangeEvent, index?: number) => {
     if (index == null) {
       return;
     }
 
-    const categories = [...subCategories];
-    const c = categories[index];
     const target = event.target as HTMLInputElement;
-    const newSubCategory = { ...c };
+
+    const newDepartments = [...departments];
+    const newDepartment = { ...newDepartments[index] };
+
     switch (target.name) {
-      case 'code':
-        newSubCategory.code = convertUpperCaseOnly(target.value);
+      case 'id':
+        // newDepartment.id = target.value;
         break;
       case 'label':
-        newSubCategory.label = target.value;
+        newDepartment.label = target.value;
         break;
       case 'enable':
-        newSubCategory.enable = target.checked;
+        newDepartment.enable = target.checked;
+        break;
+      case 'leader':
+        newDepartment.leaderId = target.value;
+        break;
+      case 'leaderId':
+        // newDepartment.leaderId = target.checked;
         break;
       default:
         return;
     }
 
-    categories.splice(index, 1, newSubCategory);
+    newDepartments.splice(index, 1, newDepartment);
 
-    setSubCategories(categories);
+    setDepartments(newDepartments);
   };
 
-  const addSubCategory = () => {
-    setSubCategories([...subCategories, { code: '', label: '', enable: true }]);
+  const addDepartment = () => {
+    // todo id is NOT 0
+    setDepartments([...departments, { id: 0, label: '', enable: true, leader: '', leaderId: '' }]);
   };
 
-  const removeSubCategory = (index: number) => {
-    const categories = [...subCategories];
-    categories.splice(index, 1);
-    setSubCategories(categories);
-  };
-
-  const [columns, setColumns] = useState<ColumnDefinition<Details>[]>(category?.columns ?? []);
-
-  const onColumnChange = (event: ChangeEvent, index?: number) => {
-    if (index == null) {
-      return;
-    }
-
-    const newColumns = [...columns];
-    const c = newColumns[index];
-    const target = event.target as HTMLInputElement;
-    const newColumn = { ...c };
-    switch (target.name) {
-      case 'key':
-        newColumn.key = target.value;
-        break;
-      case 'type':
-        newColumn.type = target.value as ValueType;
-        break;
-      case 'label':
-        newColumn.label = target.value;
-        break;
-      case 'width':
-        newColumn.width = Number(target.value);
-        break;
-      default:
-        return;
-    }
-
-    newColumns.splice(index, 1, newColumn);
-    setColumns(newColumns);
-  };
-
-  const addColumn = () => {
-    setColumns([...columns, { key: 'key', type: 'string', label: 'label', width: 120 }]);
-  };
-
-  const removeColumn = (index: number) => {
-    const newColumns = [...columns];
-    newColumns.splice(index, 1);
-    setColumns(newColumns);
+  const removeDepartment = (index: number) => {
+    const newDepartments = [...departments];
+    newDepartments.splice(index, 1);
+    setDepartments(newDepartments);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -135,54 +90,45 @@ const CategoryPage: NextPage = () => {
   };
 
   const update = async () => {
-    const newCategory: Category = { ...rootCategory, subCategories, columns };
-    const { error } = await client.api.category.update.$post({ body: { category: newCategory } });
-
-    if (error) {
-      const message = error.errors.reduce((prev, current) => prev + '\n' + current.message, '');
-      setErrorMessage(message);
-    }
+    // const newDepartments: DepartmentModel[] = [...departments];
+    // const { error } = await client.api.department.update.$post({ body: { departments: newDepartments } });
+    // if (error) {
+    //   const message = error.errors.reduce((prev, current) => prev + '\n' + current.message, '');
+    //   setErrorMessage(message);
+    // }
   };
 
   if (isError || errorMessage) return <ErrorDialog message={errorMessage} />;
 
   if (isLoading) return <Loading />;
 
-  if (rootCategory == null) return <div>Category not found.</div>;
+  if (departments == null) return <div>Departments not found.</div>;
 
   return (
     <Box>
       <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
         <Typography component="h1" variant="h4" sx={{ textAlign: 'center' }}>
-          Category: {rootCategory.code}
+          Department
         </Typography>
-        <CategoryInput category={rootCategory} onChange={onCategoryChange}></CategoryInput>
 
         <hr />
-        <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-          SubCategory
-        </Typography>
-        {subCategories.map((subCategory, index) => (
-          <CategoryInput key={index} index={index} category={subCategory} onChange={onSubCategoryChange} remove={removeSubCategory}></CategoryInput>
+
+        {departments.map((department, index) => (
+          <DepartmentInput
+            key={index}
+            leaders={users}
+            index={index}
+            department={department}
+            onChange={onDepartmentChange}
+            remove={removeDepartment}
+          ></DepartmentInput>
         ))}
         <Box sx={{ textAlign: 'center' }}>
-          <Button type="button" onClick={addSubCategory}>
+          <Button type="button" onClick={addDepartment}>
             ADD
           </Button>
         </Box>
 
-        <hr />
-        <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-          Column
-        </Typography>
-        {columns.map((column, index) => (
-          <ColumnInput key={index} index={index} column={column} onChange={onColumnChange} remove={removeColumn}></ColumnInput>
-        ))}
-        <Box sx={{ textAlign: 'center' }}>
-          <Button type="button" onClick={addColumn}>
-            ADD
-          </Button>
-        </Box>
         <hr />
         <Box sx={{ textAlign: 'center' }}>
           <Button
@@ -205,4 +151,55 @@ const CategoryPage: NextPage = () => {
   );
 };
 
-export default CategoryPage;
+export default DepartmentPage;
+
+type Props = {
+  leaders: User[];
+  index: number;
+  department: DepartmentModel;
+  onChange: (event: ChangeEvent, index?: number) => void;
+  remove?: (index: number) => void;
+};
+
+const style = { width: '18%', ml: '2%', mr: '2%', mt: 2, mb: 1 };
+const buttonStyle = { width: '15%', ml: '2%', mr: '2%' };
+
+const DepartmentInput = ({ leaders, index, department: department, onChange, remove }: Props) => {
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+      <TextField margin="normal" sx={style} label="id" name="id" value={department.id} onChange={e => onChange(e, index)} />
+      <TextField margin="normal" sx={style} label="label" name="label" value={department.label} onChange={e => onChange(e, index)} />
+      <LeaderSelect sx={style} leaders={leaders} value={department.leaderId} index={index} onChange={onChange} />
+      <FormControlLabel
+        sx={buttonStyle}
+        control={<Checkbox name="enable" checked={department.enable} onChange={e => onChange(e, index)} />}
+        label="Enable"
+      />
+      {remove != null ? <DeleteButton onClick={() => remove(index)}></DeleteButton> : null}
+    </Box>
+  );
+};
+
+type LeaderProps = {
+  leaders: User[];
+  index: number;
+  value: string | null;
+  onChange: (event: ChangeEvent, index?: number) => void;
+  sx: SxProps;
+};
+function LeaderSelect({ leaders, index, value, onChange, sx }: LeaderProps) {
+  return (
+    <Box sx={sx}>
+      <FormControl fullWidth>
+        <InputLabel id="leaderSelect">leader</InputLabel>
+        <Select labelId="leaderSelect" label="leader" name="leader" value={value} onChange={e => onChange(e as ChangeEvent, index)}>
+          {leaders.map(x => (
+            <MenuItem key={x.id} value={x.id}>
+              {x.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
+  );
+}
