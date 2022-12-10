@@ -1,4 +1,7 @@
 import EquipmentEditDialog from '../../components/dialog/equipmentEditDialog';
+import { useDepartments } from '../../hooks/useDepartments';
+import { useSharedState } from '../../hooks/useStaticSwr';
+import { DepartmentModel } from '../../models/departmentModel';
 import { ColumnDefinition, Details, EquipmentModel, convertToDisplay } from '../../models/equipmentModel';
 import { BaseTable } from './baseTable';
 
@@ -10,6 +13,9 @@ type Props = {
 };
 
 export const EquipmentTable = ({ equipments, columns: optionColumns, filterText, reload }: Props) => {
+  const [, setDepartments] = useSharedState<DepartmentModel[]>('departments', []);
+  useDepartments(x => setDepartments(x));
+
   const baseColumn: ColumnDefinition<Details>[] = [
     { key: 'code', type: 'string', label: '管理番号', style: 'center', width: 110 },
     { key: 'maker', type: 'string', label: 'メーカー', style: 'upLeft', width: 100 },
