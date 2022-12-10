@@ -1,5 +1,5 @@
 import EquipmentEditDialog from '../../components/dialog/equipmentEditDialog';
-import { ColumnDefinition, Details, Equipment, convertToDisplay } from '../../models/equipment';
+import { ColumnDefinition, Details, EquipmentModel, convertToDisplay } from '../../models/equipmentModel';
 import { BaseTable } from './baseTable';
 
 type Props = {

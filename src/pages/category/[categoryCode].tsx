@@ -14,7 +14,7 @@ import { useCategory } from '../../hooks/useCategories';
 import { client } from '../../models/apiClient';
 import { Category, CategoryBase } from '../../models/category';
 import { page } from '../../models/const/path';
-import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
+import { ColumnDefinition, Details, ValueType } from '../../models/equipmentModel';
 
 const convertUpperCaseOnly = (value: string) => value.replace(/[^a-zA-Z]/g, '').toUpperCase();
 

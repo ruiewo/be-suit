@@ -6,7 +6,7 @@ import { Prisma } from '@prisma/client';
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
 import { role } from '../../../models/const/role';
-import { Equipment } from '../../../models/equipment';
+import { Equipment } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
 
 type ReqData = {

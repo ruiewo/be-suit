@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 
 import { useEquipment } from '../../hooks/useEquipments';
 import { client } from '../../models/apiClient';
-import { Details, Equipment, convertToDisplay, convertToValue, equipmentBaseColumn } from '../../models/equipment';
+import { Details, Equipment, convertToDisplay, convertToValue, equipmentBaseColumn } from '../../models/equipmentModel';
 import { SubmitButtons } from '../button/submitButtons';
 import { Loading } from '../loading';
 import { ErrorDialog } from './errorDialog';

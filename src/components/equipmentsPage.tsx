@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { client } from '../models/apiClient';
-import { ColumnDefinition, Details, Equipment } from '../models/equipment';
+import { ColumnDefinition, Details, Equipment, EquipmentModel } from '../models/equipmentModel';
 import { sleep } from '../modules/util';
 import { CategoryCodes } from '../pages/api/equipment/advancedSearch';
 import { ErrorDialog } from './dialog/errorDialog';

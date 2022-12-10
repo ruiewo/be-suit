@@ -1,8 +1,7 @@
 import { Box, Grid } from '@mui/material';
 
-import { getEquipmentCode } from '../models/equipment';
-import { Equipment } from '../models/equipment';
 import { PcDetail } from '../models/equipmentDetails/pc';
+import { Equipment, getEquipmentCode } from '../models/equipmentModel';
 import styles from '../styles/qrcode.module.css';
 import PcTag from './pcTag';
 

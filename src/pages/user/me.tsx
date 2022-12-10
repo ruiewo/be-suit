@@ -5,7 +5,7 @@ import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from '@
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useUsersMe } from '../../hooks/useUsers';
-import { Equipment, getEquipmentCode } from '../../models/equipment';
+import { Equipment, getEquipmentCode } from '../../models/equipmentModel';
 import { DateEx } from '../../modules/util';
 import styles from '../../styles/home.module.css';
 

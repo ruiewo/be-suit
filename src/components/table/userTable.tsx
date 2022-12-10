@@ -3,7 +3,7 @@ import { Role } from '@prisma/client';
 
 import { client } from '../../models/apiClient';
 import { roleList } from '../../models/const/role';
-import { ColumnDefinition, Details } from '../../models/equipment';
+import { ColumnDefinition, Details } from '../../models/equipmentModel';
 import { UserModel } from '../../models/user';
 import { BaseTable } from './baseTable';
 

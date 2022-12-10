@@ -1,4 +1,4 @@
-import { ColumnDefinition, Details } from './equipment';
+import { ColumnDefinition, Details } from './equipmentModel';
 
 export type Category = CategoryBase & {
   subCategories: CategoryBase[];

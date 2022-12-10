@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { Equipment } from '../../../models/equipment';
+import { Equipment } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
 
 type ResData = {

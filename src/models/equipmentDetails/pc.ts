@@ -1,4 +1,4 @@
-import { ColumnDefinition } from '../equipment';
+import { ColumnDefinition } from '../equipmentModel';
 
 export type PcDetail = {
   os: string;

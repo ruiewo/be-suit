@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { ColumnDefinition, Details } from '../../models/equipment';
+import { ColumnDefinition, Details } from '../../models/equipmentModel';
 import { isNullOrWhiteSpace } from '../../modules/util';
 import styles from '../../styles/equipmentTable.module.css';
 import { ContextMenuProps } from './userTable';

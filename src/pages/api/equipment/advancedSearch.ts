@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { ColumnDefinition, Details, Equipment } from '../../../models/equipment';
+import { ColumnDefinition, Details, Equipment, EquipmentModel, getEquipmentCode } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
 

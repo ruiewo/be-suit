@@ -2,7 +2,7 @@ import { ChangeEvent } from 'react';
 
 import { Box, TextField } from '@mui/material';
 
-import { ColumnDefinition, Details } from '../models/equipment';
+import { ColumnDefinition, Details } from '../models/equipmentModel';
 import { DeleteButton } from './button/deleteButton';
 import ColumnTypeSelect from './columnTypeSelect';
 
