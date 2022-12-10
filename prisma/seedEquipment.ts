@@ -8,7 +8,7 @@ export async function seedEquipments(prisma: PrismaClient, path: string) {
     const equipments = await readCsv(path);
     await prisma.equipment.createMany({ data: equipments });
   } catch (error) {
-    console.error('SEED EQUIPMENTS FAILED.');
+    console.error(`seed EQUIPMENT failed. path = [${path}]`);
     console.error(error);
     throw error;
   }
@@ -48,7 +48,7 @@ async function readCsv(path: string) {
           },
         };
 
-        console.log(equipment);
+        // console.log(equipment);
         equipments.push(equipment);
       })
       .on('end', function () {
