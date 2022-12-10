@@ -24,6 +24,20 @@ export type Equipment = {
   updatedAt: Date; // todo define as Date or String?
 };
 
+export type EquipmentModel = {
+  id: number;
+  code: string;
+  maker: string;
+  modelNumber: string;
+  details: Details | null;
+  note: string;
+  department: string;
+  location: string;
+  rentalDate: Date | null;
+  rentalUser: string | null;
+  registrationDate: Date | null;
+};
+
 export type ValueType = 'code' | 'rentalState' | 'string' | 'number' | 'date';
 
 export type ColumnDefinition<T> = {
