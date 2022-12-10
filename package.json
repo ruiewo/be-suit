@@ -11,7 +11,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:seed": "prisma db seed",
     "prisma:faker": "ts-node --compiler-options {\\\"module\\\":\\\"CommonJS\\\"} prisma/seedFaker.ts",
-    "api:build": "aspida"
+    "api:build": "aspida",
+    "dbreset": "npx prisma generate && npx prisma migrate reset --skip-seed && npx prisma db push && npx prisma db seed"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"

@@ -6,18 +6,21 @@ import { PrismaClient, Role } from '@prisma/client';
 import { role } from '../src/models/const/role';
 import { seedCategory } from './seedCategory';
 import { seedEquipments } from './seedEquipment';
-import { seedMonitors } from './seedMonitor';
 
 const prisma = new PrismaClient();
+
+const departments = ['管理部', 'ビジネスソリューション部', 'ソリューション営業部', '第1G', '第2G', '開発推進G', '技術推進G', '情シスG'];
+
+const locations = ['社外', '1番地', '2番地', '3番地', '4番地', '5番地', '6番地', '7番地', '8番地', '9番地', '10番地'];
 
 async function seed() {
   try {
     console.log('SEED start.');
 
-    await seedCategory(prisma);
-    await seedEquipment();
     await seedDepartment();
     await seedLocation();
+    await seedCategory(prisma);
+    await seedEquipment();
     await seedUser();
 
     console.log('SEED end.');
@@ -31,10 +34,15 @@ seed();
 
 async function seedEquipment() {
   try {
-    const hasData = await prisma.department.findFirst();
+    console.log('seed EQUIPMENT start.');
+    const hasData = await prisma.equipment.findFirst();
     if (hasData) {
+      console.log('seed EQUIPMENT already has data.');
       return;
     }
+
+    const departments = await prisma.department.findMany();
+    const locations = await prisma.location.findMany();
 
     const dirPath = './prisma/csv';
     fs.readdir(dirPath, { withFileTypes: true }, async (err, dirents) => {
@@ -47,17 +55,14 @@ async function seedEquipment() {
         if (dirent.isDirectory()) {
           continue;
         }
+        console.log(dirent.name);
 
         const filePath = path.join(dirPath, dirent.name);
-        if (dirent.name.startsWith('pc_')) {
-          await seedEquipments(prisma, filePath);
-        } else {
-          await seedMonitors(prisma, filePath);
-        }
+        await seedEquipments(prisma, filePath, dirent.name, departments, locations);
       }
     });
 
-    console.error('seed EQUIPMENT completed.');
+    console.log('seed EQUIPMENT completed.');
   } catch (error) {
     console.error('seed EQUIPMENT failed.');
     console.error(error);
@@ -72,10 +77,9 @@ async function seedDepartment() {
       return;
     }
 
-    const departments = ['管理部', 'ビジネスソリューション部', 'ソリューション営業部', '第1G', '第2G', '開発推進G', '技術推進G'];
     await prisma.department.createMany({ data: departments.map(x => ({ label: x })) });
 
-    console.error('seed DEPARTMENT completed.');
+    console.log('seed DEPARTMENT completed.');
   } catch (error) {
     console.error('seed DEPARTMENT failed.');
     console.error(error);
@@ -90,9 +94,8 @@ async function seedLocation() {
       return;
     }
 
-    const locations = ['社外', '社内1', '社内2', '社内3', '社内4', '社内5', '社内6', '社内7', '社内8', '社内9', '社内10'];
     await prisma.location.createMany({ data: locations.map(x => ({ label: x })) });
-    console.error('seed LOCATION completed.');
+    console.log('seed LOCATION completed.');
   } catch (error) {
     console.error('seed LOCATION failed.');
     console.error(error);
@@ -119,7 +122,7 @@ async function seedUser() {
     ];
 
     await prisma.user.createMany({ data: users });
-    console.error('seed USER completed.');
+    console.log('seed USER completed.');
   } catch (error) {
     console.error('seed USER failed.');
     console.error(error);

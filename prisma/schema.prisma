@@ -43,11 +43,15 @@ model Equipment {
   note        String // 備考
 
   // 貸与関係
-  group      String // 管理者
-  place      String // 使用・保管場所
-  rentalDate DateTime? // 貸出日
-  rentalUser String? // 外部キーにしたいが退職済みユーザの扱いが複雑になるため文字列とする。
-  returnDate DateTime? // 返却日
+  group        String // 管理者
+  department   Department? @relation(fields: [departmentId], references: [id])
+  departmentId Int?
+  place        String // 使用・保管場所
+  location     Location?   @relation(fields: [locationId], references: [id])
+  locationId   Int?
+  rentalDate   DateTime? // 貸出日
+  rentalUser   String? // 外部キーにしたいが退職済みユーザの扱いが複雑になるため文字列とする。
+  returnDate   DateTime? // 返却日
 
   // 登録・削除
   registrationDate DateTime? // 登録日 
@@ -66,17 +70,19 @@ model Category {
 }
 
 model Department {
-  id       Int     @id @default(autoincrement())
-  label    String
-  enable   Boolean @default(true)
-  leaderId String?
-  leader   User?   @relation(fields: [leaderId], references: [id])
+  id         Int         @id @default(autoincrement())
+  label      String
+  enable     Boolean     @default(true)
+  leaderId   String?
+  leader     User?       @relation(fields: [leaderId], references: [id])
+  equipments Equipment[]
 }
 
 model Location {
-  id     Int     @id @default(autoincrement())
-  label  String
-  enable Boolean @default(true)
+  id         Int         @id @default(autoincrement())
+  label      String
+  enable     Boolean     @default(true)
+  equipments Equipment[]
 }
 
 // ↓↓ for authentications
