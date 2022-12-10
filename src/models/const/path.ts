@@ -6,5 +6,6 @@ export const page = {
   category: '/category',
   user: '/user',
   myPage: '/user/me',
-  maintenance: '/maintenance/department',
+  maintenance: '/maintenance',
+  maintenanceDepartment: '/maintenance/department',
 } as const;
