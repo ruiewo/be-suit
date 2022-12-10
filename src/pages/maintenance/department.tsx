@@ -2,10 +2,11 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 
+import { AddButton } from '../../components/button/addButton';
+import { DeleteButton } from '../../components/button/deleteButton';
 import { SubmitButtons } from '../../components/button/submitButtons';
-import { DeleteButton } from '../../components/deleteButton';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { CommonSelect, CommonSelectItem } from '../../components/select/CommonSelect';
@@ -125,11 +126,8 @@ const DepartmentPage: NextPage = () => {
             remove={removeDepartment}
           ></DepartmentInput>
         ))}
-        <Box sx={{ textAlign: 'center' }}>
-          <Button type="button" onClick={addDepartment}>
-            ADD
-          </Button>
-        </Box>
+
+        <AddButton onClick={addDepartment}></AddButton>
 
         <hr />
 
@@ -149,23 +147,22 @@ type Props = {
   remove?: (index: number) => void;
 };
 
-const style = { width: '18%', ml: '2%', mr: '2%', mt: 2, mb: 1 };
-const buttonStyle = { width: '15%', ml: '2%', mr: '2%' };
+const baseStyle = { ml: 1, mr: 1, mt: 2, mb: 1 };
 
 const DepartmentInput = ({ leaders, index, department: department, onChange, remove }: Props) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <TextField margin="normal" sx={{ ...style, width: '8%' }} label="id" name="id" value={department.id} onChange={e => onChange(e, index)} />
+      <TextField margin="normal" sx={{ ...baseStyle, width: '8%' }} label="id" name="id" value={department.id} onChange={e => onChange(e, index)} />
       <TextField
         margin="normal"
-        sx={{ ...style, width: '35%' }}
+        sx={{ ...baseStyle, width: '35%' }}
         label="label"
         name="label"
         value={department.label}
         onChange={e => onChange(e, index)}
       />
       <CommonSelect
-        sx={{ ...style, width: '25%' }}
+        sx={{ ...baseStyle, width: '25%' }}
         label="leader"
         name="leader"
         value={department.leaderId ?? ''}
@@ -173,11 +170,11 @@ const DepartmentInput = ({ leaders, index, department: department, onChange, rem
         items={leaders}
       />
       <FormControlLabel
-        sx={buttonStyle}
+        sx={{ ...baseStyle, width: '15%' }}
         control={<Checkbox name="enable" checked={department.enable} onChange={e => onChange(e, index)} />}
         label="Enable"
       />
-      {remove != null ? <DeleteButton onClick={() => remove(index)}></DeleteButton> : null}
+      {remove == null ? null : <DeleteButton onClick={() => remove(index)}></DeleteButton>}
     </Box>
   );
 };

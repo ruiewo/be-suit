@@ -2,10 +2,11 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 
-import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
+import { Box, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 
+import { AddButton } from '../../components/button/addButton';
+import { DeleteButton } from '../../components/button/deleteButton';
 import { SubmitButtons } from '../../components/button/submitButtons';
-import { DeleteButton } from '../../components/deleteButton';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useLocations } from '../../hooks/userLocations';
@@ -92,13 +93,11 @@ const LocationPage: NextPage = () => {
         {locations.map((location, index) => (
           <LocationInput key={index} index={index} location={location} onChange={onLocationChange} remove={removeLocation}></LocationInput>
         ))}
-        <Box sx={{ textAlign: 'center' }}>
-          <Button type="button" onClick={addLocation}>
-            ADD
-          </Button>
-        </Box>
+
+        <AddButton onClick={addLocation}></AddButton>
 
         <hr />
+
         <SubmitButtons onSubmit={update} onCancel={() => router.push(page.maintenance)}></SubmitButtons>
       </Box>
     </Box>
@@ -114,27 +113,26 @@ type Props = {
   remove?: (index: number) => void;
 };
 
-const style = { width: '18%', ml: '2%', mr: '2%', mt: 2, mb: 1 };
-const buttonStyle = { width: '15%', ml: '2%', mr: '2%' };
+const baseStyle = { ml: 1, mr: 1, mt: 2, mb: 1 };
 
 const LocationInput = ({ index, location, onChange, remove }: Props) => {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-      <TextField margin="normal" sx={{ ...style, width: '8%' }} label="id" name="id" value={location.id} onChange={e => onChange(e, index)} />
+      <TextField margin="normal" sx={{ ...baseStyle, width: '8%' }} label="id" name="id" value={location.id} onChange={e => onChange(e, index)} />
       <TextField
         margin="normal"
-        sx={{ ...style, width: '35%' }}
+        sx={{ ...baseStyle, width: '35%' }}
         label="label"
         name="label"
         value={location.label}
         onChange={e => onChange(e, index)}
       />
       <FormControlLabel
-        sx={buttonStyle}
+        sx={{ ...baseStyle, width: '15%' }}
         control={<Checkbox name="enable" checked={location.enable} onChange={e => onChange(e, index)} />}
         label="Enable"
       />
-      {remove != null ? <DeleteButton onClick={() => remove(index)}></DeleteButton> : null}
+      {remove == null ? null : <DeleteButton onClick={() => remove(index)}></DeleteButton>}
     </Box>
   );
 };

@@ -2,8 +2,9 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
+import { AddButton } from '../../components/button/addButton';
 import { SubmitButtons } from '../../components/button/submitButtons';
 import { CategoryInput } from '../../components/categoryInput';
 import { ColumnInput } from '../../components/columnInput';
@@ -167,11 +168,8 @@ const CategoryPage: NextPage = () => {
         {subCategories.map((subCategory, index) => (
           <CategoryInput key={index} index={index} category={subCategory} onChange={onSubCategoryChange} remove={removeSubCategory}></CategoryInput>
         ))}
-        <Box sx={{ textAlign: 'center' }}>
-          <Button type="button" onClick={addSubCategory}>
-            ADD
-          </Button>
-        </Box>
+
+        <AddButton onClick={addSubCategory}></AddButton>
 
         <hr />
         <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
@@ -180,11 +178,9 @@ const CategoryPage: NextPage = () => {
         {columns.map((column, index) => (
           <ColumnInput key={index} index={index} column={column} onChange={onColumnChange} remove={removeColumn}></ColumnInput>
         ))}
-        <Box sx={{ textAlign: 'center' }}>
-          <Button type="button" onClick={addColumn}>
-            ADD
-          </Button>
-        </Box>
+
+        <AddButton onClick={addColumn}></AddButton>
+
         <hr />
         <SubmitButtons onSubmit={update} onCancel={() => router.push(page.category)}></SubmitButtons>
       </Box>

@@ -4,8 +4,8 @@ import { useRouter } from 'next/router';
 
 import { Box } from '@mui/material';
 
+import { EditButton } from '../../components/button/editButton';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
-import { EditButton } from '../../components/editButton';
 import { Loading } from '../../components/loading';
 import { useCategories } from '../../hooks/useCategories';
 import { Category } from '../../models/category';
@@ -52,7 +52,7 @@ function ListItem({ category }: { category: Category }) {
         ))}
       </div>
       <Link href={`${page.category}/${category.code}`}>
-        <EditButton sx={{ width: 56, height: 56, mt: 2, mb: 1 }}></EditButton>
+        <EditButton></EditButton>
       </Link>
     </Box>
   );
