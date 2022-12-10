@@ -1,16 +1,16 @@
 import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { Department, Prisma } from '@prisma/client';
+import { Location, Prisma } from '@prisma/client';
 
 import { ApiErrorResponse, validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
 import { role } from '../../../models/const/role';
-import { DepartmentModel } from '../../../models/departmentModel';
+import { LocationModel } from '../../../models/locationModel';
 import { prisma } from '../../../modules/db';
 
 type ReqData = {
-  departments: DepartmentModel[];
+  locations: LocationModel[];
 };
 
 type ResData = {
@@ -36,30 +36,28 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   }
 
   try {
-    const departments = req.body.departments;
+    const locations = req.body.locations;
 
-    const updateQuery: Prisma.Prisma__DepartmentClient<Department, never>[] = [];
-    const createQuery: Prisma.Prisma__DepartmentClient<Department, never>[] = [];
+    const updateQuery: Prisma.Prisma__LocationClient<Location, never>[] = [];
+    const createQuery: Prisma.Prisma__LocationClient<Location, never>[] = [];
 
-    departments.forEach(x => {
+    locations.forEach(x => {
       if (x.id == null || x.id === 0) {
         createQuery.push(
-          prisma.department.create({
+          prisma.location.create({
             data: {
               label: x.label,
               enable: x.enable,
-              leaderId: x.leaderId,
             },
           })
         );
       } else {
         updateQuery.push(
-          prisma.department.update({
+          prisma.location.update({
             where: { id: x.id },
             data: {
               label: x.label,
               enable: x.enable,
-              leaderId: x.leaderId,
             },
           })
         );

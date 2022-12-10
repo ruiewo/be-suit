@@ -88,7 +88,7 @@ const DepartmentPage: NextPage = () => {
   };
 
   const update = async () => {
-    const newDepartments: DepartmentModel[] = [...departments];
+    const newDepartments = [...departments];
     const { error } = await client.api.department.update.$post({ body: { departments: newDepartments } });
     if (error) {
       const message = error.errors.reduce((prev, current) => prev + '\n' + current.message, '');

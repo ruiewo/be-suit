@@ -8,4 +8,5 @@ export const page = {
   myPage: '/user/me',
   maintenance: '/maintenance',
   maintenanceDepartment: '/maintenance/department',
+  maintenanceLocation: '/maintenance/location',
 } as const;
