@@ -14,9 +14,8 @@ export function Menu({ isMenuOpen }: Props) {
     { title: '貸出', description: 'not implemented yet.', path: '', src: '/images/rental.svg' },
     { title: 'ユーザ管理', description: 'ユーザ一覧を表示します', path: page.user, src: '/images/user.svg' },
     { title: 'マスタ管理', description: 'not implemented yet.', path: page.maintenance, src: '/images/master.svg' },
-    { title: 'メンテナンス', description: 'maintenance', path: page.maintenanceDepartment, src: '/images/maintenance.svg' },
     { title: 'QRCode', description: '開発用', path: page.qrCode, src: '/images/dev.svg' },
-    { title: 'Category', description: 'カテゴリ一覧を表示します', path: page.category, src: '/images/dev.svg' },
+    { title: 'Category', description: 'カテゴリ一覧を表示します', path: page.category, src: '/images/maintenance.svg' },
     { title: 'MyPage', description: '開発用', path: page.myPage, src: '/images/dev.svg' },
   ];
 

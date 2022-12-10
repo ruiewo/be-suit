@@ -20,7 +20,7 @@ const MaintenancePage: NextPage = () => {
   const menu = [
     { title: '部署', description: '部署一覧を表示します', path: page.maintenanceDepartment, src: '/images/computer.svg' },
     { title: '場所', description: '場所一覧を表示します', path: page.maintenanceLocation, src: '/images/monitor.svg' },
-    { title: 'Category', description: 'カテゴリ一覧を表示します', path: page.category, src: '/images/dev.svg' },
+    { title: 'Category', description: 'カテゴリ一覧を表示します', path: page.category, src: '/images/maintenance.svg' },
     { title: 'ユーザ', description: 'ユーザ一覧を表示します', path: page.user, src: '/images/user.svg' },
   ];
 
