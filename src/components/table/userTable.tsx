@@ -33,10 +33,10 @@ export type ContextMenuProps = {
 
 const RoleContextMenu = ({ contextMenu, onClose }: ContextMenuProps) => {
   const roleList: { role: Role; label: string }[] = [
-    { role: 'guest', label: 'ゲスト' },
-    { role: 'user', label: 'ユーザ' },
-    { role: 'admin', label: '管理者' },
-    { role: 'superAdmin', label: '特権管理者' },
+    { role: Role.guest, label: 'ゲスト' },
+    { role: Role.user, label: 'ユーザ' },
+    { role: Role.admin, label: '管理者' },
+    { role: Role.superAdmin, label: '特権管理者' },
   ];
 
   const handleClick = async (role: Role) => {

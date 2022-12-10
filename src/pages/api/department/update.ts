@@ -6,7 +6,7 @@ import { Department, Prisma } from '@prisma/client';
 import { ApiErrorResponse, validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
 import { role } from '../../../models/const/role';
-import { DepartmentModel } from '../../../models/department';
+import { DepartmentModel } from '../../../models/departmentModel';
 import { prisma } from '../../../modules/db';
 
 type ReqData = {
@@ -31,7 +31,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
   // todo change roles.
-  const { isValid } = await validate(req, res, { httpMethods: [http.POST], roles: [role.admin] });
+  const { isValid } = await validate(req, res, { httpMethods: [http.POST], roles: [role.admin, role.superAdmin] });
   if (!isValid) {
     return;
   }

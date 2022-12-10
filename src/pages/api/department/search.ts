@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { DepartmentModel } from '../../../models/department';
+import { DepartmentModel } from '../../../models/departmentModel';
 import { prisma } from '../../../modules/db';
 
 type ReqData = {
@@ -27,7 +27,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 }
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
-  const { isValid } = await validate(req, res, { httpMethods: [http.GET], roles: ['user', 'admin'] });
+  const { isValid } = await validate(req, res, { httpMethods: [http.GET], authorize: true });
   if (!isValid) {
     return;
   }
