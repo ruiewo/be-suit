@@ -1,21 +1,21 @@
-import { ReactElement } from 'react';
+import { useState } from 'react';
 
 import styles from '../styles/menuButton.module.css';
+import { Menu } from './menu';
 
-type Props = {
-  children: ReactElement;
-  isOpen: boolean;
-  toggleOpen: () => void;
-};
+export const MenuButton = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const toggleOpen = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
-export const MenuButton = ({ children, isOpen, toggleOpen }: Props) => {
   return (
-    <div className={`${styles.menuButton} ${isOpen ? styles.closeButton : ''}`} onClick={toggleOpen}>
+    <div className={`${styles.menuButton} ${isMenuOpen ? styles.closeButton : ''}`} onClick={toggleOpen}>
       <span className={styles.bar}></span>
       <span className={styles.bar}></span>
       <span className={styles.bar}></span>
-      <p className={styles.menuLabel}>{!isOpen ? 'Menu' : 'Close'}</p>
-      {children}
+      <p className={styles.menuLabel}>{!isMenuOpen ? 'Menu' : 'Close'}</p>
+      <Menu isMenuOpen={isMenuOpen}></Menu>
     </div>
   );
 };
