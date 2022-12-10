@@ -1,16 +1,20 @@
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
 
 import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 
+import { SubmitButtons } from '../../components/button/submitButtons';
 import { DeleteButton } from '../../components/deleteButton';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useLocations } from '../../hooks/userLocations';
 import { client } from '../../models/apiClient';
+import { page } from '../../models/const/path';
 import { LocationModel } from '../../models/locationModel';
 
 const LocationPage: NextPage = () => {
+  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
   const { locations: baseLocations, isLoading, isError } = useLocations(x => setLocations(x));
@@ -95,22 +99,7 @@ const LocationPage: NextPage = () => {
         </Box>
 
         <hr />
-        <Box sx={{ textAlign: 'center' }}>
-          <Button
-            disabled={false}
-            variant="contained"
-            color="secondary"
-            sx={{ width: 200 }}
-            onClick={() => {
-              // onClose();
-            }}
-          >
-            キャンセル
-          </Button>
-          <Button disabled={false} variant="contained" color="primary" sx={{ width: 200 }} onClick={update}>
-            確定
-          </Button>
-        </Box>
+        <SubmitButtons onSubmit={update} onCancel={() => router.push(page.maintenance)}></SubmitButtons>
       </Box>
     </Box>
   );

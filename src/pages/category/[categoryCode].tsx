@@ -4,6 +4,7 @@ import { ChangeEvent, useState } from 'react';
 
 import { Box, Button, Typography } from '@mui/material';
 
+import { SubmitButtons } from '../../components/button/submitButtons';
 import { CategoryInput } from '../../components/categoryInput';
 import { ColumnInput } from '../../components/columnInput';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
@@ -11,6 +12,7 @@ import { Loading } from '../../components/loading';
 import { useCategory } from '../../hooks/useCategories';
 import { client } from '../../models/apiClient';
 import { Category, CategoryBase } from '../../models/category';
+import { page } from '../../models/const/path';
 import { ColumnDefinition, Details, ValueType } from '../../models/equipment';
 
 const convertUpperCaseOnly = (value: string) => value.replace(/[^a-zA-Z]/g, '').toUpperCase();
@@ -184,22 +186,7 @@ const CategoryPage: NextPage = () => {
           </Button>
         </Box>
         <hr />
-        <Box sx={{ textAlign: 'center' }}>
-          <Button
-            disabled={false}
-            variant="contained"
-            color="secondary"
-            sx={{ width: 200 }}
-            onClick={() => {
-              // onClose();
-            }}
-          >
-            キャンセル
-          </Button>
-          <Button disabled={false} variant="contained" color="primary" sx={{ width: 200 }} onClick={update}>
-            確定
-          </Button>
-        </Box>
+        <SubmitButtons onSubmit={update} onCancel={() => router.push(page.category)}></SubmitButtons>
       </Box>
     </Box>
   );

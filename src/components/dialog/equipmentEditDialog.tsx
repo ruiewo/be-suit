@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { useEquipment } from '../../hooks/useEquipments';
 import { client } from '../../models/apiClient';
 import { Details, Equipment, convertToDisplay, convertToValue, equipmentBaseColumn } from '../../models/equipment';
+import { SubmitButtons } from '../button/submitButtons';
 import { Loading } from '../loading';
 import { ErrorDialog } from './errorDialog';
 
@@ -117,12 +118,7 @@ export default function EquipmentEditDialog({ onClose, id }: Props) {
       </DialogContent>
 
       <DialogActions sx={{ justifyContent: 'center' }}>
-        <Button disabled={false} variant="contained" color="secondary" sx={{ width: 200 }} onClick={() => onClose(false)}>
-          キャンセル
-        </Button>
-        <Button disabled={false} variant="contained" color="primary" sx={{ width: 200 }} onClick={handleSubmit}>
-          確定
-        </Button>
+        <SubmitButtons onSubmit={handleSubmit} onCancel={() => onClose(false)}></SubmitButtons>
       </DialogActions>
     </Dialog>
   );

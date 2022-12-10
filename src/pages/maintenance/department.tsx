@@ -1,18 +1,22 @@
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
 
+import { SubmitButtons } from '../../components/button/submitButtons';
 import { DeleteButton } from '../../components/deleteButton';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { CommonSelect, CommonSelectItem } from '../../components/select/CommonSelect';
 import { useDepartments } from '../../hooks/useDepartments';
 import { client } from '../../models/apiClient';
+import { page } from '../../models/const/path';
 import { role } from '../../models/const/role';
 import { DepartmentModel } from '../../models/departmentModel';
 
 const DepartmentPage: NextPage = () => {
+  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
   const { departments: baseDepartments } = useDepartments(x => setDepartments(x));
@@ -128,22 +132,8 @@ const DepartmentPage: NextPage = () => {
         </Box>
 
         <hr />
-        <Box sx={{ textAlign: 'center' }}>
-          <Button
-            disabled={false}
-            variant="contained"
-            color="secondary"
-            sx={{ width: 200 }}
-            onClick={() => {
-              // onClose();
-            }}
-          >
-            キャンセル
-          </Button>
-          <Button disabled={false} variant="contained" color="primary" sx={{ width: 200 }} onClick={update}>
-            確定
-          </Button>
-        </Box>
+
+        <SubmitButtons onSubmit={update} onCancel={() => router.push(page.maintenance)}></SubmitButtons>
       </Box>
     </Box>
   );
