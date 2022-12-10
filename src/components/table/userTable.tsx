@@ -2,6 +2,7 @@ import { Menu, MenuItem } from '@mui/material';
 import { Role } from '@prisma/client';
 
 import { client } from '../../models/apiClient';
+import { roleList } from '../../models/const/role';
 import { ColumnDefinition, Details } from '../../models/equipment';
 import { UserModel } from '../../models/user';
 import { BaseTable } from './baseTable';
@@ -32,13 +33,6 @@ export type ContextMenuProps = {
 };
 
 const RoleContextMenu = ({ contextMenu, onClose }: ContextMenuProps) => {
-  const roleList: { role: Role; label: string }[] = [
-    { role: Role.guest, label: 'ゲスト' },
-    { role: Role.user, label: 'ユーザ' },
-    { role: Role.admin, label: '管理者' },
-    { role: Role.superAdmin, label: '特権管理者' },
-  ];
-
   const handleClick = async (role: Role) => {
     // todo error handling
     const { succeed } = await client.api.user.update.$post({ body: { userId: contextMenu!.dataId, role } });

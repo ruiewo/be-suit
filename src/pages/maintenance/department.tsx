@@ -2,7 +2,6 @@ import type { NextPage } from 'next';
 import { ChangeEvent, useEffect, useState } from 'react';
 
 import { Box, Button, Checkbox, FormControlLabel, TextField, Typography } from '@mui/material';
-import { Role } from '@prisma/client';
 
 import { DeleteButton } from '../../components/deleteButton';
 import { ErrorDialog } from '../../components/dialog/errorDialog';
@@ -10,6 +9,7 @@ import { Loading } from '../../components/loading';
 import { CommonSelect, CommonSelectItem } from '../../components/select/CommonSelect';
 import { useDepartments } from '../../hooks/useDepartments';
 import { client } from '../../models/apiClient';
+import { role } from '../../models/const/role';
 import { DepartmentModel } from '../../models/departmentModel';
 
 const DepartmentPage: NextPage = () => {
@@ -28,7 +28,7 @@ const DepartmentPage: NextPage = () => {
       setIsLoading(true);
 
       try {
-        const { users } = await client.api.user.search.$post({ body: { roles: [Role.admin] } });
+        const { users } = await client.api.user.search.$post({ body: { roles: [role.admin] } });
         setLeaders(users.map(x => ({ value: x.id, label: x.name ?? '' })));
       } catch (error) {
         setIsError(true);

@@ -4,6 +4,7 @@ import { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 import { TextField } from '@mui/material';
 import { Role } from '@prisma/client';
 
+import { roleList } from '../../models/const/role';
 import styles from '../../styles/multiSelectButton.module.css';
 
 type Props = {
@@ -32,13 +33,6 @@ type ButtonProps = {
 };
 
 const RoleSelectButtons = ({ roles, setRoles }: ButtonProps) => {
-  const roleList: { role: Role; label: string }[] = [
-    { role: Role.guest, label: 'ゲスト' },
-    { role: Role.user, label: 'ユーザ' },
-    { role: Role.admin, label: '管理者' },
-    { role: Role.superAdmin, label: '特権管理者' },
-  ];
-
   const onClick = (e: MouseEvent<HTMLInputElement>, role: Role) => {
     e.preventDefault();
 
