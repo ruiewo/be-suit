@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { client } from '../models/apiClient';
-import { ColumnDefinition, Details, Equipment, EquipmentModel } from '../models/equipmentModel';
+import { ColumnDefinition, Details, EquipmentModel } from '../models/equipmentModel';
 import { sleep } from '../modules/util';
 import { CategoryCodes } from '../pages/api/equipment/advancedSearch';
 import { ErrorDialog } from './dialog/errorDialog';
@@ -18,7 +18,7 @@ export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
 
   const [filterText, setFilterText] = useState('');
 
-  const [equipments, setEquipments] = useState<Equipment[]>([]);
+  const [equipments, setEquipments] = useState<EquipmentModel[]>([]);
   const [columns, setColumns] = useState<ColumnDefinition<Details>[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);

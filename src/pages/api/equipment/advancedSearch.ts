@@ -14,7 +14,7 @@ type ReqData = {
 };
 
 type ResData = {
-  equipments: Equipment[];
+  equipments: EquipmentModel[];
   columns: ColumnDefinition<Details>[];
 };
 
@@ -53,6 +53,29 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
           id: 'asc',
         },
       ],
+      select: {
+        id: true,
+        category: true,
+        subCategory: true,
+        categorySerial: true,
+        maker: true,
+        modelNumber: true,
+        details: true,
+        note: true,
+        rentalDate: true,
+        rentalUser: true,
+        registrationDate: true,
+        department: {
+          select: {
+            label: true,
+          },
+        },
+        location: {
+          select: {
+            label: true,
+          },
+        },
+      },
     }),
     prisma.category.findFirst({
       where: {
@@ -61,13 +84,29 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     }),
   ]);
 
+  const equipmentModels = equipments.map(x => {
+    return {
+      id: x.id,
+      code: getEquipmentCode(x as unknown as Equipment),
+      maker: x.maker,
+      modelNumber: x.modelNumber,
+      details: x.details as Details,
+      note: x.note,
+      rentalDate: x.rentalDate,
+      rentalUser: x.rentalUser,
+      registrationDate: x.registrationDate,
+      department: x.department?.label ?? '',
+      location: x.location?.label ?? '',
+    };
+  });
+
   if (category == null) {
-    res.send({ equipments: equipments as unknown as Equipment[], columns: [] });
+    res.send({ equipments: equipmentModels, columns: [] });
     return;
   }
 
   res.status(200).json({
-    equipments: equipments as unknown as Equipment[],
+    equipments: equipmentModels,
     columns: category.columns as ColumnDefinition<Details>[],
   });
 }
