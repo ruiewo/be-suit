@@ -9,8 +9,10 @@ import { useSharedState } from '../../hooks/useStaticSwr';
 import { client } from '../../models/apiClient';
 import { DepartmentModel } from '../../models/departmentModel';
 import { ColumnDefinition, Details, Equipment, convertToDisplay, convertToValue, getEquipmentCode } from '../../models/equipmentModel';
+import { LocationModel } from '../../models/locationModel';
 import { SubmitButtons } from '../button/submitButtons';
 import { Loading } from '../loading';
+import { UncontrolledCommonSelect } from '../select/CommonSelect';
 import { ErrorDialog } from './errorDialog';
 
 type Props = {
@@ -25,9 +27,9 @@ const baseColumn: ColumnDefinition<Equipment>[] = [
   // { key: 'categorySerial', type: 'number', label: '管理番号', width: 100 },
   { key: 'maker', type: 'string', label: 'メーカー', width: 120 },
   { key: 'modelNumber', type: 'string', label: '型番', width: 120 },
-  { key: 'group', type: 'string', label: '管理者', width: 120 },
+  { key: 'departmentId', type: 'number', label: '管理者', width: 120 },
   { key: 'rentalUser', type: 'string', label: '使用者', width: 120 },
-  { key: 'place', type: 'string', label: '使用・保管場所', width: 180 },
+  { key: 'locationId', type: 'number', label: '使用・保管場所', width: 180 },
   { key: 'rentalDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },
   { key: 'registrationDate', type: 'date', label: '登録日', width: 120 },
@@ -38,9 +40,11 @@ const baseColumn: ColumnDefinition<Equipment>[] = [
 
 export default function EquipmentEditDialog({ onClose, id }: Props) {
   const { equipment, columns, isLoading, isError } = useEquipment(id);
-  console.log(equipment);
 
   const [departments] = useSharedState<DepartmentModel[]>('departments', []);
+  const [locations] = useSharedState<LocationModel[]>('locations', []);
+  const departmentItems = departments.map(x => ({ value: x.id, label: x.label }));
+  const locationItems = locations.map(x => ({ value: x.id, label: x.label }));
 
   if (isError) return <ErrorDialog />;
 
@@ -114,11 +118,11 @@ export default function EquipmentEditDialog({ onClose, id }: Props) {
             利用状況
           </Typography>
           <Box sx={{ textAlign: 'center' }}>
-            <TextInput name="group" label="管理者" data={equipment} />
+            <UncontrolledCommonSelect sx={style} name="departmentId" label="管理者" value={equipment.departmentId ?? ''} items={departmentItems} />
             <TextInput name="rentalUser" label="使用者" data={equipment} />
+            <UncontrolledCommonSelect sx={style} name="locationId" label="使用・保管場所" value={equipment.locationId ?? ''} items={locationItems} />
             <DateInput name="rentalDate" label="貸出日" data={equipment} />
             <DateInput name="returnDate" label="返却日" data={equipment} />
-            <TextInput name="place" label="使用・保管場所" data={equipment} />
           </Box>
 
           <Typography component="h6" variant="h6" sx={{ textAlign: 'center' }}>
@@ -139,9 +143,9 @@ export default function EquipmentEditDialog({ onClose, id }: Props) {
               switch (col.type) {
                 case 'string':
                 case 'number':
-                  return <TextInput name={col.key} label={col.label} data={equipment.details} />;
+                  return <TextInput key={col.key} name={col.key} label={col.label} data={equipment.details} />;
                 case 'date':
-                  return <DateInput name={col.key} label={col.label} data={equipment.details} />;
+                  return <DateInput key={col.key} name={col.key} label={col.label} data={equipment.details} />;
                 default:
                   return <></>;
               }
@@ -161,7 +165,7 @@ type InputProps = {
   label: string;
   data: any; // Equipment, Details, etc.
 };
-const style = { width: '46%', ml: 1, mr: 1, mt: 2, mb: 1 };
+const style = { width: '30%', ml: 1, mr: 1, mt: 2, mb: 1 };
 
 function TextInput({ name, label, data }: InputProps) {
   return <TextField sx={style} name={name} label={label} defaultValue={convertToDisplay(data, name, 'string')}></TextField>;

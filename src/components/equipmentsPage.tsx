@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react';
 
+import { useDepartments } from '../hooks/useDepartments';
+import { useSharedState } from '../hooks/useStaticSwr';
+import { useLocations } from '../hooks/userLocations';
 import { client } from '../models/apiClient';
+import { DepartmentModel } from '../models/departmentModel';
 import { ColumnDefinition, Details, EquipmentModel } from '../models/equipmentModel';
+import { LocationModel } from '../models/locationModel';
 import { sleep } from '../modules/util';
 import { CategoryCodes } from '../pages/api/equipment/advancedSearch';
 import { ErrorDialog } from './dialog/errorDialog';
@@ -14,6 +19,11 @@ type Props = {
 };
 
 export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
+  const [, setDepartments] = useSharedState<DepartmentModel[]>('departments', []);
+  const [, setLocations] = useSharedState<LocationModel[]>('locations', []);
+  useDepartments(x => setDepartments(x));
+  useLocations(x => setLocations(x));
+
   const [categoryCodes, setCategoryCodes] = useState(initialCategories);
 
   const [filterText, setFilterText] = useState('');

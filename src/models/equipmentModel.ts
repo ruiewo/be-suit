@@ -14,6 +14,8 @@ export type Equipment = {
   note: string;
   group: string;
   place: string;
+  departmentId: number;
+  locationId: number;
   rentalDate: Date | null;
   rentalUser: string | null;
   returnDate: Date | null;
