@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-import { ColumnDefinition, Details, rentalState } from '../../models/equipmentModel';
+import { ColumnDefinition, Details } from '../../models/equipmentModel';
 import { isNullOrWhiteSpace } from '../../modules/util';
 import styles from '../../styles/equipmentTable.module.css';
-import { LendingButton, RentButton, ReturnButton } from '../button/rentButton';
+import { RentStateButton } from '../button/rentButton';
 import { ContextMenuProps } from './userTable';
 
 type Props = {
@@ -80,34 +80,13 @@ export const BaseTable = ({ data, columns, filterText, reload, Dialog, ContextMe
               <tr key={data.id} data-id={data.id}>
                 {columns.map(col => {
                   if (col.key === 'rentalState') {
-                    switch (data[col.key]) {
-                      case rentalState.canRent:
-                        return (
-                          <td key={col.key} data-type={col.style == null ? '' : col.style}>
-                            <RentButton />
-                          </td>
-                        );
-                      case rentalState.canReturn:
-                        return (
-                          <td key={col.key} data-type={col.style == null ? '' : col.style}>
-                            <ReturnButton />
-                          </td>
-                        );
-                      case rentalState.lending:
-                        return (
-                          <td key={col.key} data-type={col.style == null ? '' : col.style}>
-                            <LendingButton />
-                          </td>
-                        );
-
-                      default:
-                        return (
-                          <td key={col.key} data-type={col.style == null ? '' : col.style}>
-                            {data[col.key]}
-                          </td>
-                        );
-                    }
+                    return (
+                      <td key={col.key} data-type={col.style == null ? '' : col.style}>
+                        <RentStateButton state={data[col.key] as string} />
+                      </td>
+                    );
                   }
+
                   return (
                     <td key={col.key} data-type={col.style == null ? '' : col.style}>
                       {data[col.key]}

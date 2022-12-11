@@ -23,6 +23,7 @@ model User {
 enum Role {
   guest
   user
+  manager
   admin
   superAdmin
 }
@@ -101,8 +102,10 @@ model Rental {
 }
 
 enum RentalRequestState {
-  requestet // 申請中
-  approved // 貸出中
+  rentRequestet // 貸出申請中
+  rentApproved // 貸出中
+  returnRequestet // 返却申請中
+  returnApproved // 返却中
   completed // 返却済み
 }
 

@@ -5,6 +5,7 @@
   color: var(--color-white);
   background-color: var(--color1);
   border: none;
+  user-select: none;
 }
 .rent {
   color: var(--color-white);
