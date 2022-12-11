@@ -52,7 +52,9 @@ function ListItem({ category }: { category: Category }) {
         ))}
       </div>
       <Link href={`${page.category}/${category.code}`}>
-        <EditButton></EditButton>
+        <a>
+          <EditButton></EditButton>
+        </a>
       </Link>
     </Box>
   );

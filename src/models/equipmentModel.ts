@@ -12,8 +12,6 @@ export type Equipment = {
   // details: Prisma.JsonValue | null;
   details: Details | null;
   note: string;
-  group: string;
-  place: string;
   departmentId: number;
   locationId: number;
   rentalDate: Date | null;
@@ -57,9 +55,9 @@ export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'categorySerial', type: 'number', label: '管理番号', width: 100 },
   { key: 'maker', type: 'string', label: 'メーカー', width: 120 },
   { key: 'modelNumber', type: 'string', label: '型番', width: 120 },
-  { key: 'group', type: 'string', label: '管理者', width: 120 },
+  { key: 'departmentId', type: 'number', label: '管理者', width: 120 },
   { key: 'rentalUser', type: 'string', label: '使用者', width: 120 },
-  { key: 'place', type: 'string', label: '使用・保管場所', width: 180 },
+  { key: 'locationId', type: 'number', label: '使用・保管場所', width: 180 },
   { key: 'rentalDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },
   { key: 'registrationDate', type: 'date', label: '登録日', width: 120 },
