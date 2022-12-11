@@ -18,10 +18,10 @@ export default function SideMenu() {
 
 function Logo() {
   return (
-    <h1 className={styles.logo}>
-      <Link href={page.home}>
+    <Link href={page.home}>
+      <h1 className={styles.logo}>
         <Image src="/images/app-logo.svg" alt="Topへ戻る" width={50} height={50} />
-      </Link>
-    </h1>
+      </h1>
+    </Link>
   );
 }
