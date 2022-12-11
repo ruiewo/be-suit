@@ -1,4 +1,5 @@
 import type { NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 
 import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 
@@ -10,7 +11,11 @@ import { DateEx } from '../../modules/util';
 import styles from '../../styles/home.module.css';
 
 const CategoryPage: NextPage = () => {
+  const { data: session } = useSession({ required: true });
+
   const { equipments, isLoading, isError } = useUsersMe();
+
+  if (session == null) return <ErrorDialog />;
 
   if (isError) return <ErrorDialog />;
 
@@ -20,6 +25,10 @@ const CategoryPage: NextPage = () => {
 
   return (
     <Box>
+      <div>
+        {session.user.name}
+        {session.user.email}
+      </div>
       <Typography component="h1" variant="h4" sx={{ textAlign: 'center' }}>
         My Items
       </Typography>

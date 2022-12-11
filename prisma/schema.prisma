@@ -11,12 +11,13 @@ model User {
   id            String       @id @default(cuid())
   name          String?
   email         String?      @unique
-  role          Role         @default(user)
+  role          Role         @default(guest)
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Department    Department[]
+  departments   Department[]
+  rentals       Rental[]
 }
 
 enum Role {
@@ -43,11 +44,9 @@ model Equipment {
   note        String // 備考
 
   // 貸与関係
-  group        String // 管理者
-  department   Department? @relation(fields: [departmentId], references: [id])
+  department   Department? @relation(fields: [departmentId], references: [id]) // 管理者
   departmentId Int?
-  place        String // 使用・保管場所
-  location     Location?   @relation(fields: [locationId], references: [id])
+  location     Location?   @relation(fields: [locationId], references: [id]) // 使用・保管場所
   locationId   Int?
   rentalDate   DateTime? // 貸出日
   rentalUser   String? // 外部キーにしたいが退職済みユーザの扱いが複雑になるため文字列とする。
@@ -59,6 +58,8 @@ model Equipment {
   inventoryDate    DateTime? // 棚卸日（総務が確認した日） 
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt // 更新日
+
+  rentals Rental[]
 }
 
 model Category {
@@ -76,6 +77,7 @@ model Department {
   leaderId   String?
   leader     User?       @relation(fields: [leaderId], references: [id])
   equipments Equipment[]
+  rentals    Rental[]
 }
 
 model Location {
@@ -83,6 +85,25 @@ model Location {
   label      String
   enable     Boolean     @default(true)
   equipments Equipment[]
+}
+
+model Rental {
+  id           Int                @id @default(autoincrement())
+  equipment    Equipment          @relation(fields: [equipmentId], references: [id])
+  equipmentId  Int
+  department   Department         @relation(fields: [departmentId], references: [id])
+  departmentId Int
+  user         User               @relation(fields: [userId], references: [id])
+  userId       String
+  state        RentalRequestState
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt // 更新日
+}
+
+enum RentalRequestState {
+  requestet // 申請中
+  approved // 貸出中
+  completed // 返却済み
 }
 
 // ↓↓ for authentications

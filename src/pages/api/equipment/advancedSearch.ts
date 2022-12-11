@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { ColumnDefinition, Details, Equipment, EquipmentModel, getEquipmentCode } from '../../../models/equipmentModel';
+import { ColumnDefinition, Details, Equipment, EquipmentModel, getEquipmentCode, rentalState } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
 
@@ -31,7 +31,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 }
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
-  const { isValid } = await validate(req, res, { httpMethods: [http.POST], authorize: true });
+  const { isValid, session } = await validate(req, res, { httpMethods: [http.POST], authorize: true });
   if (!isValid) {
     return;
   }
@@ -43,7 +43,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     return;
   }
 
-  const [equipments, category] = await Promise.all([
+  const [equipments, category, user] = await Promise.all([
     prisma.equipment.findMany({
       where: {
         OR: sub.map(x => ({ category: main.toUpperCase(), subCategory: x.toUpperCase() })),
@@ -82,6 +82,11 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         code: main.toUpperCase(),
       },
     }),
+    prisma.user.findFirst({
+      where: {
+        email: session?.user.email,
+      },
+    }),
   ]);
 
   const equipmentModels = equipments.map(x => {
@@ -92,6 +97,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       modelNumber: x.modelNumber,
       details: x.details as Details,
       note: x.note,
+      rentalState: isNullOrWhiteSpace(x.rentalUser) ? rentalState.canRent : x.rentalUser === user?.name ? rentalState.canReturn : rentalState.lending,
       rentalDate: x.rentalDate,
       rentalUser: x.rentalUser,
       registrationDate: x.registrationDate,

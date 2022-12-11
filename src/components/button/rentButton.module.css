@@ -1,0 +1,22 @@
+.button {
+  display: inline-block;
+  width: 60px;
+  border-radius: 30px;
+  color: var(--color-white);
+  background-color: var(--color1);
+  border: none;
+}
+.rent {
+  color: var(--color-white);
+  background-color: var(--color2);
+  cursor: pointer;
+}
+.return {
+  color: var(--color-white);
+  background-color: var(--color3);
+  cursor: pointer;
+}
+.lending {
+  color: var(--color-white);
+  background-color: var(--color-light-gray);
+}

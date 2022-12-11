@@ -33,10 +33,19 @@ export type EquipmentModel = {
   note: string;
   department: string;
   location: string;
+  rentalState: RentalState;
   rentalDate: Date | null;
   rentalUser: string | null;
   registrationDate: Date | null;
 };
+
+export type RentalState = 'canRent' | 'lending' | 'canReturn';
+
+export const rentalState = {
+  canRent: 'canRent',
+  lending: 'lending',
+  canReturn: 'canReturn',
+} as const;
 
 export type ValueType = 'code' | 'rentalState' | 'string' | 'number' | 'date';
 
@@ -74,8 +83,8 @@ export function convertToDisplay(obj: any, key: string, type: ValueType) {
   switch (type) {
     case 'code':
       return getEquipmentCode(obj);
+    // return getRentalState(obj);
     case 'rentalState':
-      return getRentalState(obj);
     case 'string':
     case 'number':
       return obj[key]?.toString() ?? '';
@@ -114,7 +123,7 @@ export function getEquipmentCode(e: Equipment) {
 
 export function getRentalState(e: Equipment) {
   if (isNullOrWhiteSpace(e.rentalDate as unknown as string)) {
-    return '';
+    return '貸出可';
   } else {
     return '貸出中';
   }
