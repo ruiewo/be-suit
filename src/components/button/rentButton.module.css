@@ -7,17 +7,17 @@
   border: none;
   user-select: none;
 }
-.rent {
+.button[data-rent-state='rent'] {
   color: var(--color-white);
   background-color: var(--color2);
   cursor: pointer;
 }
-.return {
+.button[data-rent-state='return'] {
   color: var(--color-white);
   background-color: var(--color3);
   cursor: pointer;
 }
-.lending {
+.button[data-rent-state='lending'] {
   color: var(--color-white);
   background-color: var(--color-light-gray);
 }

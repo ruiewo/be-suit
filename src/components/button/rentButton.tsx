@@ -2,13 +2,25 @@ import { rentalState } from '../../models/equipmentModel';
 import styles from './rentButton.module.css';
 
 export function RentButton() {
-  return <button className={`${styles.button} ${styles.rent}`}>借りる</button>;
+  return (
+    <button type="button" className={styles.button} data-rent-state="rent">
+      借りる
+    </button>
+  );
 }
 export function ReturnButton() {
-  return <button className={`${styles.button} ${styles.return}`}>返却</button>;
+  return (
+    <button type="button" className={styles.button} data-rent-state="return">
+      返却
+    </button>
+  );
 }
 export function LendingButton() {
-  return <button className={`${styles.button} ${styles.lending}`}>貸出中</button>;
+  return (
+    <button type="button" className={styles.button} data-rent-state="lending">
+      貸出中
+    </button>
+  );
 }
 
 export function RentStateButton({ state }: { state: string }) {

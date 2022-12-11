@@ -10,12 +10,13 @@ type Props = {
   data: Record<string, string | number>[];
   columns: ColumnDefinition<Details>[];
   filterText: string;
+  onTrClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>, id: string | number) => void;
   reload?: () => void;
   Dialog?: ({ onClose, id }: { id: number; onClose: (isEdited: boolean) => void }) => JSX.Element;
   ContextMenu?: ({ contextMenu, onClose }: ContextMenuProps) => JSX.Element;
 };
 
-export const BaseTable = ({ data, columns, filterText, reload, Dialog, ContextMenu }: Props) => {
+export const BaseTable = ({ data, columns, filterText, onTrClick, reload, Dialog, ContextMenu }: Props) => {
   const lowerFilterText = filterText.toLowerCase();
   const filteredData = isNullOrWhiteSpace(lowerFilterText)
     ? data
@@ -77,7 +78,7 @@ export const BaseTable = ({ data, columns, filterText, reload, Dialog, ContextMe
         <tbody className={styles.tbody} onDoubleClick={handleDialogOpen} onContextMenu={handleContextMenu}>
           {filteredData.map(data => {
             return (
-              <tr key={data.id} data-id={data.id}>
+              <tr key={data.id} data-id={data.id} onClick={onTrClick == null ? undefined : e => onTrClick(e, data.id)}>
                 {columns.map(col => {
                   if (col.key === 'rentalState') {
                     return (

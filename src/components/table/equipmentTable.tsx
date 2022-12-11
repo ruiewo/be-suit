@@ -1,5 +1,5 @@
 import EquipmentEditDialog from '../../components/dialog/equipmentEditDialog';
-import { ColumnDefinition, Details, EquipmentModel, convertToDisplay } from '../../models/equipmentModel';
+import { ColumnDefinition, Details, EquipmentModel, convertToDisplay, rentalState } from '../../models/equipmentModel';
 import { BaseTable } from './baseTable';
 
 type Props = {
@@ -39,5 +39,24 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
 
   const columns = [...baseColumn, ...optionColumns];
 
-  return <BaseTable data={tableData} columns={columns} filterText={filterText} reload={reload} Dialog={EquipmentEditDialog} />;
+  const onTrClick: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>, id: string | number) => void = (e, id) => {
+    const rentButton = (e.target as HTMLElement).closest<HTMLElement>('[data-rent-state]');
+    if (rentButton == null) {
+      return;
+    }
+
+    console.log(rentButton.dataset.rentState);
+    switch (rentButton.dataset.rentState) {
+      case rentalState.canRent:
+        break;
+      case rentalState.canReturn:
+        break;
+      case rentalState.lending:
+        return;
+      default:
+        return;
+    }
+  };
+
+  return <BaseTable data={tableData} columns={columns} filterText={filterText} onTrClick={onTrClick} reload={reload} Dialog={EquipmentEditDialog} />;
 };
