@@ -44,6 +44,12 @@ a {
   box-sizing: border-box;
 }
 
+input,
+textarea,
+::placeholder {
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
 .hidden {
   display: none !important;
 }
@@ -53,7 +59,75 @@ a {
     color-scheme: dark;
   }
   body {
-    color: white;
-    background: black;
+    color: var(--color-white);
+    background: var(--color-black);
   }
+}
+
+@font-face {
+  font-family: 'icomoon';
+  src: url('../../public/fonts/icomoon.eot?fw38i2');
+  src: url('../../public/fonts/icomoon.eot?fw38i2#iefix') format('embedded-opentype'), url('../../public/fonts/icomoon.ttf?fw38i2') format('truetype'),
+    url('../../public/fonts/icomoon.woff?fw38i2') format('woff'), url('../../public/fonts/icomoon.svg?fw38i2#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^='icon-'],
+[class*=' icon-'] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-computer:before {
+  content: '\e902';
+}
+.icon-dev:before {
+  content: '\e903';
+}
+.icon-maintenance:before {
+  content: '\e904';
+}
+.icon-master:before {
+  content: '\e905';
+}
+.icon-monitor:before {
+  content: '\e906';
+}
+.icon-rental:before {
+  content: '\e907';
+}
+.icon-setting:before {
+  content: '\e908';
+}
+.icon-signOut:before {
+  content: '\e909';
+  font-size: 23px;
+}
+.icon-bell:before {
+  content: '\e951';
+  font-size: 23px;
+}
+.icon-user:before {
+  content: '\e971';
+  font-size: 35px;
+}
+.icon-users:before {
+  content: '\e972';
+}
+.icon-plus:before {
+  content: '\ea0a';
+}
+.icon-up:before {
+  content: '\ea41';
 }
