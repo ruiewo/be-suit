@@ -29,14 +29,16 @@ export function AccountButton() {
   ];
 
   const avatarUrl = session?.user?.image;
+  const userName = session?.user?.name;
 
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
       <div className={styles.parentButton} onClick={() => setActive(!isActive)}>
         {isNullOrWhiteSpace(avatarUrl) ? (
-          <Image src={mainButton.imageUrl} alt={mainButton.title} width={30} height={30} />
+          <img src={createIconImage(userName)} alt={mainButton.title} style={{ width: 40, height: 40, borderRadius: '50%' }} />
         ) : (
-          <img src={avatarUrl} alt="" style={{ width: 40, height: 40, borderRadius: '50%' }} />
+          // <Image src={mainButton.imageUrl} alt={mainButton.title} width={30} height={30} />
+          <img src={avatarUrl} alt={mainButton.title} style={{ width: 40, height: 40, borderRadius: '50%' }} />
         )}
       </div>
       {subButtons.map(x => (
@@ -61,4 +63,26 @@ function ChildButton({ isActive, imageUrl, title, link }: ChildButtonProps) {
       </div>
     </Link>
   );
+}
+
+function createIconImage(userName: string | null | undefined) {
+  const defaultIcon = '/images/account.svg';
+
+  if (isNullOrWhiteSpace(userName)) {
+    return defaultIcon;
+  }
+
+  let twoLetters = '';
+  const strArr = userName.split(' ');
+  if (strArr.length === 1) {
+    twoLetters = strArr[0].substring(0, 2);
+  } else {
+    twoLetters = strArr[0].substring(0, 1) + strArr[1].substring(0, 1);
+  }
+
+  twoLetters = twoLetters.toUpperCase();
+
+  const svg = `<svg width="512" height="512" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><circle fill="#dbf0f3" cx="50" cy="50" r="50"></circle><text x="50%" y="50%" font-family="Verdana" font-size="42" fill="#6d9291" text-anchor="middle" dominant-baseline="central">${twoLetters}</text></svg>`;
+
+  return 'data:image/svg+xml;utf-8,' + encodeURIComponent(svg);
 }

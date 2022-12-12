@@ -3,14 +3,14 @@ import styles from './rentButton.module.css';
 
 export function RentButton() {
   return (
-    <button type="button" className={styles.button} data-rent-state="rent">
+    <button type="button" className={styles.button} data-rent-state="canRent">
       借りる
     </button>
   );
 }
 export function ReturnButton() {
   return (
-    <button type="button" className={styles.button} data-rent-state="return">
+    <button type="button" className={styles.button} data-rent-state="canReturn">
       返却
     </button>
   );

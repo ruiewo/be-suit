@@ -45,7 +45,6 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
       return;
     }
 
-    console.log(rentButton.dataset.rentState);
     switch (rentButton.dataset.rentState) {
       case rentalState.canRent:
         break;
