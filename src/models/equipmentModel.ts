@@ -83,7 +83,6 @@ export function convertToDisplay(obj: any, key: string, type: ValueType) {
   switch (type) {
     case 'code':
       return getEquipmentCode(obj);
-    // return getRentalState(obj);
     case 'rentalState':
     case 'string':
     case 'number':

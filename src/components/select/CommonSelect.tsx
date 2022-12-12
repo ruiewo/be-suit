@@ -3,7 +3,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, SxPr
 type Props = {
   label: string;
   name: string;
-  value: string | number;
+  value: string | number | null;
   onChange?: (event: SelectChangeEvent<string>) => void;
   items: CommonSelectItem[];
   sx: SxProps;
@@ -14,7 +14,7 @@ export function CommonSelect({ label, name, value, onChange, items, sx }: Props)
     <Box sx={sx}>
       <FormControl fullWidth>
         <InputLabel>{label}</InputLabel>
-        <Select label={label} name={name} value={value.toString() ? value.toString() : ''} onChange={onChange}>
+        <Select label={label} name={name} value={value?.toString() ? value.toString() : ''} onChange={onChange}>
           <MenuItem value="">未選択</MenuItem>
           {items.map(x => (
             <MenuItem key={x.value} value={x.value}>

@@ -114,10 +114,10 @@ async function seedUser() {
       { name: '佐藤 大介', email: '1emainl@ruiewo.com', role: role.guest },
       { name: '吉田 大輔', email: '2emainl@ruiewo.com', role: role.user },
       { name: '山本 健', email: '3emainl@ruiewo.com', role: role.user },
-      { name: '山口 康之', email: '4emainl@ruiewo.com', role: role.user },
+      { name: '山口 康之', email: '4emainl@ruiewo.com', role: role.manager },
+      { name: '吉川 貴之', email: '7emainl@ruiewo.com', role: role.manager },
       { name: '石田 雅之', email: '5emainl@ruiewo.com', role: role.admin },
       { name: '池田 浩平', email: '6emainl@ruiewo.com', role: role.admin },
-      { name: '吉川 貴之', email: '7emainl@ruiewo.com', role: role.superAdmin },
       { name: '小山 真一', email: '8emainl@ruiewo.com', role: role.superAdmin },
     ];
 
