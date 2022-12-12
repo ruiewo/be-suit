@@ -3,6 +3,7 @@ export const page = {
   signIn: '/signIn',
   qrCode: '/qrcode',
   equipment: '/equipment',
+  register: '/equipment/register',
   category: '/category',
   user: '/user',
   myPage: '/user/me',

@@ -17,6 +17,7 @@ export function Menu({ isMenuOpen }: Props) {
     { title: 'QRCode', description: '開発用', path: page.qrCode, src: '/images/dev.svg' },
     { title: 'Category', description: 'カテゴリ一覧を表示します', path: page.category, src: '/images/maintenance.svg' },
     { title: 'MyPage', description: '開発用', path: page.myPage, src: '/images/dev.svg' },
+    { title: 'REGISTER', description: '開発用', path: page.register, src: '/images/dev.svg' },
   ];
 
   return (

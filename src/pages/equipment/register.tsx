@@ -5,13 +5,13 @@ import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { useCategories } from '../../hooks/useCategories';
 import { CategoryBase } from '../../models/category';
-import { Equipment } from '../../models/equipment';
+import { Equipment } from '../../models/equipmentModel';
 import styles from '../../styles/registerForm.module.css';
 
 const RegisterPage: NextPage = () => {
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-  const equipmentBaseColumn = [
+  const columns = [
     { key: 'id', type: 'number', label: 'ID', width: 40, isRegistrable: false },
     { key: 'category', type: 'string', label: 'メインカテゴリー', width: 100, isRegistrable: false },
     { key: 'subCategory', type: 'string', label: 'サブカテゴリー', width: 100, isRegistrable: false },
@@ -30,53 +30,40 @@ const RegisterPage: NextPage = () => {
   ];
 
   const { categories, isLoading, isError } = useCategories('');
-  const [selectableSubCategories, setSelectableSubCategories] = useState<CategoryBase[]>([]);
+  const [subCategories, setSubCategories] = useState<CategoryBase[]>([]);
   const [formEquipment, setFormEquipment] = useState({ category: '', subCategory: '', maker: '', modelNumber: '', note: '' } as Equipment);
   const [equipments, setEquipments] = useState<Equipment[]>([]);
 
   const onTextChange = (event: ChangeEvent) => {
-    const e = { ...formEquipment };
+    const equipment = { ...formEquipment };
     const target = event.target as HTMLInputElement;
+    const value = target.value;
+
     switch (target.name) {
       case 'category':
-        {
-          const categoryName = target.value;
-          e.category = categoryName.substring(0, categoryName.indexOf('_'));
-
-          if (categories != null) {
-            let subCategories = [...selectableSubCategories];
-            categories.map(category => {
-              if (category.code == e.category) {
-                subCategories = category.subCategories;
-              }
-            });
-            setSelectableSubCategories(subCategories);
-          }
-        }
+        equipment.category = value;
+        setSubCategories(categories?.find(x => x.code === equipment.category)?.subCategories ?? []);
         break;
       case 'subCategory':
-        {
-          const subCategoryName = target.value;
-          e.subCategory = subCategoryName.substring(0, subCategoryName.indexOf('_'));
-        }
+        equipment.subCategory = value;
         break;
       case 'maker':
-        e.maker = target.value;
+        equipment.maker = value;
         break;
       case 'modelNumber':
-        e.modelNumber = target.value;
+        equipment.modelNumber = value;
         break;
       case 'note':
-        e.note = target.value;
+        equipment.note = value;
         break;
       default:
         return;
     }
-    setFormEquipment(e);
+
+    setFormEquipment(equipment);
   };
 
   const addEquipment = async () => {
-    console.log(categories);
     if (formEquipment.category == '' || formEquipment.subCategory == '') {
       setErrorMessage('カテゴリーを選択してください。');
       return;
@@ -86,16 +73,14 @@ const RegisterPage: NextPage = () => {
       return;
     }
 
-    const newEquipments = [...equipments];
-    newEquipments.push(formEquipment);
-    setEquipments(newEquipments);
     setEquipments([...equipments, formEquipment]);
 
-    const e = { ...formEquipment };
-    e.maker = '';
-    e.modelNumber = '';
-    e.note = '';
-    setFormEquipment(e);
+    setFormEquipment({
+      ...formEquipment,
+      maker: '',
+      modelNumber: '',
+      note: '',
+    });
   };
 
   const registerEquipments = async () => {
@@ -130,89 +115,61 @@ const RegisterPage: NextPage = () => {
           <div className={styles.form}>
             <div className={styles.area}>
               <div className={styles.areaIcon}>
-                <span className={`icon-master`}></span>
+                <span className="icon-master"></span>
                 <span className={styles.iconTitle}>管理番号</span>
               </div>
               <div className={styles.controlNumber}>
                 <label>メインカテゴリー</label>
                 <select name="category" className={styles.select} onChange={onTextChange}>
                   <option>--- メインカテゴリーを選択 ---</option>
-                  {categories.map((category, index) => {
-                    return (
-                      <option key={index} title={category.code}>
-                        {category.code}_{category.label}
-                      </option>
-                    );
-                  })}
+                  {categories.map(x => (
+                    <option key={x.code} title={x.code} value={x.code}>
+                      {x.code}_{x.label}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className={styles.controlNumber}>
                 <label>サブカテゴリー</label>
                 <select name="subCategory" className={styles.select} onChange={onTextChange}>
                   <option>--- サブカテゴリーを選択 ---</option>
-                  {selectableSubCategories.map((subCategory, index) => {
-                    return (
-                      <option key={index} title={subCategory.code}>
-                        {subCategory.code}_{subCategory.label}
-                      </option>
-                    );
-                  })}
+                  {subCategories.map(x => (
+                    <option key={x.code} title={x.code} value={x.code}>
+                      {x.code}_{x.label}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
             <div className={styles.area}>
               <div className={styles.areaIcon}>
-                <span className={`icon-computer`}></span>
+                <span className="icon-computer"></span>
                 <span className={styles.iconTitle}>PC情報</span>
               </div>
-              {equipmentBaseColumn.map(column => {
-                if (column.key == 'maker') {
-                  return (
-                    <div className={styles.category} key={column.key}>
-                      <label>{column.label}</label>
-                      <input
-                        value={formEquipment.maker}
-                        name={column.key}
-                        key={column.key}
-                        placeholder={column.label}
-                        type={column.type}
-                        onChange={onTextChange}
-                      />
-                    </div>
-                  );
-                }
-                if (column.key == 'modelNumber') {
-                  return (
-                    <div className={styles.category} key={column.key}>
-                      <label>{column.label}</label>
-                      <input
-                        value={formEquipment.modelNumber}
-                        name={column.key}
-                        key={column.key}
-                        placeholder={column.label}
-                        type={column.type}
-                        onChange={onTextChange}
-                      />
-                    </div>
-                  );
-                }
-              })}
+              {columns
+                .filter(x => x.key === 'maker' || x.key === 'modelNumber')
+                .map(x => (
+                  <div className={styles.category} key={x.key}>
+                    <label>{x.label}</label>
+                    {/* @ts-ignore  */}
+                    <input value={formEquipment[x.key]} name={x.key} placeholder={x.label} type={x.type} onChange={onTextChange} />
+                  </div>
+                ))}
             </div>
             <div className={styles.area}>
               <div className={styles.areaIcon}>
                 <span className={`icon-setting`}></span>
                 <span className={styles.iconTitle}>その他</span>
               </div>
-              {equipmentBaseColumn.map(column => {
-                if (column.key == 'note') {
-                  return (
-                    <div className={styles.category} key={column.key}>
-                      <label>{column.label}</label>
-                      <textarea value={formEquipment.note} name={column.key} placeholder={column.label} onChange={onTextChange}></textarea>
-                    </div>
-                  );
-                }
-              })}
+              {columns
+                .filter(x => x.key === 'note')
+                .map(x => (
+                  <div className={styles.category} key={x.key}>
+                    <label>{x.label}</label>
+                    {/* @ts-ignore  */}
+                    <textarea value={formEquipment[x.key]} name={x.key} placeholder={x.label} onChange={onTextChange} />
+                  </div>
+                ))}
             </div>
           </div>
           <div className={styles.formButton}>
@@ -232,7 +189,7 @@ const RegisterPage: NextPage = () => {
           <thead className={styles.thead}>
             <tr>
               <th>No.</th>
-              {equipmentBaseColumn.map(col => {
+              {columns.map(col => {
                 if (col.isRegistrable) {
                   return <th key={col.key}>{col.label}</th>;
                 }
@@ -240,14 +197,14 @@ const RegisterPage: NextPage = () => {
             </tr>
           </thead>
           <tbody className={styles.tbody}>
-            {equipments.map((e, index) => {
+            {equipments.map((x, index) => {
               return (
-                <tr key={e.id}>
+                <tr key={x.id}>
                   <td>{index + 1}</td>
-                  <td>{`${e.category}-${e.subCategory}`}</td>
-                  <td>{e.maker}</td>
-                  <td>{e.modelNumber}</td>
-                  <td>{e.note}</td>
+                  <td>{`${x.category}-${x.subCategory}`}</td>
+                  <td>{x.maker}</td>
+                  <td>{x.modelNumber}</td>
+                  <td>{x.note}</td>
                 </tr>
               );
             })}
