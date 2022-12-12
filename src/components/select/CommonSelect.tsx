@@ -32,7 +32,7 @@ export function UncontrolledCommonSelect({ label, name, value, items, sx }: Prop
     <Box sx={{ ...sx, display: 'inline-block' }}>
       <FormControl fullWidth>
         <InputLabel>{label}</InputLabel>
-        <Select label={label} name={name} defaultValue={value.toString() ? value.toString() : ''}>
+        <Select label={label} name={name} defaultValue={value?.toString() ? value.toString() : ''}>
           <MenuItem value="">未選択</MenuItem>
           {items.map(x => (
             <MenuItem key={x.value} value={x.value}>

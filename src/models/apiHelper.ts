@@ -12,6 +12,10 @@ export type ApiErrorDetail = { code: string; message: string };
 
 export type StatusCode = { statusCode: number };
 
+export function badRequest(res: NextApiResponse) {
+  res.status(401).send({ error: { statusCode: 400, errors: [{ code: '', message: 'invalid parameter.' }] } });
+}
+
 export function unauthorized(res: NextApiResponse) {
   res.status(401).send({ error: { statusCode: 401, errors: [{ code: '', message: 'unauthorized.' }] } });
 }

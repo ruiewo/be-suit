@@ -71,6 +71,7 @@ const defaultOptions: NextAuthOptions = {
     // async redirect({ url, baseUrl }) { return baseUrl },
     // async session({ session, token, user }: { session: Session; user: User | AdapterUser; token: JWT }) {},
     async session({ session, user }) {
+      session.user.id = user.id;
       session.user.role = user.role;
       session.user.image = user.image ?? '';
       return session;
