@@ -1,3 +1,5 @@
+import { RentalState } from '@prisma/client';
+
 import { DateEx, isDate, isNullOrWhiteSpace } from '../modules/util';
 
 export type Details = Record<string, string | number | Date | null>;
@@ -14,6 +16,7 @@ export type Equipment = {
   note: string;
   departmentId: number;
   locationId: number;
+  rentalState: RentalState;
   rentalDate: Date | null;
   rentalUser: string | null;
   returnDate: Date | null;
@@ -33,7 +36,7 @@ export type EquipmentModel = {
   note: string;
   department: string;
   location: string;
-  rentButtonState: RentalButtonState;
+  rentalButtonState: RentalButtonState;
   rentalDate: Date | null;
   rentalUser: string | null;
   registrationDate: Date | null;
@@ -41,13 +44,13 @@ export type EquipmentModel = {
 
 export type RentalButtonState = 'canRent' | 'lending' | 'canReturn';
 
-export const rentButtonState = {
+export const rentalButtonState = {
   canRent: 'canRent',
   lending: 'lending',
   canReturn: 'canReturn',
 } as const;
 
-export type ValueType = 'code' | 'rentalState' | 'string' | 'number' | 'date';
+export type ValueType = 'code' | 'string' | 'number' | 'date';
 
 export type ColumnDefinition<T> = {
   key: keyof T;
@@ -83,7 +86,6 @@ export function convertToDisplay(obj: any, key: string, type: ValueType) {
   switch (type) {
     case 'code':
       return getEquipmentCode(obj);
-    case 'rentalState':
     case 'string':
     case 'number':
       return obj[key]?.toString() ?? '';

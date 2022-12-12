@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { ColumnDefinition, Details, Equipment, EquipmentModel, getEquipmentCode, rentButtonState } from '../../../models/equipmentModel';
+import { ColumnDefinition, Details, Equipment, EquipmentModel, getEquipmentCode, rentalButtonState } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
 
@@ -62,6 +62,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         modelNumber: true,
         details: true,
         note: true,
+        rentalState: true,
         rentalDate: true,
         rentalUser: true,
         registrationDate: true,
@@ -97,11 +98,11 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       modelNumber: x.modelNumber,
       details: x.details as Details,
       note: x.note,
-      rentalState: isNullOrWhiteSpace(x.rentalUser)
-        ? rentButtonState.canRent
+      rentalButtonState: isNullOrWhiteSpace(x.rentalUser)
+        ? rentalButtonState.canRent
         : x.rentalUser === user?.name
-        ? rentButtonState.canReturn
-        : rentButtonState.lending,
+        ? rentalButtonState.canReturn
+        : rentalButtonState.lending,
       rentalDate: x.rentalDate,
       rentalUser: x.rentalUser,
       registrationDate: x.registrationDate,

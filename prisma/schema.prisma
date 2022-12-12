@@ -49,9 +49,11 @@ model Equipment {
   departmentId Int?
   location     Location?   @relation(fields: [locationId], references: [id]) // 使用・保管場所
   locationId   Int?
-  rentalDate   DateTime? // 貸出日
-  rentalUser   String? // 外部キーにしたいが退職済みユーザの扱いが複雑になるため文字列とする。
-  returnDate   DateTime? // 返却日
+
+  rentalState RentalState @default(completed)
+  rentalDate  DateTime? // 貸出日
+  rentalUser  String? // 外部キーにしたいが退職済みユーザの扱いが複雑になるため文字列とする。
+  returnDate  DateTime? // 返却日
 
   // 登録・削除
   registrationDate DateTime? // 登録日 

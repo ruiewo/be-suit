@@ -80,7 +80,7 @@ export const BaseTable = ({ data, columns, filterText, onTrClick, reload, Dialog
             return (
               <tr key={data.id} data-id={data.id} onClick={onTrClick == null ? undefined : e => onTrClick(e, data.id)}>
                 {columns.map(col => {
-                  if (col.key === 'rentalState') {
+                  if (col.key === 'rentalButtonState') {
                     return (
                       <td key={col.key} data-type={col.style == null ? '' : col.style}>
                         <RentStateButton state={data[col.key] as string} />
