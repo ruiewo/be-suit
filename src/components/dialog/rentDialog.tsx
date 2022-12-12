@@ -14,13 +14,14 @@ import { CommonSelect } from '../select/CommonSelect';
 type Props = {
   equipment: EquipmentModel | null;
   setEquipment: Dispatch<SetStateAction<EquipmentModel | null>>;
+  reload: () => void;
 };
 
 const style = { width: '90%', ml: 1, mr: 1, mt: 2, mb: 1 };
 
 const blankRequest: RentalApplicationModel = { equipmentId: null, departmentId: null };
 
-export const RentDialog = ({ equipment, setEquipment }: Props) => {
+export const RentDialog = ({ equipment, setEquipment, reload }: Props) => {
   const [departments] = useSharedState<DepartmentModel[]>('departments', []);
   const [locations] = useSharedState<LocationModel[]>('locations', []);
   const departmentItems = departments.map(x => ({ value: x.id, label: x.label }));
@@ -72,6 +73,7 @@ export const RentDialog = ({ equipment, setEquipment }: Props) => {
             await client.api.rentalApplication.create.$post({ body: { rentalApplication: { ...rentRequest, equipmentId: equipment!.id } } });
             setEquipment(null);
             setRentRequest({ ...rentRequest });
+            reload();
           }}
         >
           申請する

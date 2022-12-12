@@ -42,6 +42,8 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     }
 
     const userId = session?.user.id;
+    const userName = session?.user.name;
+
     if (isNullOrWhiteSpace(userId)) {
       return badRequest(res);
     }
@@ -54,7 +56,29 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         departmentId,
       },
     });
-    console.log('is coming');
+
+    await prisma.$transaction(async tx => {
+      await tx.rentalApplication.create({
+        data: {
+          state: rentalState.rentRequested,
+          userId,
+          equipmentId,
+          departmentId,
+        },
+      });
+
+      await prisma.equipment.update({
+        where: {
+          id: equipmentId,
+        },
+        data: {
+          departmentId,
+          rentalState: rentalState.rentRequested,
+          rentalDate: new Date(),
+          rentalUser: userName,
+        },
+      });
+    });
 
     res.status(200).json({ succeed: true });
   } catch (error) {
