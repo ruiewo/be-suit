@@ -1,4 +1,4 @@
-import { rentalState } from '../../models/equipmentModel';
+import { rentButtonState } from '../../models/equipmentModel';
 import styles from './rentButton.module.css';
 
 export function RentButton() {
@@ -25,11 +25,11 @@ export function LendingButton() {
 
 export function RentStateButton({ state }: { state: string }) {
   switch (state) {
-    case rentalState.canRent:
+    case rentButtonState.canRent:
       return <RentButton />;
-    case rentalState.canReturn:
+    case rentButtonState.canReturn:
       return <ReturnButton />;
-    case rentalState.lending:
+    case rentButtonState.lending:
       return <LendingButton />;
     default:
       return <></>;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import EquipmentEditDialog from '../../components/dialog/equipmentEditDialog';
-import { ColumnDefinition, Details, EquipmentModel, convertToDisplay, rentalState } from '../../models/equipmentModel';
+import { ColumnDefinition, Details, EquipmentModel, convertToDisplay, rentButtonState } from '../../models/equipmentModel';
 import { RentDialog } from '../dialog/rentDialog';
 import { BaseTable } from './baseTable';
 
@@ -14,6 +14,7 @@ type Props = {
 
 export const EquipmentTable = ({ equipments, columns: optionColumns, filterText, reload }: Props) => {
   const [rentEquipment, setRentEquipment] = useState<EquipmentModel | null>(null);
+
   const baseColumn: ColumnDefinition<Details>[] = [
     { key: 'rentalState', type: 'rentalState', label: '貸出状態', style: 'center', width: 80 },
     { key: 'code', type: 'string', label: '管理番号', style: 'center', width: 110 },
@@ -57,12 +58,12 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
     const targetId = parseInt(tr.dataset.id!);
 
     switch (rentButton.dataset.rentState) {
-      case rentalState.canRent:
-        setRentEquipment(equipments.find(x => x.id === targetId)!);
+      case rentButtonState.canRent:
+        setRentEquipment(equipments.find(x => x.id === targetId) ?? null);
         break;
-      case rentalState.canReturn:
+      case rentButtonState.canReturn:
         break;
-      case rentalState.lending:
+      case rentButtonState.lending:
         return;
       default:
         return;

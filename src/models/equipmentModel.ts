@@ -33,15 +33,15 @@ export type EquipmentModel = {
   note: string;
   department: string;
   location: string;
-  rentalState: RentalState;
+  rentButtonState: RentalButtonState;
   rentalDate: Date | null;
   rentalUser: string | null;
   registrationDate: Date | null;
 };
 
-export type RentalState = 'canRent' | 'lending' | 'canReturn';
+export type RentalButtonState = 'canRent' | 'lending' | 'canReturn';
 
-export const rentalState = {
+export const rentButtonState = {
   canRent: 'canRent',
   lending: 'lending',
   canReturn: 'canReturn',

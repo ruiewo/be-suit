@@ -8,16 +8,16 @@ datasource db {
 }
 
 model User {
-  id            String       @id @default(cuid())
-  name          String?
-  email         String?      @unique
-  role          Role         @default(guest)
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  departments   Department[]
-  rentals       Rental[]
+  id                 String              @id @default(cuid())
+  name               String?
+  email              String?             @unique
+  role               Role                @default(guest)
+  emailVerified      DateTime?
+  image              String?
+  accounts           Account[]
+  sessions           Session[]
+  departments        Department[]
+  rentalApplications RentalApplication[]
 }
 
 enum Role {
@@ -60,7 +60,7 @@ model Equipment {
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt // 更新日
 
-  rentals Rental[]
+  rentalApplications RentalApplication[]
 }
 
 model Category {
@@ -72,13 +72,13 @@ model Category {
 }
 
 model Department {
-  id         Int         @id @default(autoincrement())
-  label      String
-  enable     Boolean     @default(true)
-  leaderId   String?
-  leader     User?       @relation(fields: [leaderId], references: [id])
-  equipments Equipment[]
-  rentals    Rental[]
+  id                 Int                 @id @default(autoincrement())
+  label              String
+  enable             Boolean             @default(true)
+  leaderId           String?
+  leader             User?               @relation(fields: [leaderId], references: [id])
+  equipments         Equipment[]
+  rentalApplications RentalApplication[]
 }
 
 model Location {
@@ -88,24 +88,25 @@ model Location {
   equipments Equipment[]
 }
 
-model Rental {
-  id           Int                @id @default(autoincrement())
-  equipment    Equipment          @relation(fields: [equipmentId], references: [id])
+model RentalApplication {
+  id           Int         @id @default(autoincrement())
+  equipment    Equipment   @relation(fields: [equipmentId], references: [id])
   equipmentId  Int
-  department   Department         @relation(fields: [departmentId], references: [id])
+  department   Department  @relation(fields: [departmentId], references: [id])
   departmentId Int
-  user         User               @relation(fields: [userId], references: [id])
+  user         User        @relation(fields: [userId], references: [id])
   userId       String
-  state        RentalRequestState
-  createdAt    DateTime           @default(now())
-  updatedAt    DateTime           @updatedAt // 更新日
+  state        RentalState
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt // 更新日
 }
 
-enum RentalRequestState {
-  rentRequestet // 貸出申請中
-  rentApproved // 貸出中
-  returnRequestet // 返却申請中
-  returnApproved // 返却中
+enum RentalState {
+  rentRequested // 貸出申請中
+  rentApproved // 貸出申請受付
+  lending // 貸出中
+  returnRequested // 返却申請中
+  returnApproved // 返却申請受付
   completed // 返却済み
 }
 

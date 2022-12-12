@@ -11,9 +11,10 @@ import type { Methods as Methods7 } from './api/equipment/search'
 import type { Methods as Methods8 } from './api/equipment/update'
 import type { Methods as Methods9 } from './api/location/search'
 import type { Methods as Methods10 } from './api/location/update'
-import type { Methods as Methods11 } from './api/user/me'
-import type { Methods as Methods12 } from './api/user/search'
-import type { Methods as Methods13 } from './api/user/update'
+import type { Methods as Methods11 } from './api/rentalApplication/create'
+import type { Methods as Methods12 } from './api/user/me'
+import type { Methods as Methods13 } from './api/user/search'
+import type { Methods as Methods14 } from './api/user/update'
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? '' : baseURL).replace(/\/$/, '')
@@ -28,10 +29,11 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH8 = '/api/equipment/update'
   const PATH9 = '/api/location/search'
   const PATH10 = '/api/location/update'
-  const PATH11 = '/api/user/me'
-  const PATH12 = '/api/user/search'
-  const PATH13 = '/api/user/update'
-  const PATH14 = '/equipment'
+  const PATH11 = '/api/rentalApplication/create'
+  const PATH12 = '/api/user/me'
+  const PATH13 = '/api/user/search'
+  const PATH14 = '/api/user/update'
+  const PATH15 = '/equipment'
   const GET = 'GET'
   const POST = 'POST'
 
@@ -134,33 +136,42 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
           $path: () => `${prefix}${PATH10}`
         }
       },
+      rentalApplication: {
+        create: {
+          post: (option: { body: Methods11['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods11['post']['resBody']>(prefix, PATH11, POST, option).json(),
+          $post: (option: { body: Methods11['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods11['post']['resBody']>(prefix, PATH11, POST, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH11}`
+        }
+      },
       user: {
         me: {
           get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods11['get']['resBody']>(prefix, PATH11, GET, option).json(),
+            fetch<Methods12['get']['resBody']>(prefix, PATH12, GET, option).json(),
           $get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods11['get']['resBody']>(prefix, PATH11, GET, option).json().then(r => r.body),
-          $path: () => `${prefix}${PATH11}`
-        },
-        search: {
-          post: (option: { body: Methods12['post']['reqBody'], config?: T | undefined }) =>
-            fetch<Methods12['post']['resBody']>(prefix, PATH12, POST, option).json(),
-          $post: (option: { body: Methods12['post']['reqBody'], config?: T | undefined }) =>
-            fetch<Methods12['post']['resBody']>(prefix, PATH12, POST, option).json().then(r => r.body),
+            fetch<Methods12['get']['resBody']>(prefix, PATH12, GET, option).json().then(r => r.body),
           $path: () => `${prefix}${PATH12}`
         },
-        update: {
+        search: {
           post: (option: { body: Methods13['post']['reqBody'], config?: T | undefined }) =>
             fetch<Methods13['post']['resBody']>(prefix, PATH13, POST, option).json(),
           $post: (option: { body: Methods13['post']['reqBody'], config?: T | undefined }) =>
             fetch<Methods13['post']['resBody']>(prefix, PATH13, POST, option).json().then(r => r.body),
           $path: () => `${prefix}${PATH13}`
+        },
+        update: {
+          post: (option: { body: Methods14['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods14['post']['resBody']>(prefix, PATH14, POST, option).json(),
+          $post: (option: { body: Methods14['post']['reqBody'], config?: T | undefined }) =>
+            fetch<Methods14['post']['resBody']>(prefix, PATH14, POST, option).json().then(r => r.body),
+          $path: () => `${prefix}${PATH14}`
         }
       }
     },
     equipment: {
       _category_: (val1: number | string) => {
-        const prefix1 = `${PATH14}/${val1}`
+        const prefix1 = `${PATH15}/${val1}`
 
       }
     },
