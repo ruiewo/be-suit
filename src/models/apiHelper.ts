@@ -13,15 +13,15 @@ export type ApiErrorDetail = { code: string; message: string };
 export type StatusCode = { statusCode: number };
 
 export function badRequest(res: NextApiResponse) {
-  res.status(401).send({ error: { statusCode: 400, errors: [{ code: '', message: 'invalid parameter.' }] } });
+  res.status(400).send({ error: { statusCode: 400, errors: [{ code: '', message: 'invalid parameter.' }] } });
 }
 
 export function unauthorized(res: NextApiResponse) {
-  res.status(401).send({ error: { statusCode: 401, errors: [{ code: '', message: 'unauthorized.' }] } });
+  res.status(401).send({ error: { statusCode: 401, errors: [{ code: '', message: '認証されていません。' }] } });
 }
 
 export function forbidden(res: NextApiResponse) {
-  res.status(403).send({ error: { statusCode: 403, errors: [{ code: '', message: 'forbidden.' }] } });
+  res.status(403).send({ error: { statusCode: 403, errors: [{ code: '', message: '権限がありません。.' }] } });
 }
 
 export function notFound(res: NextApiResponse) {
@@ -29,7 +29,7 @@ export function notFound(res: NextApiResponse) {
 }
 
 export function methodNotAllowed(res: NextApiResponse) {
-  res.status(403).send({ error: { statusCode: 405, errors: [{ code: '', message: 'method not allowed.' }] } });
+  res.status(405).send({ error: { statusCode: 405, errors: [{ code: '', message: 'method not allowed.' }] } });
 }
 
 type ValidateOption = {

@@ -13,7 +13,7 @@ type Props = {
   onChange: (event: ChangeEvent, index?: number) => void;
   sx: SxProps;
 };
-export default function ColumnTypeSelect({ index, value, onChange, sx }: Props) {
+export function ColumnTypeSelect({ index, value, onChange, sx }: Props) {
   return (
     <Box sx={sx}>
       <FormControl fullWidth>

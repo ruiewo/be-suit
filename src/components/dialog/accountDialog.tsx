@@ -4,7 +4,7 @@ import Box from '@mui/material/Box';
 import Icon from '@mui/material/Icon';
 
 import { Copyright } from '../../components/copyright';
-import SignInButton from '../../components/signInButton';
+import { SignInButton } from '../../components/signInButton';
 import styles from '../../styles/accountDialog.module.css';
 
 export const AccountDialog = () => {

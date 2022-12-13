@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 
 import { page } from '../models/const/path';
 
-export default function SignInButton() {
+export function SignInButton() {
   const { data: session } = useSession();
 
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import EquipmentEditDialog from '../../components/dialog/equipmentEditDialog';
+import { EquipmentEditDialog } from '../../components/dialog/equipmentEditDialog';
 import { ColumnDefinition, Details, EquipmentModel, convertToDisplay, rentalButtonState } from '../../models/equipmentModel';
 import { RentDialog, RentDialogType } from '../dialog/rentDialog';
 import { BaseTable } from './baseTable';

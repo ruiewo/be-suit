@@ -38,7 +38,7 @@ const baseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'note', type: 'string', label: '備考', width: 400 },
 ];
 
-export default function EquipmentEditDialog({ onClose, id }: Props) {
+export function EquipmentEditDialog({ onClose, id }: Props) {
   const { equipment, columns, isLoading, isError } = useEquipment(id);
 
   const [departments] = useSharedState<DepartmentModel[]>('departments', []);

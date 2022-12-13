@@ -6,7 +6,7 @@ import styles from '../styles/sideMenu.module.css';
 import { AccountButton } from './accountButton';
 import { MenuButton } from './menuButton';
 
-export default function SideMenu() {
+export function SideMenu() {
   return (
     <div className={styles.sideMenu}>
       <Logo />

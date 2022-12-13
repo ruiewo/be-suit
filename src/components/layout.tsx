@@ -2,13 +2,13 @@ import Head from 'next/head';
 import { ReactElement } from 'react';
 
 import styles from '../styles/home.module.css';
-import SideMenu from './sideMenu';
+import { SideMenu } from './sideMenu';
 
 type LayoutProps = Required<{
   readonly children: ReactElement;
 }>;
 
-export default function Layout({ children }: LayoutProps) {
+export function Layout({ children }: LayoutProps) {
   return (
     <div className={styles.container}>
       <Head>

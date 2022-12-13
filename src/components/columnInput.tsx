@@ -4,7 +4,7 @@ import { Box, TextField } from '@mui/material';
 
 import { ColumnDefinition, Details } from '../models/equipmentModel';
 import { DeleteButton } from './button/deleteButton';
-import ColumnTypeSelect from './columnTypeSelect';
+import { ColumnTypeSelect } from './columnTypeSelect';
 
 type Props = {
   index: number;
