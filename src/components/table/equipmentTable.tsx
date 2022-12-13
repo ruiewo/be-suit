@@ -72,7 +72,7 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
 
   return (
     <>
-      <BaseTable data={tableData} columns={columns} filterText={filterText} onTrClick={onTrClick} reload={reload} Dialog={EquipmentEditDialog} />;
+      <BaseTable data={tableData} columns={columns} filterText={filterText} onTrClick={onTrClick} reload={reload} Dialog={EquipmentEditDialog} />
       <RentDialog equipment={rentEquipment} setEquipment={setRentEquipment} reload={reload} />
     </>
   );

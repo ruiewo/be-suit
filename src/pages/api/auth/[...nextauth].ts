@@ -8,7 +8,6 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { Role } from '@prisma/client';
 
 import { prisma } from '../../../modules/db';
-import { isNullOrWhiteSpace } from '../../../modules/util';
 
 const defaultOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
