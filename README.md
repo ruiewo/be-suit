@@ -148,6 +148,18 @@ npm install$
 
 ###
 
+wsl --install
+
+ディストリビューションを一覧表示し、
+wsl -l -o
+wsl --install -d Ubuntu-20.04
+
+// wsl のバージョン関係
+wsl -l -v
+wsl --set-default-version 2
+wsl --set-version Ubuntu-20.04 2
+
+カーネルの update
 https://learn.microsoft.com/ja-jp/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package
 
 //
@@ -157,6 +169,7 @@ npx prisma db push
 
 // release build
 docker build -t sample .
+docker build -t be-suit .
 
 //
 ncu --target minor
@@ -173,3 +186,24 @@ var valNameRegExpStr = '^\[[a-zA-Z][a-zA-Z0-9_]*\]';
 // var hasVal = filename.startsWith('_');
 var hasVal = filename.startsWith('[');
 ```
+
+### release 手順
+
+docker-compose.yml
+docker-compose up -d
+で postgres インスタンスを立てる
+
+Dockerfile
+docker build -t be-suit .
+OR
+docker build --no-cache -t be-suit .
+app インスタンスを立てる。
+
+docker run --name be-suit-app -it -p 3000:3000 be-suit
+container 起動
+
+.env の以下を適切に変更
+
+# NEXTAUTH_URL="http://localhost:3000/"
+
+docker の export port を 3000 で指定する。
