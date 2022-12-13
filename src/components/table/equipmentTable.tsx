@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import EquipmentEditDialog from '../../components/dialog/equipmentEditDialog';
 import { ColumnDefinition, Details, EquipmentModel, convertToDisplay, rentalButtonState } from '../../models/equipmentModel';
-import { RentDialog } from '../dialog/rentDialog';
+import { RentDialog, RentDialogType } from '../dialog/rentDialog';
 import { BaseTable } from './baseTable';
 
 type Props = {
@@ -14,6 +14,7 @@ type Props = {
 
 export const EquipmentTable = ({ equipments, columns: optionColumns, filterText, reload }: Props) => {
   const [rentEquipment, setRentEquipment] = useState<EquipmentModel | null>(null);
+  const [dialogType, setDialogType] = useState<RentDialogType>('');
 
   const baseColumn: ColumnDefinition<Details>[] = [
     { key: 'rentalButtonState', type: 'string', label: '貸出状態', style: 'center', width: 80 },
@@ -60,8 +61,11 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
     switch (rentButton.dataset.rentState) {
       case rentalButtonState.canRent:
         setRentEquipment(equipments.find(x => x.id === targetId) ?? null);
+        setDialogType('rent');
         break;
       case rentalButtonState.canReturn:
+        setRentEquipment(equipments.find(x => x.id === targetId) ?? null);
+        setDialogType('return');
         break;
       case rentalButtonState.lending:
         return;
@@ -73,7 +77,7 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
   return (
     <>
       <BaseTable data={tableData} columns={columns} filterText={filterText} onTrClick={onTrClick} reload={reload} Dialog={EquipmentEditDialog} />
-      <RentDialog equipment={rentEquipment} setEquipment={setRentEquipment} reload={reload} />
+      <RentDialog equipment={rentEquipment} setEquipment={setRentEquipment} reload={reload} type={dialogType} />
     </>
   );
 };

@@ -11,7 +11,9 @@ import { RentalApplicationModel } from '../../models/rentalApplicationModel';
 import { isNullOrWhiteSpace } from '../../modules/util';
 import { CommonSelect } from '../select/CommonSelect';
 
+export type RentDialogType = '' | 'rent' | 'return';
 type Props = {
+  type: RentDialogType;
   equipment: EquipmentModel | null;
   setEquipment: Dispatch<SetStateAction<EquipmentModel | null>>;
   reload: () => void;
@@ -21,7 +23,24 @@ const style = { width: '90%', ml: 1, mr: 1, mt: 2, mb: 1 };
 
 const blankRequest: RentalApplicationModel = { equipmentId: null, departmentId: null };
 
-export const RentDialog = ({ equipment, setEquipment, reload }: Props) => {
+export const RentDialog = ({ type, ...props }: Props) => {
+  switch (type) {
+    case 'rent':
+      return <RentDialog2 {...props} />;
+    case 'return':
+      return <ReturnDialog {...props} />;
+
+    default:
+      return <></>;
+  }
+};
+
+type RentDialogProps = {
+  equipment: EquipmentModel | null;
+  setEquipment: Dispatch<SetStateAction<EquipmentModel | null>>;
+  reload: () => void;
+};
+export const RentDialog2 = ({ equipment, setEquipment, reload }: RentDialogProps) => {
   const [departments] = useSharedState<DepartmentModel[]>('departments', []);
   const [locations] = useSharedState<LocationModel[]>('locations', []);
   const departmentItems = departments.map(x => ({ value: x.id, label: x.label }));
@@ -70,9 +89,54 @@ export const RentDialog = ({ equipment, setEquipment, reload }: Props) => {
           color="primary"
           sx={{ width: 200 }}
           onClick={async () => {
-            await client.api.rentalApplication.create.$post({ body: { rentalApplication: { ...rentRequest, equipmentId: equipment!.id } } });
+            await client.api.rentalApplication.rentRequest.$post({ body: { rentalApplication: { ...rentRequest, equipmentId: equipment!.id } } });
             setEquipment(null);
             setRentRequest({ ...rentRequest });
+            reload();
+          }}
+        >
+          申請する
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
+type ReturnDialogProps = {
+  equipment: EquipmentModel | null;
+  setEquipment: Dispatch<SetStateAction<EquipmentModel | null>>;
+  reload: () => void;
+};
+
+export const ReturnDialog = ({ equipment, setEquipment, reload }: ReturnDialogProps) => {
+  return (
+    <Dialog open={equipment != null}>
+      <DialogTitle>貸出申請</DialogTitle>
+
+      <DialogContent dividers>
+        <Typography gutterBottom>{equipment?.code}の返却申請を行いますか？</Typography>
+        <Typography gutterBottom>メーカー： {equipment?.maker}</Typography>
+        <Typography gutterBottom>型番：{equipment?.modelNumber}</Typography>
+      </DialogContent>
+
+      <DialogActions sx={{ justifyContent: 'center' }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          sx={{ width: 200 }}
+          onClick={() => {
+            setEquipment(null);
+          }}
+        >
+          戻る
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ width: 200 }}
+          onClick={async () => {
+            await client.api.rentalApplication.returnRequest.$post({ body: { equipmentId: equipment!.id } });
+            setEquipment(null);
             reload();
           }}
         >

@@ -48,19 +48,13 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       return badRequest(res);
     }
 
-    await prisma.rentalApplication.create({
-      data: {
-        state: rentalState.rentRequested,
-        userId,
-        equipmentId,
-        departmentId,
-      },
-    });
+    // todo change to rentalState.rentRequested
+    const newRentalState = rentalState.lending;
 
     await prisma.$transaction(async tx => {
       await tx.rentalApplication.create({
         data: {
-          state: rentalState.rentRequested,
+          state: newRentalState,
           userId,
           equipmentId,
           departmentId,
@@ -73,9 +67,10 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         },
         data: {
           departmentId,
-          rentalState: rentalState.rentRequested,
+          rentalState: newRentalState,
           rentalDate: new Date(),
           rentalUser: userName,
+          returnDate: null,
         },
       });
     });

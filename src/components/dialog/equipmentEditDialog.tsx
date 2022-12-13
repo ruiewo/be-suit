@@ -91,7 +91,6 @@ export default function EquipmentEditDialog({ onClose, id }: Props) {
       details[col.key] = convertToValue(data.get(col.key), col.type);
     });
     equipmentData.details = details;
-    console.log(equipmentData);
 
     // todo error handling
     await client.api.equipment.update.$post({ body: { equipment: equipmentData } });
