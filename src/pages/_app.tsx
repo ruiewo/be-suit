@@ -4,8 +4,9 @@ import { SessionProvider, useSession } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 
-import Layout from '../components/layout';
+import { Layout } from '../components/layout';
 import { Loading } from '../components/loading';
+import { ErrDialogProvider } from '../hooks/errDialog';
 import '../styles/globals.css';
 
 type GetLayout = (page: ReactElement) => ReactNode;
@@ -24,7 +25,9 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
   // Authentication is always required unless page.auth is explicitly set to FALSE.
   return (
     <SessionProvider session={session}>
-      {Component.auth !== false ? <Auth>{getLayout(<Component {...pageProps} />)}</Auth> : getLayout(<Component {...pageProps} />)}
+      <ErrDialogProvider>
+        {Component.auth !== false ? <Auth>{getLayout(<Component {...pageProps} />)}</Auth> : getLayout(<Component {...pageProps} />)}
+      </ErrDialogProvider>
     </SessionProvider>
   );
 }

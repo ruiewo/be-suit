@@ -15,6 +15,7 @@ import { client } from '../../models/apiClient';
 import { Category, CategoryBase } from '../../models/category';
 import { page } from '../../models/const/path';
 import { ColumnDefinition, Details, ValueType } from '../../models/equipmentModel';
+import { convertToMessage } from '../../modules/util';
 
 const convertUpperCaseOnly = (value: string) => value.replace(/[^a-zA-Z]/g, '').toUpperCase();
 
@@ -142,7 +143,7 @@ const CategoryPage: NextPage = () => {
     const { error } = await client.api.category.update.$post({ body: { category: newCategory } });
 
     if (error) {
-      const message = error.errors.reduce((prev, current) => prev + '\n' + current.message, '');
+      const message = convertToMessage(error);
       setErrorMessage(message);
     }
   };

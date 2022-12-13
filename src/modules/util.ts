@@ -1,3 +1,5 @@
+import { ApiErrorResponse } from '../models/apiHelper';
+
 export const isClientSide = () => typeof window !== 'undefined';
 
 export const sleep = (msec: number) => new Promise(resolve => setTimeout(resolve, msec));
@@ -75,3 +77,5 @@ export class DateEx extends Date {
     return dateTimeString;
   }
 }
+
+export const convertToMessage = (error: ApiErrorResponse) => error.errors.reduce((prev, current) => prev + '\n' + current.message, '');

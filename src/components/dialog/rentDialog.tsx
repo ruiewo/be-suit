@@ -1,14 +1,15 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction, useContext, useState } from 'react';
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, SelectChangeEvent, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, SelectChangeEvent, Typography } from '@mui/material';
 
+import { ErrDialog } from '../../hooks/errDialog';
 import { useSharedState } from '../../hooks/useStaticSwr';
 import { client } from '../../models/apiClient';
 import { DepartmentModel } from '../../models/departmentModel';
 import { EquipmentModel } from '../../models/equipmentModel';
 import { LocationModel } from '../../models/locationModel';
 import { RentalApplicationModel } from '../../models/rentalApplicationModel';
-import { isNullOrWhiteSpace } from '../../modules/util';
+import { convertToMessage, isNullOrWhiteSpace } from '../../modules/util';
 import { CommonSelect } from '../select/CommonSelect';
 
 export type RentDialogType = '' | 'rent' | 'return';
@@ -41,6 +42,8 @@ type RentDialogProps = {
   reload: () => void;
 };
 export const RentDialog2 = ({ equipment, setEquipment, reload }: RentDialogProps) => {
+  const showErrDialog = useContext(ErrDialog);
+
   const [departments] = useSharedState<DepartmentModel[]>('departments', []);
   const [locations] = useSharedState<LocationModel[]>('locations', []);
   const departmentItems = departments.map(x => ({ value: x.id, label: x.label }));
@@ -89,7 +92,13 @@ export const RentDialog2 = ({ equipment, setEquipment, reload }: RentDialogProps
           color="primary"
           sx={{ width: 200 }}
           onClick={async () => {
-            await client.api.rentalApplication.rentRequest.$post({ body: { rentalApplication: { ...rentRequest, equipmentId: equipment!.id } } });
+            const result = await client.api.rentalApplication.rentRequest.$post({
+              body: { rentalApplication: { ...rentRequest, equipmentId: equipment!.id } },
+            });
+            if (result.error) {
+              showErrDialog({ title: 'request failed', description: convertToMessage(result.error) });
+              return;
+            }
             setEquipment(null);
             setRentRequest({ ...rentRequest });
             reload();
@@ -109,6 +118,8 @@ type ReturnDialogProps = {
 };
 
 export const ReturnDialog = ({ equipment, setEquipment, reload }: ReturnDialogProps) => {
+  const showErrDialog = useContext(ErrDialog);
+
   return (
     <Dialog open={equipment != null}>
       <DialogTitle>貸出申請</DialogTitle>
@@ -135,7 +146,11 @@ export const ReturnDialog = ({ equipment, setEquipment, reload }: ReturnDialogPr
           color="primary"
           sx={{ width: 200 }}
           onClick={async () => {
-            await client.api.rentalApplication.returnRequest.$post({ body: { equipmentId: equipment!.id } });
+            const result = await client.api.rentalApplication.returnRequest.$post({ body: { equipmentId: equipment!.id } });
+            if (result.error) {
+              showErrDialog({ title: 'request failed', description: convertToMessage(result.error) });
+              return;
+            }
             setEquipment(null);
             reload();
           }}
