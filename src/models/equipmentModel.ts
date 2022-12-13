@@ -14,8 +14,8 @@ export type Equipment = {
   // details: Prisma.JsonValue | null;
   details: Details | null;
   note: string;
-  departmentId: number;
-  locationId: number;
+  departmentId?: number;
+  locationId?: number;
   rentalState: RentalState;
   rentalDate: Date | null;
   rentalUser: string | null;
