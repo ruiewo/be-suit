@@ -3,6 +3,8 @@ import * as fs from 'fs';
 
 import { Department, Location, Prisma, PrismaClient } from '@prisma/client';
 
+import { isNullOrWhiteSpace } from '../src/modules/util';
+
 export async function seedEquipments(prisma: PrismaClient, path: string, fileName: string, departments: Department[], locations: Location[]) {
   let equipments;
   try {
@@ -79,6 +81,7 @@ function convertToPc(row: any, departments: Department[], locations: Location[])
     // maker: row[8],  // 社外
     registrationDate: toDate(row[9]),
     inventoryDate: toDate(row[10]),
+    isDeleted: !isNullOrWhiteSpace(row[11]),
     deletedDate: toDate(row[11]),
     note: row[12] as string,
     details: {

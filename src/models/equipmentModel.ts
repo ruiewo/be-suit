@@ -21,6 +21,7 @@ export type Equipment = {
   rentalUser: string | null;
   returnDate: Date | null;
   registrationDate: Date | null;
+  isDeleted: boolean;
   deletedDate: Date | null;
   inventoryDate: Date | null;
   createdAt: Date;
@@ -50,7 +51,7 @@ export const rentalButtonState = {
   canReturn: 'canReturn',
 } as const;
 
-export type ValueType = 'code' | 'string' | 'number' | 'date';
+export type ValueType = 'code' | 'string' | 'number' | 'date' | 'bool';
 
 export type ColumnDefinition<T> = {
   key: keyof T;
@@ -73,6 +74,7 @@ export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'rentalDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },
   { key: 'registrationDate', type: 'date', label: '登録日', width: 120 },
+  { key: 'isDeleted', type: 'bool', label: '削除済', width: 120 },
   { key: 'deletedDate', type: 'date', label: '削除日', width: 120 },
   { key: 'inventoryDate', type: 'date', label: '棚卸日', width: 120 },
   { key: 'note', type: 'string', label: '備考', width: 400 },

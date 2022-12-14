@@ -8,6 +8,7 @@ import { http } from '../../../models/const/httpMethod';
 import { role } from '../../../models/const/role';
 import { Equipment } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
+import { isNullOrWhiteSpace } from '../../../modules/util';
 
 type ReqData = {
   equipment: Equipment;
@@ -32,7 +33,7 @@ interface ExtendedNextApiRequest extends NextApiRequest {
 
 export default async function handler(req: ExtendedNextApiRequest, res: NextApiResponse<ResData>) {
   // todo change roles.
-  const { isValid } = await validate(req, res, { httpMethods: [http.POST], roles: [role.user, role.admin] });
+  const { isValid } = await validate(req, res, { httpMethods: [http.POST], roles: [role.user, role.manager, role.admin] });
   if (!isValid) {
     return;
   }
@@ -63,6 +64,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         rentalDate: equipment.rentalDate,
         rentalUser: equipment.rentalUser,
         returnDate: equipment.returnDate,
+        isDeleted: !isNullOrWhiteSpace(equipment.deletedDate as unknown as string),
         deletedDate: equipment.deletedDate,
         registrationDate: equipment.registrationDate,
         inventoryDate: equipment.inventoryDate,
