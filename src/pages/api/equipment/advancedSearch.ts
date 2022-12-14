@@ -100,12 +100,10 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       modelNumber: x.modelNumber,
       details: x.details as Details,
       note: x.note,
-      rentalButtonState: x.isDeleted
-        ? rentalButtonState.deleted
-        : isNullOrWhiteSpace(x.rentalUser)
-        ? rentalButtonState.canRent
-        : x.rentalUser === user?.name
-        ? rentalButtonState.canReturn
+      // prettier-ignore
+      rentalButtonState: x.isDeleted ? rentalButtonState.deleted
+        : isNullOrWhiteSpace(x.rentalUser) ? rentalButtonState.canRent
+        : x.rentalUser === user?.name ? rentalButtonState.canReturn
         : rentalButtonState.lending,
       rentalDate: x.rentalDate,
       rentalUser: x.rentalUser,

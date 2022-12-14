@@ -1,6 +1,6 @@
 import { RentalState } from '@prisma/client';
 
-import { DateEx, isDate, isNullOrWhiteSpace } from '../modules/util';
+import { DateEx, isDate } from '../modules/util';
 
 export type Details = Record<string, string | number | Date | null>;
 
@@ -124,12 +124,4 @@ export function convertToValue(value: FormDataEntryValue | null, type: ValueType
 
 export function getEquipmentCode(e: Equipment) {
   return e.category + '-' + e.subCategory + '-' + e.categorySerial.toString().padStart(5, '0');
-}
-
-export function getRentalState(e: Equipment) {
-  if (isNullOrWhiteSpace(e.rentalDate as unknown as string)) {
-    return '貸出可';
-  } else {
-    return '貸出中';
-  }
 }
