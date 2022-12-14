@@ -122,7 +122,7 @@ export const ReturnDialog = ({ equipment, setEquipment, reload }: ReturnDialogPr
 
   return (
     <Dialog open={equipment != null}>
-      <DialogTitle>貸出申請</DialogTitle>
+      <DialogTitle>返却申請</DialogTitle>
 
       <DialogContent dividers>
         <Typography gutterBottom>{equipment?.code}の返却申請を行いますか？</Typography>
