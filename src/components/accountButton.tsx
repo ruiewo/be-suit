@@ -57,10 +57,8 @@ type ChildButtonProps = {
 
 function ChildButton({ isActive, imageUrl, title, link }: ChildButtonProps) {
   return (
-    <Link href={link}>
-      <div className={`${styles.childButton} ${isActive ? '' : styles.hidden}`}>
-        <Image className={styles.content} src={imageUrl} alt={title} width={20} height={20} />
-      </div>
+    <Link href={link} className={`${styles.childButton} ${isActive ? '' : styles.hidden}`}>
+      <Image className={styles.content} src={imageUrl} alt={title} width={20} height={20} />
     </Link>
   );
 }
