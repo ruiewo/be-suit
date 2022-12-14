@@ -5,8 +5,8 @@ import { useRouter } from 'next/router';
 import { Box } from '@mui/material';
 
 import { EditButton } from '../../components/button/editButton';
-import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
+import { Skeleton } from '../../components/skeleton';
 import { useCategories } from '../../hooks/useCategories';
 import { Category } from '../../models/category';
 import { page } from '../../models/const/path';
@@ -16,11 +16,11 @@ import styles2 from '../../styles/multiSelectButton.module.css';
 const CategoryPage: NextPage = () => {
   const { categories, isLoading, isError } = useCategories('');
 
-  if (isError) return <ErrorDialog />;
+  if (isError) return <Skeleton />;
 
   if (isLoading) return <Loading />;
 
-  if (categories == null) return <ErrorDialog />;
+  if (categories == null) return <Skeleton />;
 
   return <CategoryList categories={categories}></CategoryList>;
 };

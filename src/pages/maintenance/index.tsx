@@ -2,20 +2,20 @@ import { NextPage } from 'next';
 
 import { Box } from '@mui/material';
 
-import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { MenuItem } from '../../components/menu';
+import { Skeleton } from '../../components/skeleton';
 import { useCategories } from '../../hooks/useCategories';
 import { page } from '../../models/const/path';
 
 const MaintenancePage: NextPage = () => {
   const { categories, isLoading, isError } = useCategories('');
 
-  if (isError) return <ErrorDialog />;
+  if (isError) return <Skeleton />;
 
   if (isLoading) return <Loading />;
 
-  if (categories == null) return <ErrorDialog />;
+  if (categories == null) return <Skeleton />;
 
   const menu = [
     { title: '部署', description: '部署一覧を表示します', path: page.maintenanceDepartment, src: '/images/computer.svg' },

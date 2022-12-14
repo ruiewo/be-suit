@@ -13,7 +13,7 @@ import { LocationModel } from '../../models/locationModel';
 import { SubmitButtons } from '../button/submitButtons';
 import { Loading } from '../loading';
 import { UncontrolledCommonSelect } from '../select/CommonSelect';
-import { ErrorDialog } from './errorDialog';
+import { Skeleton } from '../skeleton';
 
 type Props = {
   id: number;
@@ -46,7 +46,7 @@ export function EquipmentEditDialog({ onClose, id }: Props) {
   const departmentItems = departments.map(x => ({ value: x.id, label: x.label }));
   const locationItems = locations.map(x => ({ value: x.id, label: x.label }));
 
-  if (isError) return <ErrorDialog />;
+  if (isError) return <Skeleton />;
 
   if (isLoading) return <Loading />;
 

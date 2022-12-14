@@ -1,8 +1,7 @@
-import { Dispatch, SetStateAction, useContext, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, SelectChangeEvent, Typography } from '@mui/material';
 
-import { ErrDialog } from '../../hooks/errDialog';
 import { useSharedState } from '../../hooks/useStaticSwr';
 import { client } from '../../models/apiClient';
 import { DepartmentModel } from '../../models/departmentModel';
@@ -11,6 +10,7 @@ import { LocationModel } from '../../models/locationModel';
 import { RentalApplicationModel } from '../../models/rentalApplicationModel';
 import { convertToMessage, isNullOrWhiteSpace } from '../../modules/util';
 import { CommonSelect } from '../select/CommonSelect';
+import { useErrorDialog } from './errorDialog';
 
 export type RentDialogType = '' | 'rent' | 'return';
 type Props = {
@@ -42,7 +42,7 @@ type RentDialogProps = {
   reload: () => void;
 };
 export const RentDialog2 = ({ equipment, setEquipment, reload }: RentDialogProps) => {
-  const showErrDialog = useContext(ErrDialog);
+  const showErrorDialog = useErrorDialog();
 
   const [departments] = useSharedState<DepartmentModel[]>('departments', []);
   const [locations] = useSharedState<LocationModel[]>('locations', []);
@@ -96,7 +96,7 @@ export const RentDialog2 = ({ equipment, setEquipment, reload }: RentDialogProps
               body: { rentalApplication: { ...rentRequest, equipmentId: equipment!.id } },
             });
             if (result.error) {
-              showErrDialog({ title: 'request failed', description: convertToMessage(result.error) });
+              showErrorDialog({ title: 'request failed', description: convertToMessage(result.error) });
               return;
             }
             setEquipment(null);
@@ -118,7 +118,7 @@ type ReturnDialogProps = {
 };
 
 export const ReturnDialog = ({ equipment, setEquipment, reload }: ReturnDialogProps) => {
-  const showErrDialog = useContext(ErrDialog);
+  const showErrorDialog = useErrorDialog();
 
   return (
     <Dialog open={equipment != null}>
@@ -148,7 +148,7 @@ export const ReturnDialog = ({ equipment, setEquipment, reload }: ReturnDialogPr
           onClick={async () => {
             const result = await client.api.rentalApplication.returnRequest.$post({ body: { equipmentId: equipment!.id } });
             if (result.error) {
-              showErrDialog({ title: 'request failed', description: convertToMessage(result.error) });
+              showErrorDialog({ title: 'request failed', description: convertToMessage(result.error) });
               return;
             }
             setEquipment(null);

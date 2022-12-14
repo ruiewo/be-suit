@@ -3,9 +3,9 @@ import { useEffect, useState } from 'react';
 
 import { Role } from '@prisma/client';
 
-import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { UserSearchPanel } from '../../components/searchPanel/userSearchPanel';
+import { Skeleton } from '../../components/skeleton';
 import { UserTable } from '../../components/table/userTable';
 import { client } from '../../models/apiClient';
 import { UserModel } from '../../models/user';
@@ -39,9 +39,9 @@ const Page: NextPage = () => {
 
   const reload = () => setRoles([...roles]);
 
-  if (isError) return <ErrorDialog />;
+  if (isError) return <Skeleton />;
 
-  if (users == null) return <ErrorDialog />;
+  if (users == null) return <Skeleton />;
 
   return (
     <>

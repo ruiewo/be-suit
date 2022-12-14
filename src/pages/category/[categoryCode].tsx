@@ -8,8 +8,9 @@ import { AddButton } from '../../components/button/addButton';
 import { SubmitButtons } from '../../components/button/submitButtons';
 import { CategoryInput } from '../../components/categoryInput';
 import { ColumnInput } from '../../components/columnInput';
-import { ErrorDialog } from '../../components/dialog/errorDialog';
+import { useErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
+import { Skeleton } from '../../components/skeleton';
 import { useCategory } from '../../hooks/useCategories';
 import { client } from '../../models/apiClient';
 import { Category, CategoryBase } from '../../models/category';
@@ -20,7 +21,7 @@ import { convertToMessage } from '../../modules/util';
 const convertUpperCaseOnly = (value: string) => value.replace(/[^a-zA-Z]/g, '').toUpperCase();
 
 const CategoryPage: NextPage = () => {
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+  const showErrorDialog = useErrorDialog();
 
   const router = useRouter();
   const { categoryCode } = router.query;
@@ -143,12 +144,11 @@ const CategoryPage: NextPage = () => {
     const { error } = await client.api.category.update.$post({ body: { category: newCategory } });
 
     if (error) {
-      const message = convertToMessage(error);
-      setErrorMessage(message);
+      showErrorDialog({ title: 'request failed', description: convertToMessage(error) });
     }
   };
 
-  if (isError || errorMessage) return <ErrorDialog message={errorMessage} />;
+  if (isError) return <Skeleton />;
 
   if (isLoading) return <Loading />;
 

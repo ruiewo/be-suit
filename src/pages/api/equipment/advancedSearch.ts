@@ -1,7 +1,7 @@
 import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { validate } from '../../../models/apiHelper';
+import { ApiErrorResponse, validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
 import { ColumnDefinition, Details, Equipment, EquipmentModel, getEquipmentCode, rentalButtonState } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
@@ -16,6 +16,7 @@ type ReqData = {
 type ResData = {
   equipments: EquipmentModel[];
   columns: ColumnDefinition<Details>[];
+  error?: ApiErrorResponse;
 };
 
 // @ts-ignore todo

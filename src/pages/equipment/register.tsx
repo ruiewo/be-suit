@@ -1,15 +1,16 @@
 import { NextPage } from 'next';
 import React, { ChangeEvent, useState } from 'react';
 
-import { ErrorDialog } from '../../components/dialog/errorDialog';
+import { useErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
+import { Skeleton } from '../../components/skeleton';
 import { useCategories } from '../../hooks/useCategories';
 import { CategoryBase } from '../../models/category';
 import { Equipment } from '../../models/equipmentModel';
 import styles from '../../styles/registerForm.module.css';
 
 const RegisterPage: NextPage = () => {
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+  const showErrorDialog = useErrorDialog();
 
   const columns = [
     { key: 'id', type: 'number', label: 'ID', width: 40, isRegistrable: false },
@@ -65,11 +66,11 @@ const RegisterPage: NextPage = () => {
 
   const addEquipment = async () => {
     if (formEquipment.category == '' || formEquipment.subCategory == '') {
-      setErrorMessage('カテゴリーを選択してください。');
+      showErrorDialog({ title: '', description: 'カテゴリーを選択してください。' });
       return;
     }
     if (formEquipment.category == 'パソコン' && (formEquipment.maker == '' || formEquipment.modelNumber == '')) {
-      setErrorMessage('メーカー・型番を入力してください。');
+      showErrorDialog({ title: '', description: 'メーカー・型番を入力してください。' });
       return;
     }
 
@@ -102,11 +103,11 @@ const RegisterPage: NextPage = () => {
     // }
   };
 
-  if (isError || errorMessage) return <ErrorDialog message={errorMessage} />;
+  if (isError) return <Skeleton />;
 
   if (isLoading) return <Loading />;
 
-  if (categories == null) return <ErrorDialog />;
+  if (categories == null) return <Skeleton />;
 
   return (
     <div className={styles.registerPage}>

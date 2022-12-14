@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 
 import { useDepartments } from '../hooks/useDepartments';
+import { useLocations } from '../hooks/useLocations';
 import { useSharedState } from '../hooks/useStaticSwr';
-import { useLocations } from '../hooks/userLocations';
 import { client } from '../models/apiClient';
 import { DepartmentModel } from '../models/departmentModel';
 import { ColumnDefinition, Details, EquipmentModel } from '../models/equipmentModel';
 import { LocationModel } from '../models/locationModel';
 import { sleep } from '../modules/util';
 import { CategoryCodes } from '../pages/api/equipment/advancedSearch';
-import { ErrorDialog } from './dialog/errorDialog';
+import { useErrorDialog } from './dialog/errorDialog';
 import { Loading } from './loading';
 import { EquipmentSearchPanel } from './searchPanel/equipmentSearchPanel';
+import { Skeleton } from './skeleton';
 import { EquipmentTable } from './table/equipmentTable';
 
 type Props = {
@@ -19,6 +20,8 @@ type Props = {
 };
 
 export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
+  const showErrorDialog = useErrorDialog();
+
   const [, setDepartments] = useSharedState<DepartmentModel[]>('departments', []);
   const [, setLocations] = useSharedState<LocationModel[]>('locations', []);
   useDepartments(x => setDepartments(x));
@@ -38,15 +41,21 @@ export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
       setIsLoading(true);
 
       try {
-        const [{ equipments, columns }] = await Promise.all([
+        const [{ equipments, columns, error }] = await Promise.all([
           client.api.equipment.advancedSearch.$post({ body: { categoryCodes: categoryCodes } }),
           sleep(1000),
         ]);
+
+        if (error) {
+          showErrorDialog({ title: 'Load Failed.', description: 'failed to load equipments.' });
+          return;
+        }
 
         setEquipments(equipments);
         setColumns(columns);
       } catch (error) {
         setIsError(true);
+        showErrorDialog({ title: 'Load Failed.', description: 'failed to load equipments.' });
       } finally {
         setIsLoading(false);
       }
@@ -57,9 +66,9 @@ export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
 
   const reload = () => setCategoryCodes({ ...categoryCodes });
 
-  if (isError) return <ErrorDialog />;
+  if (isError) return <Skeleton />;
 
-  if (equipments == null || columns == null) return <ErrorDialog />;
+  if (equipments == null || columns == null) return <Skeleton />;
 
   return (
     <>

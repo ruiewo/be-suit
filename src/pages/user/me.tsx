@@ -3,8 +3,8 @@ import { useSession } from 'next-auth/react';
 
 import { Box, Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 
-import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
+import { Skeleton } from '../../components/skeleton';
 import { useUsersMe } from '../../hooks/useUsers';
 import { Equipment, getEquipmentCode } from '../../models/equipmentModel';
 import { DateEx } from '../../modules/util';
@@ -15,13 +15,13 @@ const CategoryPage: NextPage = () => {
 
   const { equipments, isLoading, isError } = useUsersMe();
 
-  if (session == null) return <ErrorDialog />;
+  if (session == null) return <Skeleton />;
 
-  if (isError) return <ErrorDialog />;
+  if (isError) return <Skeleton />;
 
   if (isLoading) return <Loading />;
 
-  if (equipments == null) return <ErrorDialog />;
+  if (equipments == null) return <Skeleton />;
 
   return (
     <Box>

@@ -1,19 +1,19 @@
 import Head from 'next/head';
 
-import { ErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { QrPage } from '../../components/qrPage';
+import { Skeleton } from '../../components/skeleton';
 import { useEquipments } from '../../hooks/useEquipments';
 import { NextPageWithLayout } from '../_app';
 
 const QrCodePage: NextPageWithLayout = () => {
   const { equipments, isLoading, isError } = useEquipments('PC', 'D');
 
-  if (isError) return <ErrorDialog />;
+  if (isError) return <Skeleton />;
 
   if (isLoading) return <Loading />;
 
-  if (!equipments) return <ErrorDialog />;
+  if (!equipments) return <Skeleton />;
 
   return (
     <>

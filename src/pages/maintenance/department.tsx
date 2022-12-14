@@ -7,18 +7,21 @@ import { Box, Checkbox, FormControlLabel, TextField, Typography } from '@mui/mat
 import { AddButton } from '../../components/button/addButton';
 import { DeleteButton } from '../../components/button/deleteButton';
 import { SubmitButtons } from '../../components/button/submitButtons';
-import { ErrorDialog } from '../../components/dialog/errorDialog';
+import { useErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { CommonSelect, CommonSelectItem } from '../../components/select/CommonSelect';
+import { Skeleton } from '../../components/skeleton';
 import { useDepartments } from '../../hooks/useDepartments';
 import { client } from '../../models/apiClient';
 import { page } from '../../models/const/path';
 import { role } from '../../models/const/role';
 import { DepartmentModel } from '../../models/departmentModel';
+import { convertToMessage } from '../../modules/util';
 
 const DepartmentPage: NextPage = () => {
+  const showErrorDialog = useErrorDialog();
+
   const router = useRouter();
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
   const { departments: baseDepartments } = useDepartments(x => setDepartments(x));
 
@@ -96,12 +99,11 @@ const DepartmentPage: NextPage = () => {
     const newDepartments = [...departments];
     const { error } = await client.api.department.update.$post({ body: { departments: newDepartments } });
     if (error) {
-      const message = error.errors.reduce((prev, current) => prev + '\n' + current.message, '');
-      setErrorMessage(message);
+      showErrorDialog({ title: 'update failed', description: convertToMessage(error) });
     }
   };
 
-  if (isError || errorMessage) return <ErrorDialog message={errorMessage} />;
+  if (isError) return <Skeleton />;
 
   if (isLoading) return <Loading />;
 
