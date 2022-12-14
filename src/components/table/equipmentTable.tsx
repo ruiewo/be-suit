@@ -1,7 +1,11 @@
 import { useState } from 'react';
 
+import { Menu, MenuItem } from '@mui/material';
+
 import { EquipmentEditDialog } from '../../components/dialog/equipmentEditDialog';
 import { ColumnDefinition, Details, EquipmentModel, convertToDisplay, rentalButtonState } from '../../models/equipmentModel';
+import { useQrCount } from '../button/qrCodeButton';
+import { ContextMenuProps } from '../contextMenu/contextMenu';
 import { RentDialog, RentDialogType } from '../dialog/rentDialog';
 import { BaseTable } from './baseTable';
 
@@ -45,18 +49,13 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
 
   const columns = [...baseColumn, ...optionColumns];
 
-  const onTrClick: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>, id: string | number) => void = (e, id) => {
+  const onTrClick: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>, data: Record<string, string | number>) => void = (e, data) => {
     const rentButton = (e.target as HTMLElement).closest<HTMLElement>('[data-rent-state]');
     if (rentButton == null) {
       return;
     }
 
-    const tr = (e.target as HTMLElement).closest<HTMLElement>('tr');
-    if (tr == null) {
-      return;
-    }
-
-    const targetId = parseInt(tr.dataset.id!);
+    const targetId = (data as unknown as EquipmentModel).id;
 
     switch (rentButton.dataset.rentState) {
       case rentalButtonState.canRent:
@@ -78,8 +77,37 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
 
   return (
     <>
-      <BaseTable data={tableData} columns={columns} filterText={filterText} onTrClick={onTrClick} reload={reload} Dialog={EquipmentEditDialog} />
+      <BaseTable
+        data={tableData}
+        columns={columns}
+        filterText={filterText}
+        onTrClick={onTrClick}
+        reload={reload}
+        Dialog={EquipmentEditDialog}
+        ContextMenu={QrContextMenu}
+      />
       <RentDialog equipment={rentEquipment} setEquipment={setRentEquipment} reload={reload} type={dialogType} />
     </>
+  );
+};
+
+const QrContextMenu = ({ contextMenu, onClose }: ContextMenuProps) => {
+  const { addQrCodes } = useQrCount();
+
+  const handleClick = async () => {
+    const equipment = contextMenu!.data as unknown as EquipmentModel;
+    addQrCodes([equipment.code]);
+    onClose(false);
+  };
+
+  return (
+    <Menu
+      open={contextMenu !== null}
+      onClose={() => onClose(false)}
+      anchorReference="anchorPosition"
+      anchorPosition={contextMenu !== null ? { top: contextMenu.mouseY, left: contextMenu.mouseX } : undefined}
+    >
+      <MenuItem onClick={handleClick}>Add QR Code</MenuItem>
+    </Menu>
   );
 };

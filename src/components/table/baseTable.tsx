@@ -4,13 +4,13 @@ import { ColumnDefinition, Details } from '../../models/equipmentModel';
 import { isNullOrWhiteSpace } from '../../modules/util';
 import styles from '../../styles/equipmentTable.module.css';
 import { RentStateButton } from '../button/rentButton';
-import { ContextMenuProps } from './userTable';
+import { ContextMenu, ContextMenuProps } from '../contextMenu/contextMenu';
 
 type Props = {
   data: Record<string, string | number>[];
   columns: ColumnDefinition<Details>[];
   filterText: string;
-  onTrClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>, id: string | number) => void;
+  onTrClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>, data: Record<string, string | number>) => void;
   reload?: () => void;
   Dialog?: ({ onClose, id }: { id: number; onClose: (isEdited: boolean) => void }) => JSX.Element;
   ContextMenu?: ({ contextMenu, onClose }: ContextMenuProps) => JSX.Element;
@@ -44,7 +44,7 @@ export const BaseTable = ({ data, columns, filterText, onTrClick, reload, Dialog
   };
 
   // context menu
-  const [contextMenu, setContextMenu] = useState<{ mouseX: number; mouseY: number; dataId: string } | null>(null);
+  const [contextMenu, setContextMenu] = useState<ContextMenu | null>(null);
 
   const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -54,7 +54,10 @@ export const BaseTable = ({ data, columns, filterText, onTrClick, reload, Dialog
       return;
     }
 
-    setContextMenu(contextMenu === null ? { mouseX: e.clientX + 2, mouseY: e.clientY - 6, dataId: tr.dataset.id! } : null);
+    const id = tr.dataset.id!;
+    const targetData = filteredData.find(x => x.id.toString() === id) ?? null;
+
+    setContextMenu(contextMenu === null ? { mouseX: e.clientX + 2, mouseY: e.clientY - 6, data: targetData } : null);
   };
   const handleContextMenuClose = (isEdited: boolean) => {
     setContextMenu(null);
@@ -78,7 +81,7 @@ export const BaseTable = ({ data, columns, filterText, onTrClick, reload, Dialog
         <tbody className={styles.tbody} onDoubleClick={handleDialogOpen} onContextMenu={handleContextMenu}>
           {filteredData.map(data => {
             return (
-              <tr key={data.id} data-id={data.id} onClick={onTrClick == null ? undefined : e => onTrClick(e, data.id)}>
+              <tr key={data.id} data-id={data.id} onClick={onTrClick == null ? undefined : e => onTrClick(e, data)}>
                 {columns.map(col => {
                   if (col.key === 'rentalButtonState') {
                     return (

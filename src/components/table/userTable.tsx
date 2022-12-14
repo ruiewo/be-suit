@@ -5,6 +5,7 @@ import { client } from '../../models/apiClient';
 import { roleList } from '../../models/const/role';
 import { ColumnDefinition, Details } from '../../models/equipmentModel';
 import { UserModel } from '../../models/user';
+import { ContextMenuProps } from '../contextMenu/contextMenu';
 import { BaseTable } from './baseTable';
 
 type Props = {
@@ -26,16 +27,10 @@ export const UserTable = ({ users, filterText, reload }: Props) => {
   return <BaseTable data={tableData} columns={columns} filterText={filterText} reload={reload} ContextMenu={RoleContextMenu} />;
 };
 
-export type ContextMenu = { mouseX: number; mouseY: number; dataId: string } | null;
-export type ContextMenuProps = {
-  contextMenu: ContextMenu;
-  onClose: (isEdited: boolean) => void;
-};
-
 const RoleContextMenu = ({ contextMenu, onClose }: ContextMenuProps) => {
   const handleClick = async (role: Role) => {
     // todo error handling
-    const { succeed } = await client.api.user.update.$post({ body: { userId: contextMenu!.dataId, role } });
+    const { succeed } = await client.api.user.update.$post({ body: { userId: (contextMenu!.data as UserModel).id, role } });
     onClose(succeed);
   };
 
