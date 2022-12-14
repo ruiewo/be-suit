@@ -67,6 +67,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         rentalDate: true,
         rentalUser: true,
         registrationDate: true,
+        isDeleted: true,
         department: {
           select: {
             label: true,
@@ -99,7 +100,9 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       modelNumber: x.modelNumber,
       details: x.details as Details,
       note: x.note,
-      rentalButtonState: isNullOrWhiteSpace(x.rentalUser)
+      rentalButtonState: x.isDeleted
+        ? rentalButtonState.deleted
+        : isNullOrWhiteSpace(x.rentalUser)
         ? rentalButtonState.canRent
         : x.rentalUser === user?.name
         ? rentalButtonState.canReturn
@@ -107,6 +110,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       rentalDate: x.rentalDate,
       rentalUser: x.rentalUser,
       registrationDate: x.registrationDate,
+      isDeleted: x.isDeleted,
       department: x.department?.label ?? '',
       location: x.location?.label ?? '',
     };

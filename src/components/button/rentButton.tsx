@@ -31,6 +31,8 @@ export function RentStateButton({ state }: { state: string }) {
       return <ReturnButton />;
     case rentalButtonState.lending:
       return <LendingButton />;
+    case rentalButtonState.deleted:
+      return <span>廃棄</span>;
     default:
       return <></>;
   }

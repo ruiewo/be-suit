@@ -41,14 +41,16 @@ export type EquipmentModel = {
   rentalDate: Date | null;
   rentalUser: string | null;
   registrationDate: Date | null;
+  isDeleted: boolean;
 };
 
-export type RentalButtonState = 'canRent' | 'lending' | 'canReturn';
+export type RentalButtonState = 'canRent' | 'lending' | 'canReturn' | 'deleted';
 
 export const rentalButtonState = {
   canRent: 'canRent',
   lending: 'lending',
   canReturn: 'canReturn',
+  deleted: 'deleted',
 } as const;
 
 export type ValueType = 'code' | 'string' | 'number' | 'date' | 'bool';

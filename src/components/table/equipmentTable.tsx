@@ -69,6 +69,8 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
         break;
       case rentalButtonState.lending:
         return;
+      case rentalButtonState.deleted:
+        return;
       default:
         return;
     }
