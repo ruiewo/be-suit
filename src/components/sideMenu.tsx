@@ -18,7 +18,7 @@ export function SideMenu() {
   );
 }
 
-function Logo() {
+export function Logo() {
   return (
     <Link href={page.home}>
       <h1 className={styles.logo}>

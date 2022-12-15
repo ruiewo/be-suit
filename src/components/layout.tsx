@@ -3,6 +3,7 @@ import { ReactElement } from 'react';
 
 import styles from '../styles/home.module.css';
 import { SideMenu } from './sideMenu';
+import { SideMenu2 } from './sideMenu2';
 
 type LayoutProps = Required<{
   readonly children: ReactElement;
@@ -18,6 +19,7 @@ export function Layout({ children }: LayoutProps) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <SideMenu></SideMenu>
+      {/* <SideMenu2></SideMenu2> */}
       <main className={styles.main}>{children}</main>
     </div>
   );
