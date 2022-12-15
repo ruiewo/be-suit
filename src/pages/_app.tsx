@@ -4,7 +4,7 @@ import { SessionProvider, useSession } from 'next-auth/react';
 import type { AppProps } from 'next/app';
 import type { ReactElement, ReactNode } from 'react';
 
-import { QrCountProvider } from '../components/button/qrCodeButton';
+import { QrCodeProvider } from '../components/button/qrCodeButton';
 import { ErrorDialogProvider } from '../components/dialog/errorDialog';
 import { Layout } from '../components/layout';
 import { Loading } from '../components/loading';
@@ -27,9 +27,9 @@ export default function MyApp({ Component, pageProps: { session, ...pageProps } 
   return (
     <SessionProvider session={session}>
       <ErrorDialogProvider>
-        <QrCountProvider>
+        <QrCodeProvider>
           {Component.auth !== false ? <Auth>{getLayout(<Component {...pageProps} />)}</Auth> : getLayout(<Component {...pageProps} />)}
-        </QrCountProvider>
+        </QrCodeProvider>
       </ErrorDialogProvider>
     </SessionProvider>
   );

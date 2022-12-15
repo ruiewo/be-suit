@@ -2,6 +2,7 @@ export const page = {
   home: '/user/me',
   signIn: '/signIn',
   qrCode: '/qrcode',
+  qrCodePrint: '/qrcode/print',
   equipment: '/equipment',
   register: '/equipment/register',
   category: '/category',

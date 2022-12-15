@@ -1,21 +1,24 @@
-import { Dispatch, ReactNode, SetStateAction, createContext, useContext, useState } from 'react';
+import Link from 'next/link';
+import { ReactNode, createContext, useContext, useState } from 'react';
 
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Badge, IconButton } from '@mui/material';
 
-import { storage } from '../../models/localStorage';
+import { page } from '../../models/const/path';
+import { QrModel } from '../../models/qrModel';
+import { storage } from '../../modules/storage';
 
-type QrCountContext = {
+type QrCodeContext = {
   qrCount: number;
-  getQrCodes: () => string[];
-  addQrCodes: (codes: string[]) => void;
+  getQrCodes: () => QrModel[];
+  addQrCodes: (codes: QrModel[]) => void;
   deleteQrCodes: () => void;
 };
-const QrCount = createContext<QrCountContext>({ qrCount: 0, getQrCodes: () => [], addQrCodes: () => {}, deleteQrCodes: () => {} });
+const QrCode = createContext<QrCodeContext>({ qrCount: 0, getQrCodes: () => [], addQrCodes: () => {}, deleteQrCodes: () => {} });
 
-export const useQrCount = () => useContext(QrCount);
+export const useQrCode = () => useContext(QrCode);
 
-export const QrCountProvider = ({ children }: { children: ReactNode }) => {
+export const QrCodeProvider = ({ children }: { children: ReactNode }) => {
   const initCount = storage.qrCode.codes;
   const [qrCount, setQrCount] = useState(initCount.length);
 
@@ -23,7 +26,7 @@ export const QrCountProvider = ({ children }: { children: ReactNode }) => {
     return storage.qrCode.codes;
   };
 
-  const addQrCodes = (newCodes: string[]) => {
+  const addQrCodes = (newCodes: QrModel[]) => {
     const codes = storage.qrCode.add(newCodes);
     console.log(codes);
     setQrCount(codes.length);
@@ -34,17 +37,19 @@ export const QrCountProvider = ({ children }: { children: ReactNode }) => {
     setQrCount(0);
   };
 
-  return <QrCount.Provider value={{ qrCount, getQrCodes, addQrCodes, deleteQrCodes }}>{children}</QrCount.Provider>;
+  return <QrCode.Provider value={{ qrCount, getQrCodes, addQrCodes, deleteQrCodes }}>{children}</QrCode.Provider>;
 };
 
 export function QrCodeButton() {
-  const { qrCount } = useQrCount();
+  const { qrCount } = useQrCode();
 
   return (
-    <IconButton sx={{ width: 80, height: 80 }}>
-      <Badge badgeContent={qrCount} color="error">
-        <QrCode2Icon sx={{ width: 40, height: 40, color: 'var(--color1)' }} />
-      </Badge>
-    </IconButton>
+    <Link href={page.qrCodePrint}>
+      <IconButton sx={{ width: 80, height: 80 }}>
+        <Badge badgeContent={qrCount} color="error">
+          <QrCode2Icon sx={{ width: 40, height: 40, color: 'var(--color1)' }} />
+        </Badge>
+      </IconButton>
+    </Link>
   );
 }

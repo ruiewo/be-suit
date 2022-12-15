@@ -1,8 +1,7 @@
-import dynamic from 'next/dynamic';
+import { QrModel } from '../models/qrModel';
+import { isClientSide } from './util';
 
-import { isClientSide } from '../modules/util';
-
-let qrCodes: string[] | null = null;
+let qrCodes: QrModel[] | null = null;
 
 const qrCodeKey = 'QrCodes';
 
@@ -14,15 +13,14 @@ const qrCode = {
 
     if (qrCodes == null) {
       const json = localStorage.getItem(qrCodeKey);
-      qrCodes = json === null ? [] : (JSON.parse(json) as string[]);
+      qrCodes = json === null ? [] : (JSON.parse(json) as QrModel[]);
     }
 
     return qrCodes;
   },
 
-  add: (newCodes: string[]) => {
-    // @ts-ignore
-    const codes = qrCode.codes as string[];
+  add: (newCodes: QrModel[]) => {
+    const codes = qrCode.codes as QrModel[];
     newCodes.forEach(x => codes.push(x));
     localStorage.setItem(qrCodeKey, JSON.stringify(codes));
 
