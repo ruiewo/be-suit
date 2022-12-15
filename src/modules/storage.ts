@@ -1,7 +1,7 @@
-import { QrModel } from '../models/qrModel';
+import { QrCodeModel } from '../models/qrCodeModel';
 import { isClientSide } from './util';
 
-let qrCodes: QrModel[] | null = null;
+let qrCodes: QrCodeModel[] | null = null;
 
 const qrCodeKey = 'QrCodes';
 
@@ -13,14 +13,14 @@ const qrCode = {
 
     if (qrCodes == null) {
       const json = localStorage.getItem(qrCodeKey);
-      qrCodes = json === null ? [] : (JSON.parse(json) as QrModel[]);
+      qrCodes = json === null ? [] : (JSON.parse(json) as QrCodeModel[]);
     }
 
     return qrCodes;
   },
 
-  add: (newCodes: QrModel[]) => {
-    const codes = qrCode.codes as QrModel[];
+  add: (newCodes: QrCodeModel[]) => {
+    const codes = qrCode.codes as QrCodeModel[];
     newCodes.forEach(x => codes.push(x));
     localStorage.setItem(qrCodeKey, JSON.stringify(codes));
 

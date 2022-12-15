@@ -5,13 +5,13 @@ import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Badge, IconButton } from '@mui/material';
 
 import { page } from '../../models/const/path';
-import { QrModel } from '../../models/qrModel';
+import { QrCodeModel } from '../../models/qrCodeModel';
 import { storage } from '../../modules/storage';
 
 type QrCodeContext = {
   qrCount: number;
-  getQrCodes: () => QrModel[];
-  addQrCodes: (codes: QrModel[]) => void;
+  getQrCodes: () => QrCodeModel[];
+  addQrCodes: (codes: QrCodeModel[]) => void;
   deleteQrCodes: () => void;
 };
 const QrCode = createContext<QrCodeContext>({ qrCount: 0, getQrCodes: () => [], addQrCodes: () => {}, deleteQrCodes: () => {} });
@@ -26,7 +26,7 @@ export const QrCodeProvider = ({ children }: { children: ReactNode }) => {
     return storage.qrCode.codes;
   };
 
-  const addQrCodes = (newCodes: QrModel[]) => {
+  const addQrCodes = (newCodes: QrCodeModel[]) => {
     const codes = storage.qrCode.add(newCodes);
     console.log(codes);
     setQrCount(codes.length);
