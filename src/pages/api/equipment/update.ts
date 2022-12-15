@@ -1,7 +1,11 @@
 import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+
+
 import { Prisma } from '@prisma/client';
+
+
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
@@ -9,6 +13,7 @@ import { role } from '../../../models/const/role';
 import { Equipment } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
+
 
 type ReqData = {
   equipment: Equipment;
@@ -62,7 +67,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         departmentId: equipment.departmentId,
         locationId: equipment.locationId,
         rentalDate: equipment.rentalDate,
-        rentalUser: equipment.rentalUser,
+        rentalUserStr: equipment.rentalUserStr,
         returnDate: equipment.returnDate,
         isDeleted: !isNullOrWhiteSpace(equipment.deletedDate as unknown as string),
         deletedDate: equipment.deletedDate,

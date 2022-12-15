@@ -1,10 +1,13 @@
 import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+
+
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
 import { Equipment } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
+
 
 type ResData = {
   equipments: Equipment[];
@@ -25,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
   const equipments = await prisma.equipment.findMany({
     where: {
-      rentalUser: { contains: session.user.name! },
+      rentalUserStr: { contains: session.user.name! },
     },
     orderBy: [
       {

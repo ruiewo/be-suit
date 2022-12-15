@@ -25,7 +25,7 @@ export const EquipmentTable = ({ equipments, columns: optionColumns, filterText,
     { key: 'rentalButtonState', type: 'string', label: '貸出状態', style: 'center', width: 80 },
     { key: 'code', type: 'string', label: '管理番号', style: 'center', width: 110 },
     { key: 'department', type: 'string', label: '管理者', style: 'upLeft', width: 100 },
-    { key: 'rentalUser', type: 'string', label: '使用者', style: 'bottomRight', width: 100 },
+    { key: 'rentalUserStr', type: 'string', label: '使用者', style: 'bottomRight', width: 100 },
     { key: 'location', type: 'string', label: '場所', style: 'center', width: 180 },
     { key: 'maker', type: 'string', label: 'メーカー', style: 'upLeft', width: 100 },
     { key: 'modelNumber', type: 'string', label: '型番', style: 'bottomRight', width: 130 },
@@ -96,19 +96,6 @@ const QrContextMenu = ({ contextMenu, onClose }: ContextMenuProps) => {
   const { addQrCodes, deleteQrCodes } = useQrCode();
 
   const addQrCode = async () => {
-    const equipment = contextMenu!.data as unknown as EquipmentModel;
-
-    // @ts-ignore
-    let pcName = equipment['pcName'] as string | undefined;
-    if (isNullOrWhiteSpace(pcName)) {
-      pcName = undefined;
-    }
-
-    addQrCodes([[equipment.code, pcName]]);
-    onClose(false);
-  };
-
-  const addAllQrCode = async () => {
     const equipment = contextMenu!.data as unknown as EquipmentModel;
 
     // @ts-ignore

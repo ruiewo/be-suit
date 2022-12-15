@@ -28,7 +28,7 @@ const baseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'maker', type: 'string', label: 'メーカー', width: 120 },
   { key: 'modelNumber', type: 'string', label: '型番', width: 120 },
   { key: 'departmentId', type: 'number', label: '管理者', width: 120 },
-  { key: 'rentalUser', type: 'string', label: '使用者', width: 120 },
+  { key: 'rentalUserStr', type: 'string', label: '使用者', width: 120 },
   { key: 'locationId', type: 'number', label: '使用・保管場所', width: 180 },
   { key: 'rentalDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },
@@ -118,7 +118,7 @@ export function EquipmentEditDialog({ onClose, id }: Props) {
           </Typography>
           <Box sx={{ textAlign: 'center' }}>
             <UncontrolledCommonSelect sx={style} name="departmentId" label="管理者" value={equipment.departmentId ?? ''} items={departmentItems} />
-            <TextInput name="rentalUser" label="使用者" data={equipment} />
+            <TextInput name="rentalUserStr" label="使用者" data={equipment} />
             <UncontrolledCommonSelect sx={style} name="locationId" label="使用・保管場所" value={equipment.locationId ?? ''} items={locationItems} />
             <DateInput name="rentalDate" label="貸出日" data={equipment} />
             <DateInput name="returnDate" label="返却日" data={equipment} />

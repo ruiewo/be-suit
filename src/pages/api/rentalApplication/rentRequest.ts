@@ -41,8 +41,8 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       return badRequest(res);
     }
 
-    const userId = session?.user.id;
-    const userName = session?.user.name;
+    const userId = session!.user.id;
+    const userName = session!.user.name;
 
     if (isNullOrWhiteSpace(userId)) {
       return badRequest(res);
@@ -69,7 +69,8 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
           departmentId,
           rentalState: newRentalState,
           rentalDate: new Date(),
-          rentalUser: userName,
+          rentalUserId: userId,
+          rentalUserStr: userName,
           returnDate: null,
         },
       });

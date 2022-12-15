@@ -65,7 +65,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         note: true,
         rentalState: true,
         rentalDate: true,
-        rentalUser: true,
+        rentalUserStr: true,
         registrationDate: true,
         isDeleted: true,
         department: {
@@ -102,11 +102,11 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       note: x.note,
       // prettier-ignore
       rentalButtonState: x.isDeleted ? rentalButtonState.deleted
-        : isNullOrWhiteSpace(x.rentalUser) ? rentalButtonState.canRent
-        : x.rentalUser === user?.name ? rentalButtonState.canReturn
+        : isNullOrWhiteSpace(x.rentalUserStr) ? rentalButtonState.canRent
+        : x.rentalUserStr === user?.name ? rentalButtonState.canReturn
         : rentalButtonState.lending,
       rentalDate: x.rentalDate,
-      rentalUser: x.rentalUser,
+      rentalUserStr: x.rentalUserStr,
       registrationDate: x.registrationDate,
       isDeleted: x.isDeleted,
       department: x.department?.label ?? '',

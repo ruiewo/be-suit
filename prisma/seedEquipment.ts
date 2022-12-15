@@ -76,7 +76,7 @@ function convertToPc(row: any, departments: Department[], locations: Location[])
     modelNumber: row[3] as string,
     // maker: row[4], // type
     departmentId: departments.find(x => x.label === department)?.id || null,
-    rentalUser: (row[6] ? row[6].toString().replace('　', ' ') : '') as string,
+    rentalUserStr: (row[6] ? row[6].toString().replace('　', ' ') : '') as string,
     locationId: locations.find(x => x.label === location)?.id || null,
     // maker: row[8],  // 社外
     registrationDate: toDate(row[9]),
@@ -111,7 +111,7 @@ function convertToNormalEquipment(row: any, departments: Department[], locations
     modelNumber: row[3] as string,
     // maker: row[4], // type
     departmentId: departments.find(x => x.label === department)?.id || null,
-    rentalUser: (row[6] ? row[6].toString().replace('　', ' ') : '') as string,
+    rentalUserStr: (row[6] ? row[6].toString().replace('　', ' ') : '') as string,
     locationId: locations.find(x => x.label === location)?.id || null,
     // maker: row[8],  // 社外
     registrationDate: toDate(row[9]),

@@ -18,7 +18,7 @@ export type Equipment = {
   locationId?: number;
   rentalState: RentalState;
   rentalDate: Date | null;
-  rentalUser: string | null;
+  rentalUserStr: string | null;
   returnDate: Date | null;
   registrationDate: Date | null;
   isDeleted: boolean;
@@ -39,7 +39,7 @@ export type EquipmentModel = {
   location: string;
   rentalButtonState: RentalButtonState;
   rentalDate: Date | null;
-  rentalUser: string | null;
+  rentalUserStr: string | null;
   registrationDate: Date | null;
   isDeleted: boolean;
 };
@@ -71,7 +71,7 @@ export const equipmentBaseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'maker', type: 'string', label: 'メーカー', width: 120 },
   { key: 'modelNumber', type: 'string', label: '型番', width: 120 },
   { key: 'departmentId', type: 'number', label: '管理者', width: 120 },
-  { key: 'rentalUser', type: 'string', label: '使用者', width: 120 },
+  { key: 'rentalUserStr', type: 'string', label: '使用者', width: 120 },
   { key: 'locationId', type: 'number', label: '使用・保管場所', width: 180 },
   { key: 'rentalDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },

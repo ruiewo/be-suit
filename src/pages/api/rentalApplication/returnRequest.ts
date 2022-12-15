@@ -76,7 +76,8 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
           departmentId: null,
           rentalState: newRentalState,
           // rentalDate: new Date(), // 最後に借りられた日付は消さない。
-          rentalUser: null,
+          rentalUserId: null,
+          rentalUserStr: null,
           returnDate: new Date(),
         },
       });
