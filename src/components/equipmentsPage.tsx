@@ -73,7 +73,7 @@ export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
   return (
     <>
       <EquipmentSearchPanel filterText={filterText} setFilterText={setFilterText} categoryCodes={categoryCodes} setCategoryCodes={setCategoryCodes} />
-      {isLoading ? <Loading /> : <EquipmentTable equipments={equipments} columns={columns} filterText={filterText} reload={reload} />}
+      {isLoading ? <Loading /> : <EquipmentTable equipments={equipments} detailColumns={columns} filterText={filterText} reload={reload} />}
     </>
   );
 };

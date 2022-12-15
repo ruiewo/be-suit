@@ -1,22 +1,46 @@
 import { useState } from 'react';
 
+import { Checkbox } from '@mui/material';
+
 import { ColumnDefinition, Details } from '../../models/equipmentModel';
 import { isNullOrWhiteSpace } from '../../modules/util';
 import styles from '../../styles/equipmentTable.module.css';
 import { RentStateButton } from '../button/rentButton';
 import { ContextMenu, ContextMenuProps } from '../contextMenu/contextMenu';
 
+export type TableDataObj = Record<string, string | number>;
+export type OnTrClick = (e: React.MouseEvent<HTMLElement, MouseEvent>, data: TableDataObj) => void;
+
 type Props = {
-  data: Record<string, string | number>[];
+  data: TableDataObj[];
   columns: ColumnDefinition<Details>[];
   filterText: string;
-  onTrClick?: (e: React.MouseEvent<HTMLTableRowElement, MouseEvent>, data: Record<string, string | number>) => void;
+  onTrClick?: OnTrClick;
   reload?: () => void;
   Dialog?: ({ onClose, id }: { id: number; onClose: (isEdited: boolean) => void }) => JSX.Element;
   ContextMenu?: ({ contextMenu, onClose }: ContextMenuProps) => JSX.Element;
 };
 
 export const BaseTable = ({ data, columns, filterText, onTrClick, reload, Dialog, ContextMenu }: Props) => {
+  const [selected, setSelected] = useState<(string | number)[]>([]);
+
+  const handleClick = (dataItem: TableDataObj, id: string | number) => {
+    const selectedIndex = selected.indexOf(id);
+
+    if (selectedIndex === -1) {
+      (dataItem['isSelected'] as any) = true;
+      console.log(dataItem);
+
+      setSelected([...selected, id]);
+    } else {
+      (dataItem['isSelected'] as any) = false;
+      selected.splice(selectedIndex, 1);
+      setSelected([...selected]);
+    }
+  };
+
+  const isSelected = (id: string | number) => selected.indexOf(id) !== -1;
+
   const lowerFilterText = filterText.toLowerCase();
   const filteredData = isNullOrWhiteSpace(lowerFilterText)
     ? data
@@ -87,6 +111,14 @@ export const BaseTable = ({ data, columns, filterText, onTrClick, reload, Dialog
                     return (
                       <td key={col.key} data-type={col.style == null ? '' : col.style}>
                         <RentStateButton state={data[col.key] as string} />
+                      </td>
+                    );
+                  }
+
+                  if (col.key === 'isSelected') {
+                    return (
+                      <td key={col.key} data-type={col.style == null ? '' : col.style}>
+                        <Checkbox checked={isSelected(data.id)} onClick={event => handleClick(data, data.id)} />
                       </td>
                     );
                   }

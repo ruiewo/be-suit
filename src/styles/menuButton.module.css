@@ -14,6 +14,7 @@
   letter-spacing: 0.08rem;
   text-transform: uppercase;
   cursor: pointer;
+  user-select: none;
 }
 
 .menuButton .bar {

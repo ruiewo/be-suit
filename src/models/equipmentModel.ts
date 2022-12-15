@@ -53,7 +53,7 @@ export const rentalButtonState = {
   deleted: 'deleted',
 } as const;
 
-export type ValueType = 'code' | 'string' | 'number' | 'date' | 'bool';
+export type ValueType = 'string' | 'number' | 'date' | 'bool';
 
 export type ColumnDefinition<T> = {
   key: keyof T;
@@ -88,8 +88,6 @@ export function convertToDisplay(obj: any, key: string, type: ValueType) {
   }
 
   switch (type) {
-    case 'code':
-      return getEquipmentCode(obj);
     case 'string':
     case 'number':
       return obj[key]?.toString() ?? '';

@@ -6,7 +6,7 @@ import { roleList } from '../../models/const/role';
 import { ColumnDefinition, Details } from '../../models/equipmentModel';
 import { UserModel } from '../../models/user';
 import { ContextMenuProps } from '../contextMenu/contextMenu';
-import { BaseTable } from './baseTable';
+import { BaseTable, TableDataObj } from './baseTable';
 
 type Props = {
   users: UserModel[];
@@ -22,7 +22,7 @@ export const UserTable = ({ users, filterText, reload }: Props) => {
     { key: 'role', type: 'string', label: 'Role', style: 'center', width: 80 },
   ];
 
-  const tableData = users as Record<string, string | number>[];
+  const tableData = users as TableDataObj[];
 
   return <BaseTable data={tableData} columns={columns} filterText={filterText} reload={reload} ContextMenu={RoleContextMenu} />;
 };
