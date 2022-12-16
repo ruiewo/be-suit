@@ -1,13 +1,16 @@
+import Link from 'next/link';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { Box, Button, Chip, Stack } from '@mui/material';
 
+import { useQrCode } from '../../components/button/qrCodeButton';
 import { useErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { EquipmentSearchPanel } from '../../components/searchPanel/equipmentSearchPanel';
 import { Skeleton } from '../../components/skeleton';
 import { BaseTable, TableDataObj } from '../../components/table/baseTable';
 import { client } from '../../models/apiClient';
+import { page } from '../../models/const/path';
 import { ColumnDefinition, Details, EquipmentModel, convertToDisplay } from '../../models/equipmentModel';
 import { QrCodeModel } from '../../models/qrCodeModel';
 import { sleep } from '../../modules/util';
@@ -16,6 +19,8 @@ import { NextPageWithLayout } from '../_app';
 
 const Page: NextPageWithLayout = () => {
   const showErrorDialog = useErrorDialog();
+
+  const { getQrCodes, addQrCodes, deleteQrCodes } = useQrCode();
 
   const [categoryCodes, setCategoryCodes] = useState({ main: 'PC', sub: ['D'] });
 
@@ -43,6 +48,7 @@ const Page: NextPageWithLayout = () => {
           return;
         }
 
+        setQrCodes(getQrCodes());
         setTableData(convertToTableData(equipments, detailColumns));
         setColumns([...baseColumns, ...detailColumns]);
       } catch (error) {
@@ -74,11 +80,17 @@ const Page: NextPageWithLayout = () => {
       <SubmitButtons
         addAll={() => {
           const all: QrCodeModel[] = tableData.map(x => [x.code as string, (x.pcName as string) ?? undefined]);
+          addQrCodes(all);
           setQrCodes([...qrCodes, ...all]);
         }}
         addSelected={() => {
           const selectedItems: QrCodeModel[] = tableData.filter(x => x['isSelected']).map(x => [x.code as string, (x.pcName as string) ?? undefined]);
+          addQrCodes(selectedItems);
           setQrCodes([...qrCodes, ...selectedItems]);
+        }}
+        deleteAll={() => {
+          deleteQrCodes();
+          setQrCodes([]);
         }}
       ></SubmitButtons>
       <QrCodes qrCodes={qrCodes} setQrCodes={setQrCodes}></QrCodes>
@@ -120,17 +132,26 @@ function convertToTableData(equipments: EquipmentModel[], detailColumns: ColumnD
 type Props = {
   addAll: () => void;
   addSelected: () => void;
+  deleteAll: () => void;
 };
 
-export function SubmitButtons({ addAll, addSelected }: Props) {
+export function SubmitButtons({ addAll, addSelected, deleteAll }: Props) {
   return (
     <Box sx={{ textAlign: 'center' }} margin={4}>
-      <Button variant="contained" color="secondary" sx={{ width: 200, mr: 2, ml: 2 }} onClick={addAll}>
+      <Button variant="contained" color="primary" sx={{ width: 200, mr: 2, ml: 2 }} onClick={addAll}>
         すべて追加
       </Button>
       <Button variant="contained" color="primary" sx={{ width: 200, mr: 2, ml: 2 }} onClick={addSelected}>
         選択中を追加
       </Button>
+      <Button variant="contained" color="primary" sx={{ width: 200, mr: 2, ml: 2 }} onClick={deleteAll}>
+        すべて削除
+      </Button>
+      <Link href={page.qrCodePrint} passHref>
+        <Button variant="contained" color="secondary" sx={{ width: 200, mr: 2, ml: 2 }}>
+          印刷
+        </Button>
+      </Link>
     </Box>
   );
 }

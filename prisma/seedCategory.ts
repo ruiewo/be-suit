@@ -50,8 +50,10 @@ export async function seedCategory(prisma: PrismaClient) {
     }
 
     await prisma.category.createMany({ data: categories });
+
+    console.log('seed CATEGORY completed.');
   } catch (error) {
-    console.error('SEED CATEGORY FAILED.');
+    console.error('seed CATEGORY failed.');
     console.error(error);
     throw error;
   }

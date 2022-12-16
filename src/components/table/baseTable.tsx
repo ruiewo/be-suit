@@ -29,8 +29,6 @@ export const BaseTable = ({ data, columns, filterText, onTrClick, reload, Dialog
 
     if (selectedIndex === -1) {
       (dataItem['isSelected'] as any) = true;
-      console.log(dataItem);
-
       setSelected([...selected, id]);
     } else {
       (dataItem['isSelected'] as any) = false;

@@ -28,11 +28,12 @@ const ShortcutButton = ({ src, href }: { src: string; href: string }) => (
   </Link>
 );
 const menu = [
-  { title: '機器管理', description: 'PC一覧を表示します', path: page.equipment, src: '/images/computer.svg' },
-  { title: 'Monitor', description: 'モニタ一覧を表示します', path: `${page.equipment}/mo/d`, src: '/images/monitor.svg' },
-  { title: '貸出', description: 'not implemented yet.', path: '', src: '/images/rental.svg' },
-  { title: 'ユーザ管理', description: 'ユーザ一覧を表示します', path: page.user, src: '/images/user.svg' },
-  { title: 'マスタ管理', description: 'マスタ管理画面を表示します', path: page.maintenance, src: '/images/master.svg' },
-  { title: 'QR Code', description: '開発用', path: page.qrCodePrint, src: '/images/dev.svg' },
-  { title: '機器登録', description: '機器登録を行います', path: page.register, src: '/images/dev.svg' },
+  { title: 'QR Code', path: page.qrCode, src: '/images/qrCode.svg' },
+  { title: 'QR Print', path: page.qrCodePrint, src: '/images/qrCode.svg' },
+  { title: '機器管理', path: page.equipment, src: '/images/computer.svg' },
+  { title: 'Monitor', path: `${page.equipment}/mo/d`, src: '/images/monitor.svg' },
+  { title: '貸出', path: '', src: '/images/rental.svg' },
+  { title: 'ユーザ管理', path: page.user, src: '/images/user.svg' },
+  { title: 'マスタ管理', path: page.maintenance, src: '/images/master.svg' },
+  { title: '機器登録', path: page.register, src: '/images/dev.svg' },
 ];
