@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import { Box, Button, Chip, Stack } from '@mui/material';
+import { Box, Button } from '@mui/material';
 
 import { useQrCode } from '../../components/button/qrCodeButton';
 import { useErrorDialog } from '../../components/dialog/errorDialog';
@@ -162,22 +162,11 @@ function QrCodes({ qrCodes, setQrCodes }: { qrCodes: QrCodeModel[]; setQrCodes: 
   };
 
   return (
-    <Stack
-      direction="row"
-      spacing={1}
-      width={'80vw'}
-      minHeight={400}
-      height={'50vh'}
-      margin={2}
-      padding={2}
-      border={'1px solid var(--color-light-gray)'}
-      sx={{ flexWrap: 'wrap', gap: 1, overflowY: 'scroll' }}
-    >
+    <div className={styles.chipWrapper}>
       {qrCodes.map(([code, pcName], i) => (
         <Chip2 key={`${code}_${i}`} label={code} onDelete={() => handleDelete(code)}></Chip2>
-        // <Chip key={code} label={code} onDelete={() => handleDelete(code)}></Chip>
       ))}
-    </Stack>
+    </div>
   );
 }
 type ChipProps = {

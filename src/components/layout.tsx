@@ -18,8 +18,8 @@ export function Layout({ children }: LayoutProps) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SideMenu></SideMenu>
-      {/* <SideMenu2></SideMenu2> */}
+      {/* <SideMenu></SideMenu> */}
+      <SideMenu2></SideMenu2>
       <main className={styles.main}>{children}</main>
     </div>
   );

@@ -167,7 +167,19 @@ type InputProps = {
 const style = { width: '30%', ml: 1, mr: 1, mt: 2, mb: 1 };
 
 function TextInput({ name, label, data }: InputProps) {
-  return <TextField sx={style} name={name} label={label} defaultValue={convertToDisplay(data, name, 'string')}></TextField>;
+  return (
+    <TextField
+      sx={style}
+      name={name}
+      label={label}
+      defaultValue={convertToDisplay(data, name, 'string')}
+      inputProps={{
+        sx: {
+          textAlign: 'center',
+        },
+      }}
+    ></TextField>
+  );
 }
 
 function DateInput({ name, label, data }: InputProps) {
@@ -179,6 +191,11 @@ function DateInput({ name, label, data }: InputProps) {
       defaultValue={convertToDisplay(data, name, 'date')}
       type="date"
       InputLabelProps={{ shrink: true }}
+      inputProps={{
+        sx: {
+          textAlign: 'center',
+        },
+      }}
     ></TextField>
   );
 }
