@@ -20,7 +20,7 @@ import { NextPageWithLayout } from '../_app';
 const Page: NextPageWithLayout = () => {
   const showErrorDialog = useErrorDialog();
 
-  const { getQrCodes, addQrCodes, deleteQrCodes } = useQrCode();
+  const { getQrCodes, addQrCodes, deleteQrCodes, changeQrCodes } = useQrCode();
 
   const [categoryCodes, setCategoryCodes] = useState({ main: 'PC', sub: ['D'] });
 
@@ -93,7 +93,7 @@ const Page: NextPageWithLayout = () => {
           setQrCodes([]);
         }}
       ></SubmitButtons>
-      <QrCodes qrCodes={qrCodes} setQrCodes={setQrCodes}></QrCodes>
+      <QrCodes qrCodes={qrCodes} setQrCodes={setQrCodes} changeQrCodes={changeQrCodes}></QrCodes>
     </>
   );
 };
@@ -156,15 +156,25 @@ export function SubmitButtons({ addAll, addSelected, deleteAll }: Props) {
   );
 }
 
-function QrCodes({ qrCodes, setQrCodes }: { qrCodes: QrCodeModel[]; setQrCodes: Dispatch<SetStateAction<QrCodeModel[]>> }) {
-  const handleDelete = (qrCode: string) => {
-    setQrCodes([...qrCodes.filter(([code]) => code !== qrCode)]);
+function QrCodes({
+  qrCodes,
+  setQrCodes,
+  changeQrCodes,
+}: {
+  qrCodes: QrCodeModel[];
+  setQrCodes: Dispatch<SetStateAction<QrCodeModel[]>>;
+  changeQrCodes: (codes: QrCodeModel[]) => void;
+}) {
+  const handleDelete = (qrCode: QrCodeModel) => {
+    const newCodes = [...qrCodes.filter(x => x !== qrCode)];
+    changeQrCodes(newCodes);
+    setQrCodes(newCodes);
   };
 
   return (
     <div className={styles.chipWrapper}>
-      {qrCodes.map(([code, pcName], i) => (
-        <Chip2 key={`${code}_${i}`} label={code} onDelete={() => handleDelete(code)}></Chip2>
+      {qrCodes.map((x, i) => (
+        <Chip2 key={`${x[0]}_${i}`} label={x[0]} onDelete={() => handleDelete(x)}></Chip2>
       ))}
     </div>
   );

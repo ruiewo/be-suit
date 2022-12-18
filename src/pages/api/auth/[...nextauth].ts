@@ -25,6 +25,7 @@ const defaultOptions: NextAuthOptions = {
     GithubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET,
+      allowDangerousEmailAccountLinking: true,
     }),
     AzureADProvider({
       clientId: process.env.AZURE_AD_CLIENT_ID,
@@ -57,6 +58,7 @@ const defaultOptions: NextAuthOptions = {
           role: 'user',
         };
       },
+      allowDangerousEmailAccountLinking: true,
     }),
     CognitoProvider({
       clientId: process.env.COGNITO_CLIENT_ID,

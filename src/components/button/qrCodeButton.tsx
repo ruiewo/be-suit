@@ -13,8 +13,15 @@ type QrCodeContext = {
   getQrCodes: () => QrCodeModel[];
   addQrCodes: (codes: QrCodeModel[]) => void;
   deleteQrCodes: () => void;
+  changeQrCodes: (codes: QrCodeModel[]) => void;
 };
-const QrCode = createContext<QrCodeContext>({ qrCount: 0, getQrCodes: () => [], addQrCodes: () => {}, deleteQrCodes: () => {} });
+const QrCode = createContext<QrCodeContext>({
+  qrCount: 0,
+  getQrCodes: () => [],
+  addQrCodes: () => {},
+  deleteQrCodes: () => {},
+  changeQrCodes: () => {},
+});
 
 export const useQrCode = () => useContext(QrCode);
 
@@ -28,7 +35,6 @@ export const QrCodeProvider = ({ children }: { children: ReactNode }) => {
 
   const addQrCodes = (newCodes: QrCodeModel[]) => {
     const codes = storage.qrCode.add(newCodes);
-    console.log(codes);
     setQrCount(codes.length);
   };
 
@@ -36,8 +42,12 @@ export const QrCodeProvider = ({ children }: { children: ReactNode }) => {
     storage.qrCode.delete();
     setQrCount(0);
   };
+  const changeQrCodes = (newCodes: QrCodeModel[]) => {
+    storage.qrCode.change(newCodes);
+    setQrCount(newCodes.length);
+  };
 
-  return <QrCode.Provider value={{ qrCount, getQrCodes, addQrCodes, deleteQrCodes }}>{children}</QrCode.Provider>;
+  return <QrCode.Provider value={{ qrCount, getQrCodes, addQrCodes, deleteQrCodes, changeQrCodes }}>{children}</QrCode.Provider>;
 };
 
 export function QrCodeButton() {

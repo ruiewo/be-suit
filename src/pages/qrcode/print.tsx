@@ -26,7 +26,7 @@ const QrCodePage: NextPageWithLayout = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <QrPage equipments={equipments} qrCodes={qrCodes} />
+        <QrPage qrCodes={qrCodes} />
       </main>
     </>
   );

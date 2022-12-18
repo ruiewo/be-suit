@@ -31,6 +31,11 @@ const qrCode = {
     localStorage.removeItem(qrCodeKey);
     qrCodes = [];
   },
+
+  change: (newCodes: QrCodeModel[]) => {
+    qrCodes = newCodes;
+    localStorage.setItem(qrCodeKey, JSON.stringify(qrCodes));
+  },
 };
 
 export const storage = {
