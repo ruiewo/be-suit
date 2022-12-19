@@ -17,16 +17,18 @@ import { EquipmentTable } from './table/equipmentTable';
 
 type Props = {
   categoryCodes: CategoryCodes;
+  departmentId?: number;
 };
 
-export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
+export const EquipmentPage = ({ categoryCodes: initialCategories, departmentId: initialDepartmentId }: Props) => {
   const showErrorDialog = useErrorDialog();
 
-  const [, setDepartments] = useSharedState<DepartmentModel[]>('departments', []);
+  const [departments, setDepartments] = useSharedState<DepartmentModel[]>('departments', []);
   const [, setLocations] = useSharedState<LocationModel[]>('locations', []);
   useDepartments(x => setDepartments(x));
   useLocations(x => setLocations(x));
 
+  const [departmentId, setDepartmentId] = useState(initialDepartmentId);
   const [categoryCodes, setCategoryCodes] = useState(initialCategories);
 
   const [filterText, setFilterText] = useState('');
@@ -42,7 +44,7 @@ export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
 
       try {
         const [{ equipments, columns, error }] = await Promise.all([
-          client.api.equipment.advancedSearch.$post({ body: { categoryCodes: categoryCodes } }),
+          client.api.equipment.advancedSearch.$post({ body: { categoryCodes: categoryCodes, departmentId } }),
           sleep(1000),
         ]);
 
@@ -62,7 +64,7 @@ export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
     }
 
     load();
-  }, [categoryCodes]);
+  }, [categoryCodes, departmentId]);
 
   const reload = () => setCategoryCodes({ ...categoryCodes });
 
@@ -72,7 +74,15 @@ export const EquipmentPage = ({ categoryCodes: initialCategories }: Props) => {
 
   return (
     <>
-      <EquipmentSearchPanel filterText={filterText} setFilterText={setFilterText} categoryCodes={categoryCodes} setCategoryCodes={setCategoryCodes} />
+      <EquipmentSearchPanel
+        filterText={filterText}
+        setFilterText={setFilterText}
+        categoryCodes={categoryCodes}
+        setCategoryCodes={setCategoryCodes}
+        departments={departments}
+        departmentId={departmentId}
+        setDepartmentId={setDepartmentId}
+      />
       {isLoading ? <Loading /> : <EquipmentTable equipments={equipments} detailColumns={columns} filterText={filterText} reload={reload} />}
     </>
   );

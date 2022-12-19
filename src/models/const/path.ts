@@ -5,6 +5,7 @@ export const page = {
   qrCodePrint: '/qrcode/print',
   equipment: '/equipment',
   register: '/equipment/register',
+  department: '/department',
   category: '/category',
   user: '/user',
   myPage: '/user/me',

@@ -32,4 +32,5 @@ const menu = [
   { title: 'ユーザ管理', path: page.user, src: '/images/user.svg' },
   { title: 'マスタ管理', path: page.maintenance, src: '/images/master.svg' },
   { title: '機器登録', path: page.register, src: '/images/dev.svg' },
+  { title: 'Dep', path: page.department, src: '/images/user.svg' },
 ];

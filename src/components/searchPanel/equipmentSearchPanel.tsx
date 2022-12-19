@@ -10,6 +10,8 @@ import Select from '@mui/material/Select';
 
 import { useCategories } from '../../hooks/useCategories';
 import { Category, CategoryBase } from '../../models/category';
+import { DepartmentModel } from '../../models/departmentModel';
+import { isNullOrWhiteSpace } from '../../modules/util';
 import { CategoryCodes } from '../../pages/api/equipment/advancedSearch';
 import styles from '../../styles/multiSelectButton.module.css';
 import { Loading } from '../loading';
@@ -19,9 +21,20 @@ type Props = {
   setFilterText: Dispatch<SetStateAction<string>>;
   categoryCodes: CategoryCodes;
   setCategoryCodes: Dispatch<SetStateAction<CategoryCodes>>;
+  departments: DepartmentModel[];
+  departmentId: number | undefined;
+  setDepartmentId: Dispatch<SetStateAction<number | undefined>>;
 };
 
-export const EquipmentSearchPanel = ({ filterText, setFilterText, categoryCodes, setCategoryCodes }: Props) => {
+export const EquipmentSearchPanel = ({
+  filterText,
+  setFilterText,
+  categoryCodes,
+  setCategoryCodes,
+  departments,
+  departmentId,
+  setDepartmentId,
+}: Props) => {
   const { categories: allCategories, isLoading, isError } = useCategories('');
 
   const filter: ChangeEventHandler<HTMLInputElement> = e => {
@@ -43,14 +56,47 @@ export const EquipmentSearchPanel = ({ filterText, setFilterText, categoryCodes,
     setCategoryCodes({ main: newCategory.code, sub: [newCategory.subCategories[0].code] });
   };
 
+  const onDepartmentChange = (idStr: string) => {
+    const id = isNullOrWhiteSpace(idStr) ? undefined : parseInt(idStr);
+    setDepartmentId(id);
+  };
+
   return (
     <div className={styles.selectPanel}>
+      {departmentId == null ? (
+        <></>
+      ) : (
+        <DepartmentSelect departments={departments} value={departmentId} onChange={onDepartmentChange}></DepartmentSelect>
+      )}
       <MainCategorySelect categories={allCategories} value={categoryCodes.main} onChange={onMainCategoryChange}></MainCategorySelect>
       <SubCategoryButtons categoryCodes={categoryCodes} subCategories={subCategories} setCategoryCodes={setCategoryCodes} />
       <TextField margin="normal" label="絞り込み" value={filterText} onChange={filter} />
     </div>
   );
 };
+
+type DepartmentSelectProps = {
+  departments: DepartmentModel[];
+  value: number | undefined;
+  onChange: (id: string) => void;
+};
+
+function DepartmentSelect({ departments, value, onChange }: DepartmentSelectProps) {
+  return (
+    <Box sx={{ width: 200 }}>
+      <FormControl fullWidth margin="normal">
+        <InputLabel>Department</InputLabel>
+        <Select label="Department" name="type" value={value} onChange={e => onChange(e.target.value as string)}>
+          {departments.map(x => (
+            <MenuItem key={x.id} value={x.id}>
+              {x.label}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Box>
+  );
+}
 
 type SelectProps = {
   categories: Category[];

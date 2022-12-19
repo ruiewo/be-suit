@@ -11,6 +11,7 @@ export type CategoryCodes = { main: string; sub: string[] };
 
 type ReqData = {
   categoryCodes: CategoryCodes; // e.g. { main:'PC', sub: ['D', 'N'] }
+  departmentId?: number;
 };
 
 type ResData = {
@@ -38,6 +39,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   }
 
   const { main, sub } = req.body.categoryCodes;
+  const departmentId = req.body.departmentId;
 
   if (isNullOrWhiteSpace(main) || sub.length === 0) {
     res.send({ equipments: [], columns: [] });
@@ -48,6 +50,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     prisma.equipment.findMany({
       where: {
         OR: sub.map(x => ({ category: main.toUpperCase(), subCategory: x.toUpperCase() })),
+        departmentId,
       },
       orderBy: [
         {

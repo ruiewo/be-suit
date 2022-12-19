@@ -36,7 +36,7 @@ const DepartmentPage: NextPage = () => {
       setIsLoading(true);
 
       try {
-        const { users } = await client.api.user.search.$post({ body: { roles: [role.admin] } });
+        const { users } = await client.api.user.search.$post({ body: { roles: [role.manager] } });
         setLeaders(users.map(x => ({ value: x.id, label: x.name ?? '' })));
       } catch (error) {
         setIsError(true);
