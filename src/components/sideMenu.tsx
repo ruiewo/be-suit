@@ -12,8 +12,9 @@ export function SideMenu() {
     <div className={styles.sideMenu}>
       <Logo />
       <MenuButton />
-      <QrCodeButton />
       <AccountButton />
+      <QrCodeButton />
+      <SignOutButton />
     </div>
   );
 }
@@ -25,5 +26,16 @@ export function Logo() {
         <Image src="/images/app-logo.svg" alt="Topへ戻る" width={50} height={50} />
       </h1>
     </Link>
+  );
+}
+
+function SignOutButton() {
+  const mainButton = { title: 'signOut', iconName: 'signOut', link: page.signIn };
+  return (
+    <div className={styles.signOut}>
+      <Link href={mainButton.link}>
+        <span className={`icon-${mainButton.iconName}`}></span>
+      </Link>
+    </div>
   );
 }

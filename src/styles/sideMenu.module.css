@@ -11,12 +11,15 @@
   background: var(--color3);
 }
 
-.logo {
+.sideMenu .logo {
   position: relative;
   margin: 30px 0 0 0;
   cursor: pointer;
 }
-
+.sideMenu .logo:hover {
+  filter: sepia(60%);
+  transition: 1s;
+}
 .sideMenu .logo a {
   display: flex;
   align-items: center;
@@ -24,10 +27,33 @@
   width: 120px;
   height: 120px;
 }
-
-.logo::after {
+.sideMenu .logo::after {
   position: absolute;
   top: 80px;
+  bottom: 0;
+  left: 3px;
+  width: calc(100% - 6px);
+  height: 1px;
+  content: '';
+  background-image: repeating-linear-gradient(to right, currentcolor 0 2px, transparent 2px 8px);
+}
+
+.sideMenu .signOut {
+  position: relative;
+  cursor: pointer;
+  height: 60px;
+}
+.sideMenu .signOut [class^='icon-'] {
+  font-size: 25px;
+}
+.sideMenu .signOut [class^='icon-']:hover {
+  color: var(--color4);
+  transition: 1s;
+}
+.sideMenu .signOut [class^='icon-']::after {
+  color: var(--color1);
+  position: absolute;
+  top: -40px;
   bottom: 0;
   left: 3px;
   width: calc(100% - 6px);
@@ -40,57 +66,92 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
   margin-left: 80px;
+  background: #444;
+  cursor: default;
+  display: flex;
+  justify-content: space-evenly;
   overflow: hidden;
-  background: var(--color1);
 }
-
 .menuOverlayClose {
   height: 0px;
-  overflow: hidden;
-  width: 100%;
   transition: 1s;
   opacity: 0;
 }
-
 .menuOverlayOpen {
-  width: 100%;
   height: 100%;
   transition: 1s;
 }
 
-.menuOverlayGridContainer {
+.leftBlock,
+.rightBlock {
+  padding: 50px 30px;
   position: relative;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
-  width: 100%;
-  padding: 100px 150px 0 150px;
+}
+.leftBlock {
+  margin-right: 30px;
+}
+.leftBlock::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1px;
+  top: 60px;
+  height: 85%;
+  background-color: var(--color4);
+}
+.rightBlock {
+  overflow-y: scroll;
+}
+.rightBlock::-webkit-scrollbar {
+  width: 0px;
 }
 
-.menu {
+.menuOverlay ul {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin-top: 30px;
+  justify-content: space-evenly;
+}
+.menuOverlay li {
   display: block;
-  color: var(--color2);
+  color: var(--color-white);
   font-style: normal;
   font-size: xx-large;
   padding: 0 0 30px 0;
   text-align: left;
   font-weight: 700;
+  margin: 0 20px;
+}
+.menuOverlay li [class^='icon-'] {
+  font-size: 28px;
+}
+.menuOverlay li:hover {
+  color: var(--color4);
+  transition: 1.5s;
 }
 
+.menuCategory {
+  display: inline-block;
+  font-size: xx-large;
+  font-weight: 700;
+  color: var(--color-white);
+  background-color: var(--color2);
+  filter: saturate(30%);
+  border-radius: 30px;
+  width: 350px;
+}
+.admin {
+  margin-top: 50px;
+}
+.menuTitle {
+  padding-left: 10px;
+}
 .menuDescription {
-  display: table;
+  display: block;
   font-family: sans-serif;
-  line-height: 1.2;
+  line-height: 18px;
   font-size: medium;
   text-transform: uppercase;
-  cursor: pointer;
-}
-
-.menu:hover,
-.menuDescription:hover {
-  color: var(--color3);
-  transition: 1.5s;
 }

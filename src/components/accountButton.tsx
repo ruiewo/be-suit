@@ -1,5 +1,4 @@
 import { useSession } from 'next-auth/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 
@@ -22,11 +21,7 @@ export function AccountButton() {
     return () => document.removeEventListener('click', handleClick);
   });
 
-  const mainButton = { title: 'account', imageUrl: '/images/account.svg' };
-  const subButtons = [
-    { title: 'notice', imageUrl: '/images/notice.svg', link: page.myPage },
-    { title: 'signOut', imageUrl: '/images/signOut.svg', link: page.signIn },
-  ];
+  const mainButton = { title: 'account', iconName: 'user', link: page.myPage };
 
   const avatarUrl = session?.user?.image;
   const userName = session?.user?.name;
@@ -34,32 +29,17 @@ export function AccountButton() {
   return (
     <div className={styles.wrapper} ref={wrapperRef}>
       <div className={styles.parentButton} onClick={() => setActive(!isActive)}>
-        {isNullOrWhiteSpace(avatarUrl) ? (
-          <img src={createIconImage(userName)} alt={mainButton.title} style={{ width: 40, height: 40, borderRadius: '50%' }} />
-        ) : (
-          // <Image src={mainButton.imageUrl} alt={mainButton.title} width={30} height={30} />
-          <img src={avatarUrl} alt={mainButton.title} style={{ width: 40, height: 40, borderRadius: '50%' }} />
-        )}
+        <Link href={mainButton.link}>
+          {isNullOrWhiteSpace(avatarUrl) ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={createIconImage(userName)} alt={mainButton.title} style={{ width: 40, height: 40, borderRadius: '50%' }} />
+          ) : (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={avatarUrl} alt={mainButton.title} style={{ width: 40, height: 40, borderRadius: '50%' }} />
+          )}
+        </Link>
       </div>
-      {subButtons.map(x => (
-        <ChildButton key={x.title} isActive={isActive} {...x} />
-      ))}
     </div>
-  );
-}
-
-type ChildButtonProps = {
-  isActive: boolean;
-  title: string;
-  imageUrl: string;
-  link: string;
-};
-
-function ChildButton({ isActive, imageUrl, title, link }: ChildButtonProps) {
-  return (
-    <Link href={link} className={`${styles.childButton} ${isActive ? '' : styles.hidden}`}>
-      <Image className={styles.content} src={imageUrl} alt={title} width={20} height={20} />
-    </Link>
   );
 }
 

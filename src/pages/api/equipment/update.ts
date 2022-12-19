@@ -1,11 +1,7 @@
 import { DefineMethods } from 'aspida';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-
-
 import { Prisma } from '@prisma/client';
-
-
 
 import { validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
@@ -13,7 +9,6 @@ import { role } from '../../../models/const/role';
 import { Equipment } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
-
 
 type ReqData = {
   equipment: Equipment;
