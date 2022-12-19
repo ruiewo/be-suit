@@ -1,11 +1,18 @@
 import { parse } from 'csv-parse';
 import * as fs from 'fs';
 
-import { Department, Location, Prisma, PrismaClient } from '@prisma/client';
+import { Department, Location, Prisma, PrismaClient, User } from '@prisma/client';
 
 import { isNullOrWhiteSpace } from '../src/modules/util';
 
-export async function seedEquipments(prisma: PrismaClient, path: string, fileName: string, departments: Department[], locations: Location[]) {
+export async function seedEquipments(
+  prisma: PrismaClient,
+  path: string,
+  fileName: string,
+  departments: Department[],
+  locations: Location[],
+  users: User[]
+) {
   let equipments;
   try {
     if (fileName.startsWith('pc_')) {
@@ -13,6 +20,13 @@ export async function seedEquipments(prisma: PrismaClient, path: string, fileNam
     } else {
       equipments = await readCsv(path, convertToNormalEquipment, departments, locations);
     }
+
+    equipments.forEach(x => {
+      if (!isNullOrWhiteSpace(x.rentalUserStr)) {
+        const user = users.find(u => u.name === x.rentalUserStr);
+        x.rentalUserId = user?.id ?? null;
+      }
+    });
 
     await prisma.equipment.createMany({ data: equipments });
   } catch (error) {

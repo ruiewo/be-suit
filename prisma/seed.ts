@@ -1,11 +1,17 @@
 import * as fs from 'fs';
 import path from 'path';
 
+
+
 import { PrismaClient, Role } from '@prisma/client';
+
+
 
 import { role } from '../src/models/const/role';
 import { seedCategory } from './seedCategory';
 import { seedEquipments } from './seedEquipment';
+import { seedUsers } from './seedUser';
+
 
 const prisma = new PrismaClient();
 
@@ -17,11 +23,11 @@ async function seed() {
   try {
     console.log('SEED start.');
 
+    await seedUser();
     await seedDepartment();
     await seedLocation();
     await seedCategory(prisma);
     await seedEquipment();
-    await seedUser();
 
     console.log('SEED end.');
   } catch (error) {
@@ -43,6 +49,7 @@ async function seedEquipment() {
 
     const departments = await prisma.department.findMany();
     const locations = await prisma.location.findMany();
+    const users = await prisma.user.findMany();
 
     const dirPath = './prisma/csv';
     fs.readdir(dirPath, { withFileTypes: true }, async (err, dirents) => {
@@ -58,7 +65,7 @@ async function seedEquipment() {
         console.log(dirent.name);
 
         const filePath = path.join(dirPath, dirent.name);
-        await seedEquipments(prisma, filePath, dirent.name, departments, locations);
+        await seedEquipments(prisma, filePath, dirent.name, departments, locations, users);
       }
     });
 
@@ -103,7 +110,7 @@ async function seedLocation() {
   }
 }
 
-async function seedUser() {
+async function seedFakeUser() {
   try {
     const hasData = await prisma.user.findFirst();
     if (hasData) {
@@ -122,6 +129,41 @@ async function seedUser() {
     ];
 
     await prisma.user.createMany({ data: users });
+    console.log('seed USER completed.');
+  } catch (error) {
+    console.error('seed USER failed.');
+    console.error(error);
+    throw error;
+  }
+}
+
+async function seedUser() {
+  try {
+    console.log('seed USER start.');
+    const hasData = await prisma.user.findFirst();
+    if (hasData) {
+      console.log('seed USER already has data.');
+      return;
+    }
+
+    const dirPath = './prisma/csv/user';
+    fs.readdir(dirPath, { withFileTypes: true }, async (err, dirents) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+
+      for (const dirent of dirents) {
+        if (dirent.isDirectory()) {
+          continue;
+        }
+        console.log(dirent.name);
+
+        const filePath = path.join(dirPath, dirent.name);
+        await seedUsers(prisma, filePath);
+      }
+    });
+
     console.log('seed USER completed.');
   } catch (error) {
     console.error('seed USER failed.');
