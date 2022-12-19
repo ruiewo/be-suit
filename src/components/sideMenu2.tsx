@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { page } from '../models/const/path';
 import styles from '../styles/sideMenu.module.css';
 import { AccountButton } from './accountButton';
-import { QrCodeButton } from './button/qrCodeButton';
 import { MenuButton } from './menuButton';
 import { Logo } from './sideMenu';
 
@@ -13,7 +12,6 @@ export function SideMenu2() {
     <div className={styles.sideMenu}>
       <Logo />
       <MenuButton />
-      <QrCodeButton />
       {menu.map(x => (
         <ShortcutButton key={x.title} src={x.src} href={x.path}></ShortcutButton>
       ))}
@@ -29,9 +27,7 @@ const ShortcutButton = ({ src, href }: { src: string; href: string }) => (
 );
 const menu = [
   { title: 'QR Code', path: page.qrCode, src: '/images/qrCode.svg' },
-  { title: 'QR Print', path: page.qrCodePrint, src: '/images/qrCode.svg' },
   { title: '機器管理', path: page.equipment, src: '/images/computer.svg' },
-  { title: 'Monitor', path: `${page.equipment}/mo/d`, src: '/images/monitor.svg' },
   { title: '貸出', path: '', src: '/images/rental.svg' },
   { title: 'ユーザ管理', path: page.user, src: '/images/user.svg' },
   { title: 'マスタ管理', path: page.maintenance, src: '/images/master.svg' },

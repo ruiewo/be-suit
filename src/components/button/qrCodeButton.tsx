@@ -55,9 +55,9 @@ export function QrCodeButton() {
 
   return (
     <Link href={page.qrCodePrint}>
-      <IconButton sx={{ width: 80, height: 80 }}>
+      <IconButton sx={{ width: 60, height: 60 }}>
         <Badge badgeContent={qrCount} color="error">
-          <QrCode2Icon sx={{ width: 40, height: 40, color: 'var(--color1)' }} />
+          <QrCode2Icon sx={{ width: 60, height: 60, color: 'var(--color3)' }} />
         </Badge>
       </IconButton>
     </Link>

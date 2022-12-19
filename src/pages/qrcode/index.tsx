@@ -1,16 +1,14 @@
-import Link from 'next/link';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 import { Box, Button } from '@mui/material';
 
-import { useQrCode } from '../../components/button/qrCodeButton';
+import { QrCodeButton, useQrCode } from '../../components/button/qrCodeButton';
 import { useErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { EquipmentSearchPanel } from '../../components/searchPanel/equipmentSearchPanel';
 import { Skeleton } from '../../components/skeleton';
 import { BaseTable, TableDataObj } from '../../components/table/baseTable';
 import { client } from '../../models/apiClient';
-import { page } from '../../models/const/path';
 import { ColumnDefinition, Details, EquipmentModel, convertToDisplay } from '../../models/equipmentModel';
 import { QrCodeModel } from '../../models/qrCodeModel';
 import { sleep } from '../../modules/util';
@@ -80,17 +78,17 @@ const Page: NextPageWithLayout = () => {
       <SubmitButtons
         addAll={() => {
           const all: QrCodeModel[] = tableData.map(x => [x.code as string, (x.pcName as string) ?? undefined]);
-          addQrCodes(all);
           setQrCodes([...qrCodes, ...all]);
+          addQrCodes(all);
         }}
         addSelected={() => {
           const selectedItems: QrCodeModel[] = tableData.filter(x => x['isSelected']).map(x => [x.code as string, (x.pcName as string) ?? undefined]);
-          addQrCodes(selectedItems);
           setQrCodes([...qrCodes, ...selectedItems]);
+          addQrCodes(selectedItems);
         }}
         deleteAll={() => {
-          deleteQrCodes();
           setQrCodes([]);
+          deleteQrCodes();
         }}
       ></SubmitButtons>
       <QrCodes qrCodes={qrCodes} setQrCodes={setQrCodes} changeQrCodes={changeQrCodes}></QrCodes>
@@ -144,14 +142,10 @@ export function SubmitButtons({ addAll, addSelected, deleteAll }: Props) {
       <Button variant="contained" color="primary" sx={{ width: 200, mr: 2, ml: 2 }} onClick={addSelected}>
         選択中を追加
       </Button>
-      <Button variant="contained" color="primary" sx={{ width: 200, mr: 2, ml: 2 }} onClick={deleteAll}>
+      <Button variant="contained" color="primary" sx={{ width: 200, mr: 8, ml: 2 }} onClick={deleteAll}>
         すべて削除
       </Button>
-      <Link href={page.qrCodePrint} passHref>
-        <Button variant="contained" color="secondary" sx={{ width: 200, mr: 2, ml: 2 }}>
-          印刷
-        </Button>
-      </Link>
+      <QrCodeButton />
     </Box>
   );
 }

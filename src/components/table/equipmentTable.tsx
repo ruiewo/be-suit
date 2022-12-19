@@ -1,12 +1,7 @@
 import { useState } from 'react';
 
-import { Menu, MenuItem } from '@mui/material';
-
 import { EquipmentEditDialog } from '../../components/dialog/equipmentEditDialog';
 import { ColumnDefinition, Details, EquipmentModel, convertToDisplay, rentalButtonState } from '../../models/equipmentModel';
-import { isNullOrWhiteSpace } from '../../modules/util';
-import { useQrCode } from '../button/qrCodeButton';
-import { ContextMenuProps } from '../contextMenu/contextMenu';
 import { RentDialog, RentDialogType } from '../dialog/rentDialog';
 import { BaseTable, OnTrClick, TableDataObj } from './baseTable';
 
@@ -79,51 +74,8 @@ export const EquipmentTable = ({ equipments, baseColumns = defaultColumns, detai
 
   return (
     <>
-      <BaseTable
-        data={tableData}
-        columns={columns}
-        filterText={filterText}
-        onTrClick={onTrClick}
-        reload={reload}
-        Dialog={EquipmentEditDialog}
-        ContextMenu={QrContextMenu}
-      />
+      <BaseTable data={tableData} columns={columns} filterText={filterText} onTrClick={onTrClick} reload={reload} Dialog={EquipmentEditDialog} />
       <RentDialog equipment={rentEquipment} setEquipment={setRentEquipment} reload={reload} type={dialogType} />
     </>
-  );
-};
-
-const QrContextMenu = ({ contextMenu, onClose }: ContextMenuProps) => {
-  const { addQrCodes, deleteQrCodes } = useQrCode();
-
-  const addQrCode = async () => {
-    const equipment = contextMenu!.data as unknown as EquipmentModel;
-
-    // @ts-ignore
-    let pcName = equipment['pcName'] as string | undefined;
-    if (isNullOrWhiteSpace(pcName)) {
-      pcName = undefined;
-    }
-
-    addQrCodes([[equipment.code, pcName]]);
-    onClose(false);
-  };
-
-  const resetQrCode = async () => {
-    deleteQrCodes();
-    onClose(false);
-  };
-
-  return (
-    <Menu
-      open={contextMenu !== null}
-      onClose={() => onClose(false)}
-      anchorReference="anchorPosition"
-      anchorPosition={contextMenu !== null ? { top: contextMenu.mouseY, left: contextMenu.mouseX } : undefined}
-    >
-      {/* <MenuItem onClick={addAllQrCode}>Add All QR Code</MenuItem> */}
-      <MenuItem onClick={addQrCode}>Add QR Code</MenuItem>
-      <MenuItem onClick={resetQrCode}>reset QR Code</MenuItem>
-    </Menu>
   );
 };
