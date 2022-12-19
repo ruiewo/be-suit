@@ -1,17 +1,12 @@
 import * as fs from 'fs';
 import path from 'path';
 
-
-
 import { PrismaClient, Role } from '@prisma/client';
-
-
 
 import { role } from '../src/models/const/role';
 import { seedCategory } from './seedCategory';
 import { seedEquipments } from './seedEquipment';
 import { seedUsers } from './seedUser';
-
 
 const prisma = new PrismaClient();
 
@@ -22,12 +17,12 @@ const locations = ['社外', '1番地', '2番地', '3番地', '4番地', '5番�
 async function seed() {
   try {
     console.log('SEED start.');
-
-    await seedUser();
-    await seedDepartment();
-    await seedLocation();
-    await seedCategory(prisma);
-    await seedEquipment();
+    await seedFakeUser();
+    // await seedUser();
+    // await seedDepartment();
+    // await seedLocation();
+    // await seedCategory(prisma);
+    // await seedEquipment();
 
     console.log('SEED end.');
   } catch (error) {
@@ -114,18 +109,31 @@ async function seedFakeUser() {
   try {
     const hasData = await prisma.user.findFirst();
     if (hasData) {
-      return;
+      // return;
     }
 
     const users: { name: string; email: string; role: Role }[] = [
-      { name: '佐藤 大介', email: '1emainl@ruiewo.com', role: role.guest },
-      { name: '吉田 大輔', email: '2emainl@ruiewo.com', role: role.user },
-      { name: '山本 健', email: '3emainl@ruiewo.com', role: role.user },
-      { name: '山口 康之', email: '4emainl@ruiewo.com', role: role.manager },
-      { name: '吉川 貴之', email: '7emainl@ruiewo.com', role: role.manager },
-      { name: '石田 雅之', email: '5emainl@ruiewo.com', role: role.admin },
-      { name: '池田 浩平', email: '6emainl@ruiewo.com', role: role.admin },
-      { name: '小山 真一', email: '8emainl@ruiewo.com', role: role.superAdmin },
+      // { name: '佐藤 大介', email: '1emainl@ruiewo.com', role: role.guest },
+      // { name: '吉田 大輔', email: '2emainl@ruiewo.com', role: role.user },
+      // { name: '山本 健', email: '3emainl@ruiewo.com', role: role.user },
+      // { name: '山口 康之', email: '4emainl@ruiewo.com', role: role.manager },
+      // { name: '吉川 貴之', email: '7emainl@ruiewo.com', role: role.manager },
+      // { name: '石田 雅之', email: '5emainl@ruiewo.com', role: role.admin },
+      // { name: '池田 浩平', email: '6emainl@ruiewo.com', role: role.admin },
+      // { name: '小山 真一', email: '8emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一11', email: '11emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一12', email: '12emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一13', email: '13emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一14', email: '14emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一15', email: '15emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一16', email: '16emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一17', email: '17emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一18', email: '18emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一19', email: '19emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一20', email: '20emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一21', email: '21emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一22', email: '22emainl@ruiewo.com', role: role.superAdmin },
+      { name: '小山 真一23', email: '23emainl@ruiewo.com', role: role.superAdmin },
     ];
 
     await prisma.user.createMany({ data: users });

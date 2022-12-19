@@ -9,7 +9,9 @@ import { UserModel } from '../../../models/user';
 import { prisma } from '../../../modules/db';
 
 type ReqData = {
-  roles: Role[];
+  roles?: Role[];
+  text?: string;
+  limit?: number;
 };
 
 type ResData = {
@@ -35,10 +37,13 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   }
 
   const roles = req.body.roles;
+  const text = req.body.text;
+  const limit = req.body.limit;
 
   const users = await prisma.user.findMany({
     where: {
       role: { in: roles },
+      email: { contains: text },
     },
     orderBy: [{ name: 'asc' }],
     select: {
@@ -47,6 +52,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       email: true,
       role: true,
     },
+    take: limit,
   });
 
   res.status(200).json({ users });

@@ -14,6 +14,7 @@ import { SubmitButtons } from '../button/submitButtons';
 import { Loading } from '../loading';
 import { UncontrolledCommonSelect } from '../select/CommonSelect';
 import { Skeleton } from '../skeleton';
+import UserSelect from '../userSelect';
 
 type Props = {
   id: number;
@@ -132,6 +133,9 @@ export function EquipmentEditDialog({ onClose, id }: Props) {
             <DateInput name="deletedDate" label="削除日" data={equipment} />
             <DateInput name="inventoryDate" label="棚卸日" data={equipment} />
             <TextAreaInput name="note" label="備考" data={equipment} />
+
+            {/* todo enable this */}
+            {/* <UserSelect></UserSelect> */}
           </Box>
 
           <Typography component="h6" variant="h6" sx={{ textAlign: 'center' }}>
