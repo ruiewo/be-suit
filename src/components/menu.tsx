@@ -1,16 +1,12 @@
 import Link from 'next/link';
 
 import { page } from '../models/const/path';
-import styles from '../styles/sideMenu.module.css';
+import styles from '../styles/menu.module.css';
 
 type Props = {
   isMenuOpen: boolean;
 };
 export function Menu({ isMenuOpen }: Props) {
-  const menu = [
-    { title: 'My Page', description: '借りている機器の一覧を表示', path: page.myPage, iconName: 'user' },
-    { title: '貸出', description: 'not implemented yet.', path: '', iconName: 'rental' },
-  ];
   const category = [
     { title: 'Computer', description: '', path: `${page.equipment}/pc/n`, iconName: 'computer' },
     { title: 'Monitor', description: '', path: `${page.equipment}/mo/d`, iconName: 'monitor' },
@@ -19,6 +15,12 @@ export function Menu({ isMenuOpen }: Props) {
     { title: 'Output', description: '', path: `${page.equipment}`, iconName: 'dev' },
     { title: 'Camera', description: '', path: `${page.equipment}`, iconName: 'dev' },
   ];
+
+  const menu = [
+    { title: 'My Page', description: '借りている機器の一覧を表示', path: page.myPage, iconName: 'user' },
+    { title: '貸出', description: 'not implemented yet.', path: '', iconName: 'rental' },
+  ];
+
   const admin = [
     { title: 'Users', description: 'ユーザ管理', path: page.user, iconName: 'users' },
     { title: 'Master', description: 'マスタ管理', path: page.maintenance, iconName: 'master' },
@@ -28,49 +30,48 @@ export function Menu({ isMenuOpen }: Props) {
   ];
 
   return (
-    <div className={`${styles.menuOverlay} ${isMenuOpen ? styles.menuOverlayOpen : styles.menuOverlayClose}`}>
+    <div className={`${styles.menuOverlay} ${isMenuOpen ? '' : styles.menuOverlayClose}`}>
       <div className={styles.leftBlock}>
-        <span className={styles.menuCategory}>カテゴリ</span>
-        <ul>
-          {category.map(menu => (
-            <MenuItem key={menu.title} {...menu}></MenuItem>
-          ))}
-        </ul>
+        <MenuArea header="カテゴリ" menuList={category}></MenuArea>
       </div>
       <div className={styles.rightBlock}>
-        <span className={styles.menuCategory}>機能</span>
-        <ul>
-          {menu.map(menu => (
-            <MenuItem key={menu.title} {...menu}></MenuItem>
-          ))}
-        </ul>
-        <div className={styles.admin}>
-          <span className={styles.menuCategory}>管理者用</span>
-          <ul>
-            {admin.map(menu => (
-              <MenuItem key={menu.title} {...menu}></MenuItem>
-            ))}
-          </ul>
-        </div>
+        <MenuArea header="機能" menuList={menu}></MenuArea>
+        <MenuArea header="管理者用" menuList={admin}></MenuArea>
       </div>
     </div>
   );
 }
 
-type MenuItemProps = {
+type MenuAreaProps = {
+  header: string;
+  menuList: MenuItem[];
+};
+export function MenuArea({ header, menuList }: MenuAreaProps) {
+  return (
+    <div className={styles.area}>
+      <span className={styles.header}>{header}</span>
+      <ul>
+        {menuList.map(menu => (
+          <MenuItem key={menu.title} {...menu}></MenuItem>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+type MenuItem = {
   title: string;
   description: string;
   path: string;
   iconName: string;
 };
-
-export function MenuItem({ title, description, path, iconName }: MenuItemProps) {
+function MenuItem({ title, description, path, iconName }: MenuItem) {
   return (
     <Link href={path}>
       <li key={title}>
         <span className={`icon-${iconName}`} />
-        <span className={styles.menuTitle}>{title}</span>
-        <span className={styles.menuDescription}>{description}</span>
+        <span className={styles.title}>{title}</span>
+        <span className={styles.description}>{description}</span>
       </li>
     </Link>
   );

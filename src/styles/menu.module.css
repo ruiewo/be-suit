@@ -1,0 +1,94 @@
+.menuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin-left: 80px;
+  background: #444;
+  cursor: default;
+  display: flex;
+  justify-content: space-evenly;
+  overflow: hidden;
+  height: 100%;
+  transition: 1s;
+  opacity: 1;
+}
+.menuOverlayClose {
+  height: 0px;
+  transition: 1s;
+  opacity: 0;
+}
+
+.leftBlock,
+.rightBlock {
+  padding: 50px 30px;
+  position: relative;
+}
+.leftBlock {
+  margin-right: 30px;
+}
+.leftBlock::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  width: 1px;
+  top: 60px;
+  height: 85%;
+  background-color: var(--color4);
+}
+.rightBlock {
+  overflow-y: scroll;
+}
+.rightBlock::-webkit-scrollbar {
+  width: 0px;
+}
+
+.area {
+  margin-top: 50px;
+  text-align: center;
+}
+.header {
+  display: inline-block;
+  font-size: xx-large;
+  font-weight: 700;
+  color: var(--color-white);
+  background-color: var(--color2);
+  filter: saturate(30%);
+  border-radius: 30px;
+  width: 350px;
+}
+
+.area ul {
+  display: inline-flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin-top: 30px;
+  justify-content: space-evenly;
+}
+.area li {
+  display: block;
+  color: var(--color-white);
+  font-style: normal;
+  font-size: xx-large;
+  padding: 0 0 30px 0;
+  text-align: left;
+  font-weight: 700;
+  margin: 0 20px;
+}
+.area li [class^='icon-'] {
+  font-size: 28px;
+}
+.area li:hover {
+  color: var(--color4);
+  transition: 1.5s;
+}
+
+.title {
+  padding-left: 10px;
+}
+.description {
+  display: block;
+  font-family: sans-serif;
+  line-height: 18px;
+  font-size: medium;
+  text-transform: uppercase;
+}
