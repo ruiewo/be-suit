@@ -11,7 +11,7 @@ import { BaseTable, TableDataObj } from '../../components/table/baseTable';
 import { client } from '../../models/apiClient';
 import { ColumnDefinition, Details, EquipmentModel, convertToDisplay } from '../../models/equipmentModel';
 import { QrCodeModel } from '../../models/qrCodeModel';
-import { sleep } from '../../modules/util';
+import { convertToMessage, sleep } from '../../modules/util';
 import styles from '../../styles/deleteChip.module.css';
 import { NextPageWithLayout } from '../_app';
 
@@ -42,7 +42,7 @@ const Page: NextPageWithLayout = () => {
         ]);
 
         if (error) {
-          showErrorDialog({ title: 'Load Failed.', description: 'failed to load equipments.' });
+          showErrorDialog({ title: 'Load Failed.', description: convertToMessage(error) });
           return;
         }
 
@@ -51,7 +51,7 @@ const Page: NextPageWithLayout = () => {
         setColumns([...baseColumns, ...detailColumns]);
       } catch (error) {
         setIsError(true);
-        showErrorDialog({ title: 'Load Failed.', description: 'failed to load equipments.' });
+        showErrorDialog({ title: 'Load Failed.', description: `failed to load equipments. ${error}` });
       } finally {
         setIsLoading(false);
       }
@@ -72,6 +72,9 @@ const Page: NextPageWithLayout = () => {
           setFilterText={setFilterText}
           categoryCodes={categoryCodes}
           setCategoryCodes={setCategoryCodes}
+          departments={[]}
+          departmentId={undefined}
+          setDepartmentId={() => {}}
         />
         {isLoading ? <Loading></Loading> : <BaseTable data={tableData} columns={columns} filterText={filterText} />}
       </Box>

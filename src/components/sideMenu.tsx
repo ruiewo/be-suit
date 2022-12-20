@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { page } from '../models/const/path';
 import styles from '../styles/sideMenu.module.css';
 import { AccountButton } from './accountButton';
-import { QrCodeButton } from './button/qrCodeButton';
 import { MenuButton } from './menuButton';
 
 export function SideMenu() {
@@ -13,7 +12,6 @@ export function SideMenu() {
       <Logo />
       <MenuButton />
       <AccountButton />
-      <QrCodeButton />
       <SignOutButton />
     </div>
   );

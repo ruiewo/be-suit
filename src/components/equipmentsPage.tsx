@@ -7,7 +7,7 @@ import { client } from '../models/apiClient';
 import { DepartmentModel } from '../models/departmentModel';
 import { ColumnDefinition, Details, EquipmentModel } from '../models/equipmentModel';
 import { LocationModel } from '../models/locationModel';
-import { sleep } from '../modules/util';
+import { convertToMessage, sleep } from '../modules/util';
 import { CategoryCodes } from '../pages/api/equipment/advancedSearch';
 import { useErrorDialog } from './dialog/errorDialog';
 import { Loading } from './loading';
@@ -49,7 +49,7 @@ export const EquipmentPage = ({ categoryCodes: initialCategories, departmentId: 
         ]);
 
         if (error) {
-          showErrorDialog({ title: 'Load Failed.', description: 'failed to load equipments.' });
+          showErrorDialog({ title: 'Load Failed.', description: convertToMessage(error) });
           return;
         }
 
@@ -57,7 +57,7 @@ export const EquipmentPage = ({ categoryCodes: initialCategories, departmentId: 
         setColumns(columns);
       } catch (error) {
         setIsError(true);
-        showErrorDialog({ title: 'Load Failed.', description: 'failed to load equipments.' });
+        showErrorDialog({ title: 'Load Failed.', description: `failed to load equipments. ${error}` });
       } finally {
         setIsLoading(false);
       }

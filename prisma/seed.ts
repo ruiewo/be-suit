@@ -17,12 +17,12 @@ const locations = ['unknown', '社外', '1番地', '2番地', '3番地', '4番�
 async function seed() {
   try {
     console.log('SEED start.');
-    await seedFakeUser();
-    // await seedUser();
-    // await seedDepartment();
-    // await seedLocation();
-    // await seedCategory(prisma);
-    // await seedEquipment();
+    // await seedFakeUser();
+    await seedUser();
+    await seedDepartment();
+    await seedLocation();
+    await seedCategory(prisma);
+    await seedEquipment();
 
     console.log('SEED end.');
   } catch (error) {

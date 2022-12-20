@@ -5,6 +5,7 @@ import { useErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
 import { Skeleton } from '../../components/skeleton';
 import { useCategories } from '../../hooks/useCategories';
+import { client } from '../../models/apiClient';
 import { Category, CategoryBase } from '../../models/category';
 import { Equipment } from '../../models/equipmentModel';
 import styles from '../../styles/registerForm.module.css';
@@ -13,7 +14,7 @@ const RegisterPage: NextPage = () => {
   const showErrorDialog = useErrorDialog();
 
   const { categories, isLoading, isError } = useCategories('');
-  const [formEquipment, setFormEquipment] = useState({ category: '', subCategory: '', maker: '', modelNumber: '', note: '' } as Equipment);
+  const [formEquipment, setFormEquipment] = useState({ id: 0, category: '', subCategory: '', maker: '', modelNumber: '', note: '' } as Equipment);
   const [equipments, setEquipments] = useState<Equipment[]>([]);
 
   const addEquipment = async () => {
@@ -21,13 +22,15 @@ const RegisterPage: NextPage = () => {
       showErrorDialog({ title: '', description: 'カテゴリーを選択してください。' });
       return;
     }
-    if (formEquipment.category == 'PC' && (formEquipment.maker == '' || formEquipment.modelNumber == '')) {
-      showErrorDialog({ title: '', description: 'メーカー・型番を入力してください。' });
-      return;
-    }
 
+    formEquipment.id =
+      equipments.length == 0
+        ? 1
+        : Math.max.apply(
+            null,
+            equipments.map(x => x.id)
+          ) + 1;
     setEquipments([...equipments, formEquipment]);
-
     setFormEquipment({
       ...formEquipment,
       maker: '',
@@ -37,22 +40,20 @@ const RegisterPage: NextPage = () => {
   };
 
   const registerEquipments = async () => {
-    // TODO：DBへの登録（以下参考）
-    // const newEquipments = { ...equipments };
-    //  const equipmentData = {} as Equipment;
-    // equipmentBaseColumn.forEach(x => {
-    //   equipmentData[x.key] = convertToValue(data.get(x.key), x.type);
-    // });
-    // const details = {} as Details;
-    // optionColumn.forEach(col => {
-    //   details[col.key] = convertToValue(data.get(col.key), col.type);
-    // });
-    // equipmentData.details = details;
-    // const { error } = await client.api.category.update.$post({ body: { equipment: equipmentData } });
-    // if (error) {
-    //   const message = error.errors.reduce((prev, current) => prev + '\n' + current.message, '');
-    //   setErrorMessage(message);
-    // }
+    const equipmentsData = [...equipments] as Equipment[];
+
+    if (equipmentsData.length == 0) {
+      showErrorDialog({ title: '', description: '登録する機器がありません。' });
+      return;
+    }
+
+    await client.api.equipment.create.$post({ body: { equipments: equipmentsData } });
+
+    setEquipments([]);
+  };
+
+  const deleteEquipments = async () => {
+    setEquipments([]);
   };
 
   if (isError) return <Skeleton />;
@@ -63,25 +64,28 @@ const RegisterPage: NextPage = () => {
 
   return (
     <div className={styles.registerPage}>
-      <div className={styles.top}>
+      <div className={styles.left}>
         <div className={styles.registerForm}>
           <div className={styles.form}>
-            <Form formEquipment={formEquipment} categories={categories} setFormEquipment={setFormEquipment} />
+            <Form equipments={equipments} formEquipment={formEquipment} categories={categories} setFormEquipment={setFormEquipment} />
           </div>
           <div className={styles.formButton}>
             <div className={styles.buttonArea}>
               <button className={`${styles.add} ${styles.button}`} onClick={addEquipment}>
-                <span>下に追加</span>
+                <span>追加</span>
               </button>
               <button className={`${styles.register} ${styles.button}`} onClick={registerEquipments}>
-                <span>全て登録</span>
+                <span>登録</span>
+              </button>
+              <button className={`${styles.delete} ${styles.button}`} onClick={deleteEquipments}>
+                <span>削除</span>
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div className={styles.bottom}>
-        <Table equipments={equipments} />
+      <div className={styles.right}>
+        <Table equipments={equipments} setEquipments={setEquipments} />
       </div>
     </div>
   );
@@ -90,18 +94,26 @@ const RegisterPage: NextPage = () => {
 export default RegisterPage;
 
 type FormProps = {
+  equipments: Equipment[];
   categories: Category[];
   formEquipment: Equipment;
   setFormEquipment: React.Dispatch<React.SetStateAction<Equipment>>;
 };
 
-function Form({ formEquipment, categories, setFormEquipment }: FormProps) {
+function Form({ equipments, formEquipment, categories, setFormEquipment }: FormProps) {
   const [selectableSubCategories, setSelectableSubCategories] = useState<CategoryBase[]>([]);
   const onTextChange = (event: ChangeEvent) => {
     const newFormEquipment = { ...formEquipment };
     const target = event.target as HTMLInputElement;
-    
+
     switch (target.name) {
+      case 'id':
+        newFormEquipment.id =
+          Math.max.apply(
+            null,
+            equipments.map(x => x.id)
+          ) + 1;
+        break;
       case 'category':
         newFormEquipment.category = target.value;
         setSelectableSubCategories((categories?.find(x => x.code === newFormEquipment.category)?.subCategories as CategoryBase[]) ?? []);
@@ -129,7 +141,7 @@ function Form({ formEquipment, categories, setFormEquipment }: FormProps) {
       <div className={styles.area}>
         <div className={styles.areaIcon}>
           <span className="icon-master"></span>
-          <span className={styles.iconTitle}>管理番号</span>
+          <span className={styles.iconTitle}>カテゴリー</span>
         </div>
         <div className={styles.controlNumber}>
           <label>メインカテゴリー</label>
@@ -156,8 +168,8 @@ function Form({ formEquipment, categories, setFormEquipment }: FormProps) {
       </div>
       <div className={styles.area}>
         <div className={styles.areaIcon}>
-          <span className="icon-computer"></span>
-          <span className={styles.iconTitle}>PC情報</span>
+          <span className="icon-maintenance"></span>
+          <span className={styles.iconTitle}>詳細</span>
         </div>
         <div className={styles.category}>
           <label>メーカー</label>
@@ -182,13 +194,26 @@ function Form({ formEquipment, categories, setFormEquipment }: FormProps) {
   );
 }
 
-const Table = ({ equipments }: { equipments: Equipment[] }) => {
+const Table = ({ equipments, setEquipments }: { equipments: Equipment[]; setEquipments: React.Dispatch<React.SetStateAction<Equipment[]>> }) => {
+  const onDelete = (equipment: Equipment) => {
+    setEquipments(equipments.filter(x => x.id !== equipment.id));
+  };
+  const onCopy = (equipment: Equipment) => {
+    const newEquipment = { ...equipment };
+    newEquipment.id =
+      Math.max.apply(
+        null,
+        equipments.map(x => x.id)
+      ) + 1;
+    setEquipments([...equipments, newEquipment]);
+  };
   return (
     <table className={styles.registerTable}>
       <thead className={styles.thead}>
         <tr>
+          <th>削除 / 複製</th>
           <th>No.</th>
-          <th>管理番号</th>
+          <th>カテゴリー</th>
           <th>メーカー</th>
           <th>型番</th>
           <th>備考</th>
@@ -198,6 +223,10 @@ const Table = ({ equipments }: { equipments: Equipment[] }) => {
         {equipments.map((equipment, index) => {
           return (
             <tr key={equipment.id}>
+              <td>
+                <button className={styles.minus} onClick={() => onDelete(equipment)}></button>
+                <button className={styles.plus} onClick={() => onCopy(equipment)}></button>
+              </td>
               <td>{index + 1}</td>
               <td>{`${equipment.category}-${equipment.subCategory}`}</td>
               <td>{equipment.maker}</td>
