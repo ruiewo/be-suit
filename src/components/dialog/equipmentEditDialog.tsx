@@ -93,6 +93,10 @@ export function EquipmentEditDialog({ onClose, id }: Props) {
     });
     equipmentData.details = details;
 
+    //rentalUserだけcontrol componentのため、イレギュラー
+    equipmentData.rentalUserId = equipment.rentalUser?.id ?? null;
+    equipmentData.rentalUserStr = equipment.rentalUser?.name ?? null;
+
     // todo error handling
     await client.api.equipment.update.$post({ body: { equipment: equipmentData } });
     onClose(true);
@@ -134,8 +138,8 @@ export function EquipmentEditDialog({ onClose, id }: Props) {
             <DateInput name="inventoryDate" label="棚卸日" data={equipment} />
             <TextAreaInput name="note" label="備考" data={equipment} />
 
-            {/* todo enable this */}
-            {/* <UserSelect></UserSelect> */}
+            {/* rentalUserだけcontrol componentのため、イレギュラー */}
+            <UserSelect name="rentalUser" label="使用者" user={equipment.rentalUser} onChange={user => (equipment.rentalUser = user)}></UserSelect>
           </Box>
 
           <Typography component="h6" variant="h6" sx={{ textAlign: 'center' }}>
@@ -203,6 +207,7 @@ function DateInput({ name, label, data }: InputProps) {
     ></TextField>
   );
 }
+
 function TextAreaInput({ name, label, data }: InputProps) {
   return (
     <TextField

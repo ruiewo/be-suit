@@ -6,6 +6,13 @@ import { Prisma, PrismaClient, Role } from '@prisma/client';
 export async function seedUsers(prisma: PrismaClient, path: string) {
   try {
     const users = await readCsv(path);
+    await prisma.user.createMany({
+      data: {
+        name: 'unknown',
+        email: 'unknown@unknown.co.jp',
+        role: 'user',
+      },
+    });
     await prisma.user.createMany({ data: users });
   } catch (error) {
     console.error(`seed USER failed. path = [${path}]`);

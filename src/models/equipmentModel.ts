@@ -18,6 +18,7 @@ export type Equipment = {
   locationId?: number;
   rentalState: RentalState;
   rentalDate: Date | null;
+  rentalUserId: string | null;
   rentalUserStr: string | null;
   returnDate: Date | null;
   registrationDate: Date | null;

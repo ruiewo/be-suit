@@ -4,6 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { notFound, validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
 import { ColumnDefinition, Details, Equipment } from '../../../models/equipmentModel';
+import { UserModel } from '../../../models/user';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
 
@@ -12,7 +13,7 @@ type ReqData = {
 };
 
 type ResData = {
-  equipment: Equipment;
+  equipment: Equipment & { rentalUser: UserModel | null };
   columns: ColumnDefinition<Details>[];
   error?: string;
 };
@@ -48,6 +49,16 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
 
   const equipment = await prisma.equipment.findFirst({
     where: { id },
+    include: {
+      rentalUser: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+        },
+      },
+    },
   });
 
   if (equipment == null) {
@@ -67,7 +78,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   }
 
   res.status(200).json({
-    equipment: equipment as Equipment,
+    equipment: equipment as Equipment & { rentalUser: UserModel | null },
     columns: category.columns as ColumnDefinition<Details>[],
   });
 }

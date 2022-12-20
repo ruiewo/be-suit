@@ -6,38 +6,41 @@ import TextField from '@mui/material/TextField';
 
 import { client } from '../models/apiClient';
 import { UserModel } from '../models/user';
-import { sleep } from '../modules/util';
 
-export default function UserSelect() {
+type Props = {
+  name: string;
+  label: string;
+  user: UserModel | null;
+  onChange: (user: UserModel | null) => void;
+};
+export default function UserSelect({ name, label, user: initialUser, onChange }: Props) {
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
-  const [user, setUser] = useState<UserModel | null>(null);
+  const [user, setUser] = useState<UserModel | null>(initialUser);
   const [users, setUsers] = useState<readonly UserModel[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    let active = true;
     setIsLoading(true);
+    let isActive = true;
 
-    if (inputValue === '') {
-      setUsers(user ? [user] : []);
-      setIsLoading(false);
-      return undefined;
-    }
-
-    (async () => {
-      await sleep(500);
-      const { users } = await client.api.user.search.$post({ body: { text: inputValue, limit: 10 } });
-
-      if (active) {
-        setUsers(users);
+    setTimeout(async () => {
+      if (!isActive) {
+        return;
       }
-      setIsLoading(false);
-    })();
+
+      if (inputValue === '') {
+        setUsers(user ? [user] : []);
+        setIsLoading(false);
+      } else {
+        const { users } = await client.api.user.search.$post({ body: { text: inputValue, limit: 10 } });
+        setUsers(users);
+        setIsLoading(false);
+      }
+    }, 1000);
 
     return () => {
-      active = false;
-      setIsLoading(false);
+      isActive = false;
     };
   }, [inputValue]);
 
@@ -60,10 +63,12 @@ export default function UserSelect() {
       onChange={(event: any, newValue: UserModel | null) => {
         setUsers(newValue ? [newValue, ...users] : users);
         setUser(newValue);
+        onChange(newValue);
       }}
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
       }}
+      value={user}
       filterOptions={x => x}
       isOptionEqualToValue={(option, value) => option.name === value.name}
       getOptionLabel={option => option.name!}
@@ -72,7 +77,8 @@ export default function UserSelect() {
       renderInput={params => (
         <TextField
           {...params}
-          label="RentUser"
+          name={name}
+          label={label}
           InputProps={{
             ...params.InputProps,
             endAdornment: (

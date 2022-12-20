@@ -62,6 +62,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         departmentId: equipment.departmentId,
         locationId: equipment.locationId,
         rentalDate: equipment.rentalDate,
+        rentalUserId: equipment.rentalUserId,
         rentalUserStr: equipment.rentalUserStr,
         returnDate: equipment.returnDate,
         isDeleted: !isNullOrWhiteSpace(equipment.deletedDate as unknown as string),

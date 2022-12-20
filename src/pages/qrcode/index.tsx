@@ -168,7 +168,7 @@ function QrCodes({
   return (
     <div className={styles.chipWrapper}>
       {qrCodes.map((x, i) => (
-        <Chip2 key={`${x[0]}_${i}`} label={x[0]} onDelete={() => handleDelete(x)}></Chip2>
+        <Chip key={`${x[0]}_${i}`} label={x[0]} onDelete={() => handleDelete(x)}></Chip>
       ))}
     </div>
   );
@@ -177,7 +177,7 @@ type ChipProps = {
   label: string;
   onDelete: (event: any) => void;
 };
-function Chip2({ label, onDelete }: ChipProps) {
+function Chip({ label, onDelete }: ChipProps) {
   return (
     <div className={styles.chipRoot}>
       <span className={styles.label}>{label}</span>
