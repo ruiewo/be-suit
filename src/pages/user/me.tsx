@@ -8,7 +8,7 @@ import { Skeleton } from '../../components/skeleton';
 import { useUsersMe } from '../../hooks/useUsers';
 import { Equipment, getEquipmentCode } from '../../models/equipmentModel';
 import { DateEx } from '../../modules/util';
-import styles from '../../styles/home.module.css';
+import styles from '../../styles/layout.module.css';
 
 const CategoryPage: NextPage = () => {
   const { data: session } = useSession({ required: true });

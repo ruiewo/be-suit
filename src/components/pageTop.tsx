@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { page } from '../models/const/path';
-import styles from '../styles/home.module.css';
+import styles from '../styles/layout.module.css';
 
 export function PageTop() {
   const menu = [

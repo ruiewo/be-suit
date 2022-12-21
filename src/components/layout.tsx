@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import { ReactElement } from 'react';
 
-import styles from '../styles/home.module.css';
+import styles from '../styles/layout.module.css';
 import { SideMenu } from './sideMenu';
 import { SideMenu2 } from './sideMenu2';
 

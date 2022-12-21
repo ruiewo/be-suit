@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import { Loading } from '../components/loading';
 import MainMenuCard from '../components/mainMenuCard';
 import { page } from '../models/const/path';
-import styles from '../styles/home.module.css';
+import styles from '../styles/layout.module.css';
 import { NextPageWithLayout } from './_app';
 
 const cards = [
