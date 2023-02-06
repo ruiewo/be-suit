@@ -22,11 +22,13 @@ export function Menu({ isMenuOpen }: Props) {
   ];
 
   const admin = [
+    { title: 'Add Equipment', description: '機器登録', path: page.register, iconName: 'dev' },
+    { title: 'Add Category', description: 'カテゴリー登録', path: page.category, iconName: 'dev' },
     { title: 'Users', description: 'ユーザ管理', path: page.user, iconName: 'users' },
-    { title: 'Master', description: 'マスタ管理', path: page.maintenance, iconName: 'master' },
+    { title: 'Department', description: '部署管理', path: page.maintenanceDepartment, iconName: 'master' },
+    { title: 'Location', description: '場所管理', path: page.maintenanceLocation, iconName: 'master' },
     { title: 'QR Code', description: 'QRコード生成・印刷', path: page.qrCode, iconName: 'dev' },
-    { title: 'Add Equipment', description: '機器を登録', path: page.register, iconName: 'dev' },
-    { title: 'Add Category', description: 'カテゴリーを登録', path: page.category, iconName: 'dev' },
+    { title: 'Company Logo', description: 'ロゴ印刷', path: page.companyLogo, iconName: 'dev' },
   ];
 
   return (

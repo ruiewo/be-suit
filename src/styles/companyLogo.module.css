@@ -1,0 +1,22 @@
+.onePage {
+  width: 210mm;
+  height: 297mm;
+  page-break-after: always;
+  padding: 16.5mm 0mm 16.5mm 13mm;
+  background-color: #ffffff;
+  display: flex;
+  flex-wrap: wrap;
+  page-break-after: avoid;
+}
+
+.companyLogo {
+  position: relative;
+}
+.companyLogo:after {
+  content: url(/images/companyLogo.png);
+  transform: scale(0.07);
+  position: absolute;
+  top: -132px;
+  left: -835px;
+  background: #fff;
+}

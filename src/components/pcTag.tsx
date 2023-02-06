@@ -12,12 +12,11 @@ export default function PcTag({ value, pcName }: Props) {
   return (
     <Box
       sx={{
-        width: '20mm',
-        height: '20mm',
+        width: '38.1mm',
+        height: '21.2mm',
         display: 'inline-flex',
         flexDirection: 'column',
-        border: '1px solid black',
-        padding: '4px 0 0 0',
+        padding: '20px 0 0 0',
       }}
     >
       <NormalTag value={value}></NormalTag>

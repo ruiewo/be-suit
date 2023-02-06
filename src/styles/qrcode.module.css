@@ -2,7 +2,7 @@
   width: 210mm;
   height: 297mm;
   page-break-after: always;
-  padding: 28.5mm 21mm 0 21mm;
+  padding: 10.92mm 0mm 10mm 4.75mm;
   background-color: #ffffff;
 }
 .onePage :last-child {
@@ -22,10 +22,9 @@
   background: #fff;
 }
 .textArea {
-  width: 20mm;
   text-align: center;
   position: absolute;
-  margin-top: 34px;
+  margin-left: 63px;
 }
 .text {
   font-weight: 600;

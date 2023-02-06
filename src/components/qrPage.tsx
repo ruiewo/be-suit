@@ -8,7 +8,7 @@ type Props = {
   qrCodes: QrCodeModel[];
 };
 
-const maxItemCount = 70;
+const maxItemCount = 65;
 
 export const QrPage = ({ qrCodes }: Props) => {
   return (
@@ -23,7 +23,7 @@ export const QrPage = ({ qrCodes }: Props) => {
 export const RectangleSheet = ({ qrCodes }: { qrCodes: QrCodeModel[] }) => (
   <section className={styles.onePage}>
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container rowGap={'4mm'} columnGap={'4mm'}>
+      <Grid container rowGap={'0mm'} columnGap={'2.5mm'}>
         {qrCodes.map(([code, pcName]) => (
           // todo switch if is pc.
           <PcTag key={code} value={code} pcName={pcName!} />
