@@ -13,7 +13,6 @@ const CompanyLogoPage: NextPageWithLayout = () => {
         <meta name="description" content="Company Logo page" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       <main>
         <section className={styles.onePage}>
           <Logo />

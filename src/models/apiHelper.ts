@@ -6,6 +6,7 @@ import { Role } from '@prisma/client';
 
 import { authOptions } from '../pages/api/auth/[...nextauth]';
 import { HttpMethod } from './const/httpMethod';
+import { role } from './const/role';
 
 export type ApiErrorResponse = { statusCode: number; errors: ApiErrorDetail[] };
 export type ApiErrorDetail = { code: string; message: string };
@@ -63,7 +64,7 @@ export async function validate(
     return { isValid: false };
   }
 
-  if (roles.length > 0 && !roles.includes(session.user.role)) {
+  if (session.user.role != role.superAdmin && roles.length > 0 && !roles.includes(session.user.role)) {
     forbidden(res);
     return { isValid: false };
   }

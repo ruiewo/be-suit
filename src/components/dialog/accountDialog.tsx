@@ -19,10 +19,10 @@ export const AccountDialog = () => {
       }}
     >
       <Icon sx={{ width: 110, height: 100, position: 'relative' }}>
-        <Image src="/images/app-logo.svg" alt="logo" layout="fill" objectFit="contain" />
+        <Image src="/images/app-logo.svg" alt="logo" fill style={{ objectFit: 'contain' }} />
       </Icon>
       <Icon sx={{ width: 280, height: 60, position: 'relative' }}>
-        <Image src="/images/app-logo-text-1.png" alt="logo" layout="fill" objectFit="contain" />
+        <Image src="/images/app-logo-text-1.png" alt="logo" fill style={{ objectFit: 'contain' }} />
       </Icon>
       <SignInButton />
       <Copyright sx={{ mt: 5 }} />

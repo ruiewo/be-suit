@@ -7,10 +7,6 @@ namespace NodeJS {
     readonly GITHUB_ID: string;
     readonly GITHUB_SECRET: string;
 
-    readonly COGNITO_CLIENT_ID: string;
-    readonly COGNITO_CLIENT_SECRET: string;
-    readonly COGNITO_ISSUER: string;
-
     readonly NEXT_PUBLIC_DEBUG_MODE: 'true' | 'false';
   }
 }
