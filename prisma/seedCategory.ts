@@ -48,16 +48,18 @@ const categories = [
     subCategories: [
       { code: 'D', label: 'DVD', enable: true },
       { code: 'B', label: 'Blu-Ray', enable: true },
+      { code: 'F', label: 'FD', enable: true },
     ],
     columns: [],
   },
   {
-    code: 'NE',
+    code: 'NW',
     label: 'ネットワーク機器',
     enable: true,
     subCategories: [
       { code: 'R', label: 'ルータ', enable: true },
       { code: 'H', label: 'HUB', enable: true },
+      { code: 'A', label: '無線LAN子機', enable: true }, // adaptor
     ],
     columns: [],
   },
@@ -69,7 +71,7 @@ const categories = [
     columns: [],
   },
   {
-    code: 'DE',
+    code: 'PE', //Peripheral equipment
     label: '周辺機器',
     enable: true,
     subCategories: [

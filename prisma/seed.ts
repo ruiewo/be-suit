@@ -10,7 +10,7 @@ import { seedUsers } from './seedUser';
 
 const prisma = new PrismaClient();
 
-const departments = ['unknown', '管理部', 'ビジネスソリューション部', 'ソリューション営業部', '第1G', '第2G', '開発推進G', '技術推進G', '情シスG'];
+const departments = ['unknown', '開発部直轄', '開発第1', '開発第2', '開発推進', '技術推進', 'BS部', 'SS部', '管理部', '情報システム'];
 
 const locations = ['unknown', '社外', '1番地', '2番地', '3番地', '4番地', '5番地', '6番地', '7番地', '8番地', '9番地', '10番地'];
 
