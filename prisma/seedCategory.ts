@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
+const baseColumns = [{ key: 'oldCategoryCode', type: 'string', label: '旧コード', width: 120 }];
+
 const categories = [
   {
     code: 'PC',
@@ -11,6 +13,7 @@ const categories = [
       { code: 'T', label: 'Tablet', enable: true },
     ],
     columns: [
+      ...baseColumns,
       { key: 'pcName', type: 'string', label: 'PC名', width: 120 },
       { key: 'os', type: 'string', label: 'OS', width: 120 },
       { key: 'cpu', type: 'string', label: 'CPU', width: 120 },
@@ -26,6 +29,7 @@ const categories = [
       { code: 'M', label: 'Mobile', enable: true },
     ],
     columns: [
+      ...baseColumns,
       { key: 'size', type: 'string', label: 'inch', width: 120 },
       { key: 'resolution', type: 'string', label: '解像度', width: 120 },
     ],
@@ -39,7 +43,7 @@ const categories = [
       { code: 'P', label: 'portable hdd/ssd', enable: true },
       { code: 'U', label: 'USB memory', enable: true },
     ],
-    columns: [],
+    columns: baseColumns,
   },
   {
     code: 'DR',
@@ -50,7 +54,7 @@ const categories = [
       { code: 'B', label: 'Blu-Ray', enable: true },
       { code: 'F', label: 'FD', enable: true },
     ],
-    columns: [],
+    columns: baseColumns,
   },
   {
     code: 'NW',
@@ -61,14 +65,14 @@ const categories = [
       { code: 'H', label: 'HUB', enable: true },
       { code: 'A', label: '無線LAN子機', enable: true }, // adaptor
     ],
-    columns: [],
+    columns: baseColumns,
   },
   {
     code: 'PR',
     label: 'プリンタ',
     enable: true,
     subCategories: [{ code: 'A', label: 'すべて', enable: true }],
-    columns: [],
+    columns: baseColumns,
   },
   {
     code: 'PE', //Peripheral equipment
@@ -82,7 +86,7 @@ const categories = [
       { code: 'T', label: 'USB-LANコネクタ', enable: true },
       { code: 'O', label: 'ups/終端装置 他', enable: true },
     ],
-    columns: [],
+    columns: baseColumns,
   },
   {
     code: 'OF', // office furniture
@@ -98,7 +102,7 @@ const categories = [
       { code: 'F', label: '家具', enable: true },
       { code: 'E', label: '家電', enable: true },
     ],
-    columns: [],
+    columns: baseColumns,
   },
   {
     code: 'OA',
@@ -108,7 +112,7 @@ const categories = [
       { code: 'O', label: '事務用品', enable: true },
       { code: 'E', label: '電化製品', enable: true },
     ],
-    columns: [],
+    columns: baseColumns,
   },
 ];
 
