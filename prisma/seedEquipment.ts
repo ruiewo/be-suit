@@ -13,13 +13,41 @@ export async function seedEquipments(
   locations: Location[],
   users: User[]
 ) {
-  let equipments;
   try {
+  let equipments;
+
     if (fileName.startsWith('pc_')) {
       equipments = await readCsv(path, convertToPc, departments, locations);
     } else {
       equipments = await readCsv(path, convertToNormalEquipment, departments, locations);
     }
+
+    equipments.forEach(x => {
+      if (!isNullOrWhiteSpace(x.rentalUserStr)) {
+        const user = users.find(u => u.name === x.rentalUserStr);
+        x.rentalUserId = user?.id ?? null;
+      }
+    });
+
+    await prisma.equipment.createMany({ data: equipments });
+  } catch (error) {
+    console.error(`seed EQUIPMENT failed. path = [${path}]`);
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function seedEquipmentsNew(
+  prisma: PrismaClient,
+  path: string,
+  fileName: string,
+  departments: Department[],
+  locations: Location[],
+  users: User[]
+) {
+  let equipments;
+  try {
+    equipments = await readCsv(path, convertToPcNew, departments, locations);
 
     equipments.forEach(x => {
       if (!isNullOrWhiteSpace(x.rentalUserStr)) {
@@ -89,9 +117,9 @@ function convertToPc(row: any, departments: Department[], locations: Location[])
     maker: row[2] as string,
     modelNumber: row[3] as string,
     // maker: row[4], // type
-    departmentId: departments.find(x => x.label === department)?.id || null,
+    departmentId: departments.find(x => x.label === department)?.id || departments.find(x => x.label === 'unknown')?.id || null,
     rentalUserStr: (row[6] ? row[6].toString().replace('　', ' ') : '') as string,
-    locationId: locations.find(x => x.label === location)?.id || null,
+    locationId: locations.find(x => x.label === location)?.id || locations.find(x => x.label === 'unknown')?.id || null,
     // maker: row[8],  // 社外
     registrationDate: toDate(row[9]),
     inventoryDate: toDate(row[10]),
@@ -141,20 +169,21 @@ function convertToNormalEquipment(row: any, departments: Department[], locations
 }
 
 function convertToPcNew(row: any, departments: Department[], locations: Location[]): Prisma.EquipmentCreateManyInput {
+  const type = (row[0] ?? '') as string;
   const category = row[1];
   const subCategory = row[2];
   const oldCategoryCode = row[3] as string;
   // const _____ = row[4];
-  const pcName = row[5] as string; // todo
+  const pcName = (row[5] ?? undefined) as string; // todo
   const maker = row[6] as string;
   const modelNumber = row[7] as string;
   const department = row[8];
-  const rentalUserStr = (row[9] ? row[9].toString().replace('　', ' ') : '') as string;
+  const rentalUserStr = (row[9] ? row[9].toString().replace('　', ' ') : 'unknown') as string;
   const location = row[10];
   const registrationDate = toDate(row[11]);
   const inventoryDate = toDate(row[12]);
   const deletedDate = toDate(row[13]);
-  const note = row[14] as string;
+  const note = (row[14] ?? '') as string;
 
   const equipment = {
     category,
@@ -163,14 +192,14 @@ function convertToPcNew(row: any, departments: Department[], locations: Location
     // categorySerial: parseInt(categorySerial),
     maker,
     modelNumber,
-    departmentId: departments.find(x => x.label === department)?.id || null,
+    departmentId: departments.find(x => x.label === department)?.id || departments.find(x => x.label === 'unknown')?.id || null,
     rentalUserStr,
-    locationId: locations.find(x => x.label === location)?.id || null,
+    locationId: locations.find(x => x.label === location)?.id || locations.find(x => x.label === 'unknown')?.id || null,
     registrationDate,
     inventoryDate,
     isDeleted: deletedDate != null,
     deletedDate,
-    note,
+    note: (type + ' ' + note).trim(),
     details: {
       oldCategoryCode,
       pcName,
