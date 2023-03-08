@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client';
 
 const baseColumns = [{ key: 'oldCategoryCode', type: 'string', label: '旧コード', width: 120 }];
 
-const categories = [
+export const categories = [
   {
     code: 'PC',
     label: 'パソコン',

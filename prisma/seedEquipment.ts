@@ -1,9 +1,11 @@
 import { parse } from 'csv-parse';
 import * as fs from 'fs';
 
+import { faker } from '@faker-js/faker';
 import { Department, Location, Prisma, PrismaClient, User } from '@prisma/client';
 
 import { isNullOrWhiteSpace } from '../src/modules/util';
+import { categories } from './seedCategory';
 
 export async function seedEquipments(
   prisma: PrismaClient,
@@ -14,7 +16,7 @@ export async function seedEquipments(
   users: User[]
 ) {
   try {
-  let equipments;
+    let equipments;
 
     if (fileName.startsWith('pc_')) {
       equipments = await readCsv(path, convertToPc, departments, locations);
@@ -59,6 +61,42 @@ export async function seedEquipmentsNew(
     await prisma.equipment.createMany({ data: equipments });
   } catch (error) {
     console.error(`seed EQUIPMENT failed. path = [${path}]`);
+    console.error(error);
+    throw error;
+  }
+}
+
+export async function seedFakeEquipments(
+  prisma: PrismaClient,
+  path: string,
+  fileName: string,
+  departments: Department[],
+  locations: Location[],
+  users: User[]
+) {
+  try {
+    const map = new Map<string, any[]>();
+    const equipments: Prisma.EquipmentCreateManyInput[] = [];
+
+    for (let i = 0; i < 100; i++) {
+      const equipment = getEquipment(departments, locations, users);
+      equipments.push(equipment);
+      if (map.has(equipment.category)) {
+        map.get(equipment.category)!.push(equipment);
+      } else {
+        map.set(equipment.category, [equipment]);
+      }
+    }
+
+    for (const categoryEquipments of map.values()) {
+      for (let i = 0; i < categoryEquipments.length; i++) {
+        categoryEquipments[i].categorySerial = i + 1;
+      }
+    }
+
+    await prisma.equipment.createMany({ data: equipments });
+  } catch (error) {
+    console.error(`seed EQUIPMENT FAKE failed. path = [${path}]`);
     console.error(error);
     throw error;
   }
@@ -203,6 +241,38 @@ function convertToPcNew(row: any, departments: Department[], locations: Location
     details: {
       oldCategoryCode,
       pcName,
+    },
+  };
+
+  return equipment;
+}
+
+function random(arr: Array<any>) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function getEquipment(departments: Department[], locations: Location[], users: User[]): Prisma.EquipmentCreateManyInput {
+  const category = random(categories);
+  const subCategory = random(category.subCategories);
+  const user = random(users).name;
+
+  const equipment = {
+    category: category.code,
+    subCategory: subCategory.code,
+    categorySerial: 0,
+    maker: faker.company.name(),
+    modelNumber: faker.phone.imei(),
+    departmentId: random(departments).id,
+    rentalUserStr: user.name,
+    rentalUserId: user.id,
+    locationId: random(locations).id,
+    registrationDate: faker.date.between('2010-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
+    inventoryDate: faker.date.between('2010-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
+    isDeleted: false,
+    deletedDate: null,
+    note: faker.music.genre(),
+    details: {
+      pcName: faker.internet.userName(),
     },
   };
 
