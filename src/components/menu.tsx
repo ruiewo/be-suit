@@ -19,6 +19,7 @@ export function Menu({ isMenuOpen }: Props) {
   const menu = [
     { title: 'My Page', description: '借りている機器の一覧を表示', path: page.myPage, iconName: 'user' },
     { title: '貸出', description: 'not implemented yet.', path: '', iconName: 'rental' },
+    { title: 'Department Page', description: '部門ごとの一覧を表示', path: page.department, iconName: 'master' },
   ];
 
   const admin = [
@@ -28,7 +29,7 @@ export function Menu({ isMenuOpen }: Props) {
     { title: 'Department', description: '部署管理', path: page.maintenanceDepartment, iconName: 'master' },
     { title: 'Location', description: '場所管理', path: page.maintenanceLocation, iconName: 'master' },
     { title: 'QR Code', description: 'QRコード生成・印刷', path: page.qrCode, iconName: 'dev' },
-    { title: 'Company Logo', description: 'ロゴ印刷', path: page.companyLogo, iconName: 'dev' },
+    { title: 'Company Logo', description: '会社ロゴ印刷', path: page.companyLogo, iconName: 'dev' },
   ];
 
   return (

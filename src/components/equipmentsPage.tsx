@@ -64,7 +64,7 @@ export const EquipmentPage = ({ categoryCodes: initialCategories, departmentId: 
     }
 
     load();
-  }, [categoryCodes, departmentId]);
+  }, [categoryCodes, departmentId, showErrorDialog]);
 
   const reload = () => setCategoryCodes({ ...categoryCodes });
 

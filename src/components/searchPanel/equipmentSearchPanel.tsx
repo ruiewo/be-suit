@@ -1,3 +1,4 @@
+import ExcelJS from 'exceljs';
 import { ChangeEventHandler, Dispatch, SetStateAction } from 'react';
 import { MouseEvent } from 'react';
 
@@ -9,12 +10,17 @@ import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
 import { useCategories } from '../../hooks/useCategories';
+import { client } from '../../models/apiClient';
 import { Category, CategoryBase } from '../../models/category';
 import { DepartmentModel } from '../../models/departmentModel';
-import { isNullOrWhiteSpace } from '../../modules/util';
+import { ColumnDefinition, Details, convertToDisplay } from '../../models/equipmentModel';
+import { style } from '../../modules/excel';
+import { DateEx, isNullOrWhiteSpace } from '../../modules/util';
 import { CategoryCodes } from '../../pages/api/equipment/advancedSearch';
 import styles from '../../styles/multiSelectButton.module.css';
+import { ExportButton } from '../button/exportButton';
 import { Loading } from '../loading';
+import { TableDataObj } from '../table/baseTable';
 
 type Props = {
   filterText: string;
@@ -61,6 +67,145 @@ export const EquipmentSearchPanel = ({
     setDepartmentId(id);
   };
 
+  const baseColumns: ColumnDefinition<Details>[] = [
+    { key: 'rentalButtonState', type: 'string', label: '貸出状態', style: 'center', width: 80 },
+    { key: 'code', type: 'string', label: '管理番号', style: 'center', width: 110 },
+    { key: 'department', type: 'string', label: '管理者', style: 'upLeft', width: 100 },
+    { key: 'rentalUserStr', type: 'string', label: '使用者', style: 'bottomRight', width: 100 },
+    { key: 'location', type: 'string', label: '場所', style: 'center', width: 180 },
+    { key: 'maker', type: 'string', label: 'メーカー', style: 'upLeft', width: 100 },
+    { key: 'modelNumber', type: 'string', label: '型番', style: 'bottomRight', width: 130 },
+    { key: 'registrationDate', type: 'date', label: '登録日', style: 'center', width: 120 },
+    { key: 'note', type: 'string', label: '備考', width: 400 },
+  ];
+
+  const handlerClickDownExportButton = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+
+    if (allCategories == null) return;
+
+    const workbook = new ExcelJS.Workbook();
+
+    const targetCategories = departmentId == null ? allCategories.filter(x => x.code === categoryCodes.main) : allCategories;
+
+    for (const category of targetCategories) {
+      const subCategories = allCategories.find(x => x.code === category.code)?.subCategories ?? [];
+      const subCategoryCodes = subCategories.map(x => x.code);
+
+      const { equipments, columns } = await client.api.equipment.advancedSearch.$post({
+        body: { categoryCodes: { main: category.code, sub: subCategoryCodes }, departmentId },
+      });
+
+      if (equipments.length === 0) {
+        continue;
+      }
+
+      const tableData = equipments.map(equipment => {
+        const converted: TableDataObj = {};
+        converted['id'] = equipment.id;
+
+        for (const col of baseColumns) {
+          if (col.key === 'rentalButtonState') {
+            let stateLabel = '';
+            switch (equipment[col.key]?.toString()) {
+              case 'canRent':
+                stateLabel = '貸出可能';
+                break;
+              case 'lending':
+                stateLabel = '貸出中';
+                break;
+              case 'canReturn':
+                stateLabel = '返却可能';
+                break;
+              case 'deleted':
+                stateLabel = '廃棄';
+                break;
+              default:
+                break;
+            }
+
+            converted[col.key] = stateLabel;
+          } else {
+            converted[col.key] = convertToDisplay(equipment, col.key, col.type);
+          }
+        }
+
+        for (const col of columns) {
+          converted[col.key] = convertToDisplay(equipment.details, col.key, col.type);
+        }
+
+        return converted;
+      });
+
+      const allColumns = [...baseColumns, ...columns];
+      if (category.code === 'PC') {
+        const pcNameIndex = allColumns.findIndex(x => x.key === 'pcName');
+        const pcNameColumn = allColumns.splice(pcNameIndex, 1)[0];
+
+        const codeIndex = allColumns.findIndex(x => x.key === 'code');
+        allColumns.splice(codeIndex + 1, 0, pcNameColumn);
+      }
+
+      const worksheetColumns = allColumns.map(x => {
+        let width = 15;
+        switch (x.key) {
+          case 'rentalUserStr':
+            width = 20;
+            break;
+          case 'modelNumber':
+          case 'department':
+            width = 25;
+            break;
+          case 'note':
+            width = 30;
+            break;
+          default:
+        }
+        return { header: x.label, key: x.key, width: width };
+      });
+
+      workbook.addWorksheet(category.label);
+      const worksheet = workbook.getWorksheet(category.label);
+      worksheet.columns = worksheetColumns;
+      worksheet.addRows(tableData);
+      worksheet.autoFilter = {
+        from: {
+          row: 1,
+          column: 1,
+        },
+        to: {
+          row: 1,
+          column: allColumns.length,
+        },
+      };
+
+      worksheet.eachRow((row, rowNumber) => {
+        row.eachCell(cell => {
+          if (rowNumber === 1) {
+            cell.fill = style.fill.header;
+            cell.font = style.font.header;
+          } else {
+            cell.fill = rowNumber % 2 === 0 ? style.fill.even : style.fill.odd;
+          }
+          cell.border = style.border;
+          cell.alignment = { wrapText: true, horizontal: 'left', vertical: 'middle' };
+        });
+
+        row.commit();
+      });
+    }
+
+    // department.label or Main CategoryCode
+    // If departmentId is null, CategoryCode will be used.
+    const subTitle = departments.find(x => x.id === departmentId)?.label ?? categoryCodes.main;
+
+    const yyyymmdd = new DateEx().toDateString().replace('-', '');
+    const fileName = `機器一覧_${subTitle}_${yyyymmdd}.xlsx`;
+
+    const uint8Array = await workbook.xlsx.writeBuffer();
+    download(fileName, new Blob([uint8Array], { type: 'application/octet-binary' }));
+  };
+
   return (
     <div className={styles.selectPanel}>
       {departmentId == null ? (
@@ -71,6 +216,7 @@ export const EquipmentSearchPanel = ({
       <MainCategorySelect categories={allCategories} value={categoryCodes.main} onChange={onMainCategoryChange}></MainCategorySelect>
       <SubCategoryButtons categoryCodes={categoryCodes} subCategories={subCategories} setCategoryCodes={setCategoryCodes} />
       <TextField margin="normal" label="絞り込み" value={filterText} onChange={filter} />
+      <ExportButton onClick={handlerClickDownExportButton} />
     </div>
   );
 };
@@ -159,3 +305,12 @@ const SubCategoryButtons = ({ categoryCodes, subCategories, setCategoryCodes }: 
     </div>
   );
 };
+
+function download(fileName: string, blob: Blob) {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  a.remove();
+}
