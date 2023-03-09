@@ -247,14 +247,14 @@ function convertToPcNew(row: any, departments: Department[], locations: Location
   return equipment;
 }
 
-function random(arr: Array<any>) {
+function random<T>(arr: Array<T>): T {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
 function getEquipment(departments: Department[], locations: Location[], users: User[]): Prisma.EquipmentCreateManyInput {
   const category = random(categories);
   const subCategory = random(category.subCategories);
-  const user = random(users).name;
+  const user = random(users);
 
   const equipment = {
     category: category.code,
