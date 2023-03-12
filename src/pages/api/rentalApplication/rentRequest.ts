@@ -52,12 +52,19 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     const newRentalState = rentalState.lending;
 
     await prisma.$transaction(async tx => {
-      await tx.rentalApplication.create({
-        data: {
-          state: newRentalState,
+      await tx.rentalApplication.upsert({
+        where: { equipmentId: equipmentId },
+        update: {
+          // equipmentId,
+          departmentId,
           userId,
+          state: newRentalState,
+        },
+        create: {
           equipmentId,
           departmentId,
+          userId,
+          state: newRentalState,
         },
       });
 

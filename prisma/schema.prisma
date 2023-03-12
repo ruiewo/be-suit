@@ -97,7 +97,7 @@ model Location {
 model RentalApplication {
   id           Int         @id @default(autoincrement())
   equipment    Equipment   @relation(fields: [equipmentId], references: [id])
-  equipmentId  Int
+  equipmentId  Int         @unique()
   department   Department  @relation(fields: [departmentId], references: [id])
   departmentId Int
   user         User        @relation(fields: [userId], references: [id])
