@@ -2,7 +2,7 @@ import { parse } from 'csv-parse';
 import * as fs from 'fs';
 
 import { faker } from '@faker-js/faker';
-import { Department, Location, Prisma, PrismaClient, User } from '@prisma/client';
+import { Department, Location, Prisma, PrismaClient, RentalApplication, RentalState, User } from '@prisma/client';
 
 import { isNullOrWhiteSpace } from '../src/modules/util';
 import { categories } from './seedCategory';
@@ -24,10 +24,19 @@ export async function seedEquipments(
       equipments = await readCsv(path, convertToNormalEquipment, departments, locations);
     }
 
+    const rentalApplications: RentalApplication[] = [];
+
     equipments.forEach(x => {
       if (!isNullOrWhiteSpace(x.rentalUserStr)) {
-        const user = users.find(u => u.name === x.rentalUserStr);
+        let user = users.find(u => u.name === x.rentalUserStr);
         x.rentalUserId = user?.id ?? null;
+        if (user == null) {
+          x.rentalUserStr = 'unknown';
+          // todo Noteにユーザ名を転記
+          user = users.find(u => u.name === 'unknown')!;
+        }
+
+        x.rentalUserId = user.id;
       }
     });
 
@@ -53,8 +62,14 @@ export async function seedEquipmentsNew(
 
     equipments.forEach(x => {
       if (!isNullOrWhiteSpace(x.rentalUserStr)) {
-        const user = users.find(u => u.name === x.rentalUserStr);
-        x.rentalUserId = user?.id ?? null;
+        let user = users.find(u => u.name === x.rentalUserStr);
+        if (user == null) {
+          x.rentalUserStr = 'unknown';
+          // todo Noteにユーザ名を転記
+          user = users.find(u => u.name === 'unknown')!;
+        }
+
+        x.rentalUserId = user.id;
       }
     });
 
@@ -94,7 +109,36 @@ export async function seedFakeEquipments(
       }
     }
 
+    equipments.forEach(x => {
+      if (isNullOrWhiteSpace(x.rentalUserStr)) {
+        return;
+      }
+
+      let user = users.find(u => u.name === x.rentalUserStr);
+      if (user == null) {
+        x.rentalUserStr = 'unknown';
+        // todo Noteにユーザ名を転記
+        user = users.find(u => u.name === 'unknown')!;
+      }
+
+      x.rentalUserId = user.id;
+    });
+
     await prisma.equipment.createMany({ data: equipments });
+
+    const lendingEquipments = await prisma.equipment.findMany({ where: { NOT: { rentalUserId: null } } });
+    const rentalApplications: Prisma.RentalApplicationCreateManyInput[] = [];
+
+    lendingEquipments.forEach(x => {
+      rentalApplications.push({
+        equipmentId: x.id,
+        departmentId: x.departmentId!,
+        userId: x.rentalUserId!,
+        state: RentalState.lending,
+      });
+    });
+
+    await prisma.rentalApplication.createMany({ data: rentalApplications });
   } catch (error) {
     console.error(`seed EQUIPMENT FAKE failed. path = [${path}]`);
     console.error(error);
