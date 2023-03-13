@@ -6,7 +6,7 @@ import { http } from '../../../models/const/httpMethod';
 import { rentalState } from '../../../models/const/rentalState';
 import { role } from '../../../models/const/role';
 import { prisma } from '../../../modules/db';
-import { isNullOrWhiteSpace } from '../../../modules/util';
+import { DateEx, isNullOrWhiteSpace } from '../../../modules/util';
 
 type ReqData = {
   equipmentId: number;
@@ -51,20 +51,23 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     const newRentalState = rentalState.completed;
 
     await prisma.$transaction(async tx => {
-      const rentApp = await tx.rentalApplication.findFirst({
-        where: { equipmentId, state: rentalState.lending, userId },
+      const equipment = await tx.equipment.findFirst({
+        where: { id: equipmentId },
       });
 
-      if (rentApp == null) {
-        throw new Error('rental application record not found.');
+      if (equipment == null) {
+        throw new Error('invalid equipment id.');
       }
 
-      await prisma.rentalApplication.update({
-        where: {
-          id: rentApp.id,
-        },
+      const today = new DateEx().toDate() as Date;
+
+      await prisma.rentalHistory.create({
         data: {
-          state: newRentalState,
+          equipmentId: equipment.id,
+          departmentId: equipment.departmentId!,
+          userId: equipment.rentalUserId!,
+          rentalDate: equipment.rentalDate!,
+          returnDate: today,
         },
       });
 
@@ -73,12 +76,11 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
           id: equipmentId,
         },
         data: {
-          departmentId: null,
           rentalState: newRentalState,
-          // rentalDate: new Date(), // 最後に借りられた日付は消さない。
+          departmentId: null,
           rentalUserId: null,
-          rentalUserStr: null,
-          returnDate: new Date(),
+          // rentalDate: new Date(), // 最後に借りられた日付は消さない。
+          returnDate: today,
         },
       });
     });

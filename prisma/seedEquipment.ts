@@ -219,7 +219,7 @@ function getEquipment(departments: Department[], locations: Location[], users: U
     rentalState: RentalState.lending,
     departmentId: random(departments).id,
     rentalUserId: user.id,
-    rentalDate: null,
+    rentalDate: user.id == null ? null : new Date('2023-03-31'),
     returnDate: null,
     registrationDate: faker.date.between('2010-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
     inventoryDate: faker.date.between('2010-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),

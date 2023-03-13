@@ -18,7 +18,7 @@ model User {
   sessions      Session[]
   departments   Department[]
   equipments    Equipment[]
-  RentalHisotry RentalHisotry[]
+  RentalHisotry RentalHistory[]
 }
 
 enum Role {
@@ -65,7 +65,7 @@ model Equipment {
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt // 更新日
 
-  RentalHisotry RentalHisotry[]
+  RentalHisotry RentalHistory[]
 }
 
 model Category {
@@ -83,7 +83,7 @@ model Department {
   leaderId      String?
   leader        User?           @relation(fields: [leaderId], references: [id])
   equipments    Equipment[]
-  RentalHisotry RentalHisotry[]
+  RentalHisotry RentalHistory[]
 }
 
 model Location {
@@ -93,7 +93,7 @@ model Location {
   equipments Equipment[]
 }
 
-model RentalHisotry {
+model RentalHistory {
   id           Int        @id @default(autoincrement())
   equipment    Equipment  @relation(fields: [equipmentId], references: [id])
   equipmentId  Int

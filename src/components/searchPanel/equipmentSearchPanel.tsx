@@ -13,7 +13,7 @@ import { useCategories } from '../../hooks/useCategories';
 import { client } from '../../models/apiClient';
 import { Category, CategoryBase } from '../../models/category';
 import { DepartmentModel } from '../../models/departmentModel';
-import { ColumnDefinition, Details, convertToDisplay } from '../../models/equipmentModel';
+import { ColumnDefinition, EquipmentModel, convertToDisplay } from '../../models/equipmentModel';
 import { style } from '../../modules/excel';
 import { DateEx, isNullOrWhiteSpace } from '../../modules/util';
 import { CategoryCodes } from '../../pages/api/equipment/advancedSearch';
@@ -67,7 +67,7 @@ export const EquipmentSearchPanel = ({
     setDepartmentId(id);
   };
 
-  const baseColumns: ColumnDefinition<Details>[] = [
+  const baseColumns: ColumnDefinition<EquipmentModel>[] = [
     { key: 'rentalButtonState', type: 'string', label: '貸出状態', style: 'center', width: 80 },
     { key: 'code', type: 'string', label: '管理番号', style: 'center', width: 110 },
     { key: 'department', type: 'string', label: '管理者', style: 'upLeft', width: 100 },

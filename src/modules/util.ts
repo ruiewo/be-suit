@@ -76,6 +76,11 @@ export class DateEx extends Date {
     dateTimeString += sign + offsetHH + ':' + offsetMM;
     return dateTimeString;
   }
+
+  toDate() {
+    this.setHours(0, 0, 0, 0);
+    return this;
+  }
 }
 
 export const convertToMessage = (error: ApiErrorResponse) => error.errors.reduce((prev, current) => prev + '\n' + current.message, '');

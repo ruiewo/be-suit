@@ -46,7 +46,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     return;
   }
 
-  const [equipments, category, user] = await Promise.all([
+  const [equipments, category] = await Promise.all([
     prisma.equipment.findMany({
       where: {
         OR: sub.map(x => ({ category: main.toUpperCase(), subCategory: x.toUpperCase() })),
@@ -66,31 +66,31 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
         modelNumber: true,
         details: true,
         note: true,
-        rentalState: true,
-        rentalDate: true,
-        rentalUserStr: true,
-        registrationDate: true,
-        isDeleted: true,
-        department: {
-          select: {
-            label: true,
-          },
-        },
         location: {
           select: {
             label: true,
           },
         },
+        department: {
+          select: {
+            label: true,
+          },
+        },
+        rentalState: true,
+        rentalUserId: true,
+        rentalUser: {
+          select: {
+            name: true,
+          },
+        },
+        rentalDate: true,
+        registrationDate: true,
+        isDeleted: true,
       },
     }),
     prisma.category.findFirst({
       where: {
         code: main.toUpperCase(),
-      },
-    }),
-    prisma.user.findFirst({
-      where: {
-        email: session?.user.email,
       },
     }),
   ]);
@@ -103,17 +103,17 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       modelNumber: x.modelNumber,
       details: x.details as Details,
       note: x.note,
+      location: x.location?.label ?? '',
       // prettier-ignore
       rentalButtonState: x.isDeleted ? rentalButtonState.deleted
-        : isNullOrWhiteSpace(x.rentalUserStr) ? rentalButtonState.canRent
-        : x.rentalUserStr === user?.name ? rentalButtonState.canReturn
-        : rentalButtonState.lending,
+      : x.rentalUserId == null ? rentalButtonState.canRent
+      : x.rentalUserId === session?.user.id ? rentalButtonState.canReturn
+      : rentalButtonState.lending,
+      department: x.department?.label ?? '',
       rentalDate: x.rentalDate,
-      rentalUserStr: x.rentalUserStr,
+      rentalUserStr: x.rentalUser?.name || null,
       registrationDate: x.registrationDate,
       isDeleted: x.isDeleted,
-      department: x.department?.label ?? '',
-      location: x.location?.label ?? '',
     };
   });
 

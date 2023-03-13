@@ -51,36 +51,17 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     // todo change to rentalState.rentRequested
     const newRentalState = rentalState.lending;
 
-    await prisma.$transaction(async tx => {
-      await tx.rentalApplication.upsert({
-        where: { equipmentId: equipmentId },
-        update: {
-          // equipmentId,
-          departmentId,
-          userId,
-          state: newRentalState,
-        },
-        create: {
-          equipmentId,
-          departmentId,
-          userId,
-          state: newRentalState,
-        },
-      });
-
-      await prisma.equipment.update({
-        where: {
-          id: equipmentId,
-        },
-        data: {
-          departmentId,
-          rentalState: newRentalState,
-          rentalDate: new Date(),
-          rentalUserId: userId,
-          rentalUserStr: userName,
-          returnDate: null,
-        },
-      });
+    await prisma.equipment.update({
+      where: {
+        id: equipmentId,
+      },
+      data: {
+        rentalState: newRentalState,
+        departmentId,
+        rentalUserId: userId,
+        rentalDate: new Date(),
+        returnDate: null,
+      },
     });
 
     res.status(200).json({ succeed: true });

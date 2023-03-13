@@ -39,36 +39,30 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
   }
 
   const equipment = req.body.equipment;
-  const { id, ...updateEq } = req.body.equipment;
-
   console.log(equipment);
 
   try {
     const updatedEq = await prisma.equipment.update({
       where: {
-        id: id,
-      },
-      // data: { ...updateEq },
-      data: {
         id: equipment.id,
-        category: equipment.category,
-        subCategory: equipment.subCategory,
-        categorySerial: equipment.categorySerial,
+      },
+      data: {
+        // category: equipment.category,
+        // subCategory: equipment.subCategory,
+        // categorySerial: equipment.categorySerial,
         maker: equipment.maker,
         modelNumber: equipment.modelNumber,
-        // details: Prisma.JsonNull,
         details: equipment.details as Prisma.InputJsonValue,
         note: equipment.note,
-        departmentId: equipment.departmentId,
         locationId: equipment.locationId,
-        rentalDate: equipment.rentalDate,
+        departmentId: equipment.departmentId,
         rentalUserId: equipment.rentalUserId,
-        rentalUserStr: equipment.rentalUserStr,
+        rentalDate: equipment.rentalDate,
         returnDate: equipment.returnDate,
-        isDeleted: !isNullOrWhiteSpace(equipment.deletedDate as unknown as string),
-        deletedDate: equipment.deletedDate,
         registrationDate: equipment.registrationDate,
         inventoryDate: equipment.inventoryDate,
+        deletedDate: equipment.deletedDate,
+        isDeleted: !isNullOrWhiteSpace(equipment.deletedDate as unknown as string),
         createdAt: equipment.createdAt,
         updatedAt: equipment.updatedAt,
       },

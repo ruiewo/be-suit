@@ -29,7 +29,6 @@ const baseColumn: ColumnDefinition<Equipment>[] = [
   { key: 'maker', type: 'string', label: 'メーカー', width: 120 },
   { key: 'modelNumber', type: 'string', label: '型番', width: 120 },
   { key: 'departmentId', type: 'number', label: '管理者', width: 120 },
-  { key: 'rentalUserStr', type: 'string', label: '使用者', width: 120 },
   { key: 'locationId', type: 'number', label: '使用・保管場所', width: 180 },
   { key: 'rentalDate', type: 'date', label: '貸出日', width: 120 },
   { key: 'returnDate', type: 'date', label: '返却日', width: 120 },
@@ -95,7 +94,6 @@ export function EquipmentEditDialog({ onClose, id }: Props) {
 
     //rentalUserだけcontrol componentのため、イレギュラー
     equipmentData.rentalUserId = equipment.rentalUser?.id ?? null;
-    equipmentData.rentalUserStr = equipment.rentalUser?.name ?? null;
 
     // todo error handling
     await client.api.equipment.update.$post({ body: { equipment: equipmentData } });
@@ -122,9 +120,10 @@ export function EquipmentEditDialog({ onClose, id }: Props) {
             利用状況
           </Typography>
           <Box sx={{ textAlign: 'center' }}>
-            <UncontrolledCommonSelect sx={style} name="departmentId" label="管理者" value={equipment.departmentId ?? ''} items={departmentItems} />
-            <TextInput name="rentalUserStr" label="使用者" data={equipment} />
             <UncontrolledCommonSelect sx={style} name="locationId" label="使用・保管場所" value={equipment.locationId ?? ''} items={locationItems} />
+            <UncontrolledCommonSelect sx={style} name="departmentId" label="管理者" value={equipment.departmentId ?? ''} items={departmentItems} />
+            {/* rentalUserだけcontrol componentのため、イレギュラー */}
+            <UserSelect name="rentalUser" label="使用者" user={equipment.rentalUser} onChange={user => (equipment.rentalUser = user)}></UserSelect>
             <DateInput name="rentalDate" label="貸出日" data={equipment} />
             <DateInput name="returnDate" label="返却日" data={equipment} />
           </Box>
@@ -134,12 +133,9 @@ export function EquipmentEditDialog({ onClose, id }: Props) {
           </Typography>
           <Box sx={{ textAlign: 'center' }}>
             <DateInput name="registrationDate" label="登録日" data={equipment} />
-            <DateInput name="deletedDate" label="削除日" data={equipment} />
             <DateInput name="inventoryDate" label="棚卸日" data={equipment} />
+            <DateInput name="deletedDate" label="削除日" data={equipment} />
             <TextAreaInput name="note" label="備考" data={equipment} />
-
-            {/* rentalUserだけcontrol componentのため、イレギュラー */}
-            <UserSelect name="rentalUser" label="使用者" user={equipment.rentalUser} onChange={user => (equipment.rentalUser = user)}></UserSelect>
           </Box>
 
           <Typography component="h6" variant="h6" sx={{ textAlign: 'center' }}>
