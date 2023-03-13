@@ -5,7 +5,7 @@ import { PrismaClient, Role } from '@prisma/client';
 
 import { role } from '../src/models/const/role';
 import { seedCategory } from './seedCategory';
-import { seedEquipments, seedEquipmentsNew, seedFakeEquipments } from './seedEquipment';
+import { seedEquipments, seedFakeEquipments } from './seedEquipment';
 import { seedUsers } from './seedUser';
 
 const prisma = new PrismaClient();
@@ -73,9 +73,9 @@ async function seedEquipment(useFaker = false) {
           const filePath = path.join(dirPath, dirent.name);
 
           if (dirent.name == 'ITEMS.csv') {
-            await seedEquipmentsNew(prisma, filePath, dirent.name, departments, locations, users);
-          } else {
             await seedEquipments(prisma, filePath, dirent.name, departments, locations, users);
+          } else {
+            // await seedEquipments(prisma, filePath, dirent.name, departments, locations, users);
           }
         }
       });

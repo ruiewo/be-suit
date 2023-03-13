@@ -59,9 +59,9 @@ model Equipment {
 
   // 登録・削除
   registrationDate DateTime? // 登録日 
-  isDeleted        Boolean   @default(false)
-  deletedDate      DateTime? // 削除日
   inventoryDate    DateTime? // 棚卸日（総務が確認した日） 
+  deletedDate      DateTime? // 削除日
+  isDeleted        Boolean   @default(false)
   createdAt        DateTime  @default(now())
   updatedAt        DateTime  @updatedAt // 更新日
 
