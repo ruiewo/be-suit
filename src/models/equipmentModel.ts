@@ -38,7 +38,7 @@ export type EquipmentModel = {
   location: string;
   rentalButtonState: RentalButtonState;
   department: string;
-  rentalUserStr: string | null;
+  rentalUserName: string | null;
   rentalDate: Date | null;
   registrationDate: Date | null;
   isDeleted: boolean;

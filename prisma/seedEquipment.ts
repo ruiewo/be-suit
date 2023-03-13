@@ -137,14 +137,14 @@ function convertToPc(row: any, departments: Department[], locations: Location[],
     departmentId = department.id;
   }
 
-  const rentalUserStr = row[9]?.toString().replace('　', ' ') ?? '';
+  const rentalUserName = row[9]?.toString().replace('　', ' ') ?? '';
   let rentalUserId = null;
   let rentalState: RentalState = RentalState.completed;
   let rentalDate = null;
-  if (!isNullOrWhiteSpace(rentalUserStr)) {
-    let user = users.find(u => u.name === rentalUserStr);
+  if (!isNullOrWhiteSpace(rentalUserName)) {
+    let user = users.find(u => u.name === rentalUserName);
     if (user == null) {
-      note += `[使用者 ${rentalUserStr}]`;
+      note += `[使用者 ${rentalUserName}]`;
       user = users.find(u => u.name === 'unknown')!;
     }
 

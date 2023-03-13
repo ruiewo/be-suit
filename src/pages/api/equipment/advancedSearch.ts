@@ -111,7 +111,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       : rentalButtonState.lending,
       department: x.department?.label ?? '',
       rentalDate: x.rentalDate,
-      rentalUserStr: x.rentalUser?.name || null,
+      rentalUserName: x.rentalUser?.name || null,
       registrationDate: x.registrationDate,
       isDeleted: x.isDeleted,
     };
