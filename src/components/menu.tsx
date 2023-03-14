@@ -14,6 +14,7 @@ export function Menu({ isMenuOpen }: Props) {
     { title: 'Network', description: '', path: `${page.equipment}`, iconName: 'dev' },
     { title: 'Output', description: '', path: `${page.equipment}`, iconName: 'dev' },
     { title: 'Camera', description: '', path: `${page.equipment}`, iconName: 'dev' },
+    { title: '棚卸し', description: '', path: `/inventory`, iconName: 'dev' },
   ];
 
   const menu = [
