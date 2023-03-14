@@ -2,7 +2,7 @@ import jsQR from 'jsqr';
 import { Point } from 'jsqr/dist/locator';
 import { useEffect, useRef, useState } from 'react';
 
-import { Box, Button, Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 import { useErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
@@ -37,8 +37,6 @@ const Page: NextPageWithLayout = () => {
     async function load() {
       setIsLoading(true);
 
-      console.log('triggered ' + codeText);
-
       try {
         const [{ equipment, error }] = await Promise.all([client.api.equipment.code.$post({ body: { code: codeText } }), sleep(1000)]);
 
@@ -46,8 +44,6 @@ const Page: NextPageWithLayout = () => {
           showErrorDialog({ title: 'Load Failed.', description: convertToMessage(error) });
           return;
         }
-
-        console.log(equipment);
 
         setEquipment(equipment);
       } catch (error) {
@@ -105,15 +101,13 @@ const Page: NextPageWithLayout = () => {
       });
 
       if (code && !isReadQR) {
-        // location.href = code.data;
-
         drawLine(code.location.topLeftCorner, code.location.topRightCorner, '#FF3B58');
         drawLine(code.location.topRightCorner, code.location.bottomRightCorner, '#FF3B58');
         drawLine(code.location.bottomRightCorner, code.location.bottomLeftCorner, '#FF3B58');
         drawLine(code.location.bottomLeftCorner, code.location.topLeftCorner, '#FF3B58');
 
         // setCodeText(code.data);
-        setCodeText('PC-N-00003');
+        setCodeText('PC-N-00003'); // todo
         isReadQR = true;
       } else {
         requestAnimationFrame(tick);

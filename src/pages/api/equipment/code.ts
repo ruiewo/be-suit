@@ -35,8 +35,6 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
 
   const categoryCode = req.body.code;
 
-  console.log(categoryCode);
-
   if (isNullOrWhiteSpace(categoryCode)) {
     res.send({ equipment: null });
     return;
