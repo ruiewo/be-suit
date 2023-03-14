@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { ApiErrorResponse, validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { ColumnDefinition, Details, Equipment, EquipmentModel, getEquipmentCode, rentalButtonState } from '../../../models/equipmentModel';
+import { ColumnDefinition, Details, EquipmentModel, equipmentUtil } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
 
@@ -57,36 +57,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
           id: 'asc',
         },
       ],
-      select: {
-        id: true,
-        category: true,
-        subCategory: true,
-        categorySerial: true,
-        maker: true,
-        modelNumber: true,
-        details: true,
-        note: true,
-        location: {
-          select: {
-            label: true,
-          },
-        },
-        department: {
-          select: {
-            label: true,
-          },
-        },
-        rentalState: true,
-        rentalUserId: true,
-        rentalUser: {
-          select: {
-            name: true,
-          },
-        },
-        rentalDate: true,
-        registrationDate: true,
-        isDeleted: true,
-      },
+      select: equipmentUtil.select,
     }),
     prisma.category.findFirst({
       where: {
@@ -95,27 +66,7 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     }),
   ]);
 
-  const equipmentModels = equipments.map(x => {
-    return {
-      id: x.id,
-      code: getEquipmentCode(x as unknown as Equipment),
-      maker: x.maker,
-      modelNumber: x.modelNumber,
-      details: x.details as Details,
-      note: x.note,
-      location: x.location?.label ?? '',
-      // prettier-ignore
-      rentalButtonState: x.isDeleted ? rentalButtonState.deleted
-      : x.rentalUserId == null ? rentalButtonState.canRent
-      : x.rentalUserId === session?.user.id ? rentalButtonState.canReturn
-      : rentalButtonState.lending,
-      department: x.department?.label ?? '',
-      rentalDate: x.rentalDate,
-      rentalUserName: x.rentalUser?.name || null,
-      registrationDate: x.registrationDate,
-      isDeleted: x.isDeleted,
-    };
-  });
+  const equipmentModels = equipments.map(x => equipmentUtil.toModel(x, session?.user.id));
 
   if (category == null) {
     res.send({ equipments: equipmentModels, columns: [] });
