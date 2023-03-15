@@ -1,6 +1,33 @@
+.canvasArea {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  height: 300px;
+  width: 600px;
+}
 .canvas {
-  max-height: 50%;
-  max-width: 100%;
+  width: auto;
+  height: 100%;
+}
+.canvas:hover {
+  /* filter: grayscale(100%) blur(2px); */
+}
+.canvasArea button {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+.cameraButton {
+  width: 100%;
+  height: 100%;
+}
+
+.canvasArea .stopButton {
+  visibility: hidden;
+}
+.canvasArea:hover .stopButton {
+  visibility: visible;
 }
 
 .row {
