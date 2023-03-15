@@ -14,13 +14,13 @@ export function Menu({ isMenuOpen }: Props) {
     { title: 'Network', description: '', path: `${page.equipment}`, iconName: 'dev' },
     { title: 'Output', description: '', path: `${page.equipment}`, iconName: 'dev' },
     { title: 'Camera', description: '', path: `${page.equipment}`, iconName: 'dev' },
-    { title: '棚卸し', description: '', path: `/inventory`, iconName: 'dev' },
   ];
 
   const menu = [
     { title: 'My Page', description: '借りている機器の一覧を表示', path: page.myPage, iconName: 'user' },
     { title: '貸出', description: 'not implemented yet.', path: '', iconName: 'rental' },
     { title: 'Department Page', description: '部門ごとの一覧を表示', path: page.department, iconName: 'master' },
+    { title: '棚卸し', description: '', path: `/inventory`, iconName: 'dev' },
   ];
 
   const admin = [
