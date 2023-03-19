@@ -2,7 +2,7 @@ import jsQR from 'jsqr';
 import { Point } from 'jsqr/dist/locator';
 import { useEffect, useRef, useState } from 'react';
 
-import { Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 
 import { useErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
@@ -111,6 +111,10 @@ const Page: NextPageWithLayout = () => {
     return true;
   }
 
+  function onSubmit() {
+    //
+  }
+
   return (
     <>
       <Typography component="h1" variant="h4" sx={{ textAlign: 'center' }}>
@@ -126,7 +130,7 @@ const Page: NextPageWithLayout = () => {
         {equipment == null ? (
           <>not detected</>
         ) : (
-          <ul>
+          <Box sx={{ textAlign: 'center' }}>
             <div className={styles.row}>{codeText}</div>
             <Row label="管理コード" detail={getEquipmentCode(equipment)} />
             <UncontrolledCommonSelect sx={style} name="locationId" label="使用・保管場所" value={equipment.locationId ?? ''} items={locationItems} />
@@ -137,13 +141,14 @@ const Page: NextPageWithLayout = () => {
             <Row label="PC名" detail={(equipment?.details?.pcName as string) ?? ''} />
             <Row label="管理者" detail={equipment?.department ?? ''} />
             <Row label="使用者" detail={equipment?.rentalUserName ?? ''} />
-            <Row label="使用場所" detail={equipment?.location ?? ''} /> */}
+          <Row label="使用場所" detail={equipment?.location ?? ''} /> */}
 
-            <li>
-              <Button>詳細</Button>
-              <Button>棚卸し</Button>
-            </li>
-          </ul>
+            <Box sx={{ ml: 1, mr: 1, mt: 2, mb: 1, textAlign: 'center' }}>
+              <Button variant="contained" color="primary" sx={{ width: 200, mr: 2, ml: 2 }} onClick={onSubmit}>
+                在庫確認
+              </Button>
+            </Box>
+          </Box>
         )}
       </div>
     </>

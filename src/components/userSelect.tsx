@@ -52,7 +52,7 @@ export default function UserSelect({ name, label, user: initialUser, onChange }:
 
   return (
     <Autocomplete
-      sx={{ width: 300 }}
+      sx={{ width: 300, display: 'inline-block' }}
       open={open}
       onOpen={() => {
         setOpen(true);
