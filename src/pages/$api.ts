@@ -21,12 +21,12 @@ import type { Methods as Methods17 } from './api/user/update'
 
 const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const prefix = (baseURL === undefined ? '' : baseURL).replace(/\/$/, '')
-  const PATH0 = '/api/category/[code]'
+  const PATH0 = '/api/category'
   const PATH1 = '/api/category/search'
   const PATH2 = '/api/category/update'
   const PATH3 = '/api/department/search'
   const PATH4 = '/api/department/update'
-  const PATH5 = '/api/equipment/[id]'
+  const PATH5 = '/api/equipment'
   const PATH6 = '/api/equipment/advancedSearch'
   const PATH7 = '/api/equipment/code'
   const PATH8 = '/api/equipment/create'
@@ -39,18 +39,23 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
   const PATH15 = '/api/user/me'
   const PATH16 = '/api/user/search'
   const PATH17 = '/api/user/update'
+  const PATH18 = '/equipment'
   const GET = 'GET'
   const POST = 'POST'
 
   return {
     api: {
       category: {
-        _code_: {
-          get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods0['get']['resBody']>(prefix, PATH0, GET, option).json(),
-          $get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods0['get']['resBody']>(prefix, PATH0, GET, option).json().then(r => r.body),
-          $path: () => `${prefix}${PATH0}`
+        _code_: (val2: number | string) => {
+          const prefix2 = `${PATH0}/${val2}`
+
+          return {
+            get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods0['get']['resBody']>(prefix, prefix2, GET, option).json(),
+            $get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods0['get']['resBody']>(prefix, prefix2, GET, option).json().then(r => r.body),
+            $path: () => `${prefix}${prefix2}`
+          }
         },
         search: {
           get: (option: { query: Methods1['get']['query'], config?: T | undefined }) =>
@@ -86,12 +91,16 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
         }
       },
       equipment: {
-        _id_: {
-          get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods5['get']['resBody']>(prefix, PATH5, GET, option).json(),
-          $get: (option?: { config?: T | undefined } | undefined) =>
-            fetch<Methods5['get']['resBody']>(prefix, PATH5, GET, option).json().then(r => r.body),
-          $path: () => `${prefix}${PATH5}`
+        _id_: (val2: number | string) => {
+          const prefix2 = `${PATH5}/${val2}`
+
+          return {
+            get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods5['get']['resBody']>(prefix, prefix2, GET, option).json(),
+            $get: (option?: { config?: T | undefined } | undefined) =>
+              fetch<Methods5['get']['resBody']>(prefix, prefix2, GET, option).json().then(r => r.body),
+            $path: () => `${prefix}${prefix2}`
+          }
         },
         advancedSearch: {
           post: (option: { body: Methods6['post']['reqBody'], config?: T | undefined }) =>
@@ -185,6 +194,12 @@ const api = <T>({ baseURL, fetch }: AspidaClient<T>) => {
             fetch<Methods17['post']['resBody']>(prefix, PATH17, POST, option).json().then(r => r.body),
           $path: () => `${prefix}${PATH17}`
         }
+      }
+    },
+    equipment: {
+      _category_: (val1: number | string) => {
+        const prefix1 = `${PATH18}/${val1}`
+
       }
     },
   }
