@@ -3,7 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 import { ApiErrorResponse, validate } from '../../../models/apiHelper';
 import { http } from '../../../models/const/httpMethod';
-import { EquipmentModel, equipmentUtil } from '../../../models/equipmentModel';
+import { EquipmentWithUser } from '../../../models/equipmentModel';
 import { prisma } from '../../../modules/db';
 import { isNullOrWhiteSpace } from '../../../modules/util';
 
@@ -11,7 +11,7 @@ type ReqData = {
   code: string;
 };
 type ResData = {
-  equipment: EquipmentModel | null;
+  equipment: EquipmentWithUser | null;
   error?: ApiErrorResponse;
 };
 
@@ -52,7 +52,16 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
       subCategory: arr[1].toUpperCase(),
       categorySerial: parseInt(arr[2]),
     },
-    select: equipmentUtil.select,
+    include: {
+      rentalUser: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+        },
+      },
+    },
   });
 
   if (equipment == null) {
@@ -60,5 +69,5 @@ export default async function handler(req: ExtendedNextApiRequest, res: NextApiR
     return;
   }
 
-  res.status(200).json({ equipment: equipmentUtil.toModel(equipment, session?.user.id) });
+  res.status(200).json({ equipment: equipment as EquipmentWithUser });
 }

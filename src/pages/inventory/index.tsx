@@ -6,9 +6,15 @@ import { Button, Typography } from '@mui/material';
 
 import { useErrorDialog } from '../../components/dialog/errorDialog';
 import { Loading } from '../../components/loading';
+import { UncontrolledCommonSelect } from '../../components/select/CommonSelect';
 import { Skeleton } from '../../components/skeleton';
+import UserSelect from '../../components/userSelect';
+import { useDepartments } from '../../hooks/useDepartments';
+import { useLocations } from '../../hooks/useLocations';
 import { client } from '../../models/apiClient';
-import { EquipmentModel } from '../../models/equipmentModel';
+import { DepartmentModel } from '../../models/departmentModel';
+import { EquipmentWithUser, getEquipmentCode } from '../../models/equipmentModel';
+import { LocationModel } from '../../models/locationModel';
 import { camera } from '../../modules/camera';
 import { convertToMessage, sleep } from '../../modules/util';
 import styles from '../../styles/inventory.module.css';
@@ -21,7 +27,15 @@ const Page: NextPageWithLayout = () => {
 
   const [isVideoActive, setIsVideoActive] = useState(false);
   const [codeText, setCodeText] = useState('not read');
-  const [equipment, setEquipment] = useState<EquipmentModel | null>(null);
+  const [equipment, setEquipment] = useState<EquipmentWithUser | null>(null);
+
+  const [departments, setDepartments] = useState<DepartmentModel[]>([]);
+  const [locations, setLocations] = useState<LocationModel[]>([]);
+  useDepartments(x => setDepartments(x));
+  useLocations(x => setLocations(x));
+
+  const departmentItems = departments.map(x => ({ value: x.id, label: x.label }));
+  const locationItems = locations.map(x => ({ value: x.id, label: x.label }));
 
   useEffect(() => {
     setContext((canvasRef.current as HTMLCanvasElement).getContext('2d')!);
@@ -109,24 +123,34 @@ const Page: NextPageWithLayout = () => {
         <canvas ref={canvasRef} className={styles.canvas} />
       </div>
       <div>
-        <ul>
-          <div className={styles.row}>{codeText}</div>
+        {equipment == null ? (
+          <>not detected</>
+        ) : (
+          <ul>
+            <div className={styles.row}>{codeText}</div>
+            <Row label="管理コード" detail={getEquipmentCode(equipment)} />
+            <UncontrolledCommonSelect sx={style} name="locationId" label="使用・保管場所" value={equipment.locationId ?? ''} items={locationItems} />
+            <UncontrolledCommonSelect sx={style} name="departmentId" label="管理者" value={equipment.departmentId ?? ''} items={departmentItems} />
+            <UserSelect name="rentalUser" label="使用者" user={equipment.rentalUser} onChange={user => (equipment.rentalUser = user)} />
 
-          <Row label="管理コード" detail={equipment?.code ?? ''} />
-          <Row label="PC名" detail={(equipment?.details?.pcName as string) ?? ''} />
-          <Row label="管理者" detail={equipment?.department ?? ''} />
-          <Row label="使用者" detail={equipment?.rentalUserName ?? ''} />
-          <Row label="使用場所" detail={equipment?.location ?? ''} />
+            {/* <Row label="管理コード" detail={equipment?.code ?? ''} />
+            <Row label="PC名" detail={(equipment?.details?.pcName as string) ?? ''} />
+            <Row label="管理者" detail={equipment?.department ?? ''} />
+            <Row label="使用者" detail={equipment?.rentalUserName ?? ''} />
+            <Row label="使用場所" detail={equipment?.location ?? ''} /> */}
 
-          <li>
-            <Button>詳細</Button>
-            <Button>棚卸し</Button>
-          </li>
-        </ul>
+            <li>
+              <Button>詳細</Button>
+              <Button>棚卸し</Button>
+            </li>
+          </ul>
+        )}
       </div>
     </>
   );
 };
+
+const style = { width: '30%', ml: 1, mr: 1, mt: 2, mb: 1 };
 
 function drawLine(context: CanvasRenderingContext2D, begin: Point, end: Point, color: string) {
   context.beginPath();

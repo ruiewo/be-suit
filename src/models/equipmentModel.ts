@@ -1,6 +1,7 @@
 import { Prisma, RentalState } from '@prisma/client';
 
 import { DateEx, isDate } from '../modules/util';
+import { UserModel } from './user';
 
 export type Details = Record<string, string | number | Date | null>;
 
@@ -27,6 +28,8 @@ export type Equipment = {
   createdAt: Date;
   updatedAt: Date; // todo define as Date or String?
 };
+
+export type EquipmentWithUser = Equipment & { rentalUser: UserModel | null };
 
 export type EquipmentModel = {
   id: number;
